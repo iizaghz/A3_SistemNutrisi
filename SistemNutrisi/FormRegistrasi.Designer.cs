@@ -103,7 +103,63 @@ namespace SistemNutrisi
             this.txtPassword.PasswordChar = '●';
             this.txtPassword.Size = new System.Drawing.Size(360, 32);
             this.txtPassword.TabIndex = 6;
-            
+            // 
+            // btnInsert
+            // 
+            this.btnInsert.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(204)))), ((int)(((byte)(113)))));
+            this.btnInsert.FlatAppearance.BorderSize = 0;
+            this.btnInsert.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnInsert.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
+            this.btnInsert.ForeColor = System.Drawing.Color.White;
+            this.btnInsert.Location = new System.Drawing.Point(36, 310);
+            this.btnInsert.Name = "btnInsert";
+            this.btnInsert.Size = new System.Drawing.Size(360, 40);
+            this.btnInsert.TabIndex = 7;
+            this.btnInsert.Text = "DAFTAR SEKARANG";
+            this.btnInsert.UseVisualStyleBackColor = false;
+            this.btnInsert.Click += new System.EventHandler(this.btnInsert_Click);
+            // 
+            // btnBack
+            // 
+            this.btnBack.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(149)))), ((int)(((byte)(165)))), ((int)(((byte)(166)))));
+            this.btnBack.FlatAppearance.BorderSize = 0;
+            this.btnBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBack.Font = new System.Drawing.Font("Segoe UI Semibold", 9F);
+            this.btnBack.ForeColor = System.Drawing.Color.White;
+            this.btnBack.Location = new System.Drawing.Point(36, 360);
+            this.btnBack.Name = "btnBack";
+            this.btnBack.Size = new System.Drawing.Size(360, 30);
+            this.btnBack.TabIndex = 8;
+            this.btnBack.Text = "KEMBALI KE LOGIN";
+            this.btnBack.UseVisualStyleBackColor = false;
+            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
+            // 
+            // FormRegistrasi
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
+            this.ClientSize = new System.Drawing.Size(434, 420);
+            this.Controls.Add(this.btnBack);
+            this.Controls.Add(this.btnInsert);
+            this.Controls.Add(this.txtPassword);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.txtEmail);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.txtNama);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.pnlHeader);
+            this.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.Name = "FormRegistrasi";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Registrasi";
+            this.Load += new System.EventHandler(this.FormRegistrasi_Load);
+            this.pnlHeader.ResumeLayout(false);
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
         #endregion
 
