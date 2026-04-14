@@ -1,0 +1,365 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{E75F7115-66C7-40D9-98AA-852BF75037ED}|SistemNutrisi\\SistemNutrisi.csproj|d:\\semester 4\\pengembangan aplikasi basis data\\project\\sistemnutrisidesain\\sistemnutrisi\\formmakanan.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E75F7115-66C7-40D9-98AA-852BF75037ED}|SistemNutrisi\\SistemNutrisi.csproj|solutionrelative:sistemnutrisi\\formmakanan.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E75F7115-66C7-40D9-98AA-852BF75037ED}|SistemNutrisi\\SistemNutrisi.csproj|D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\sistemnutrisi\\formkonsumsi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E75F7115-66C7-40D9-98AA-852BF75037ED}|SistemNutrisi\\SistemNutrisi.csproj|solutionrelative:sistemnutrisi\\formkonsumsi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E75F7115-66C7-40D9-98AA-852BF75037ED}|SistemNutrisi\\SistemNutrisi.csproj|D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\sistemnutrisi\\formkategori.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E75F7115-66C7-40D9-98AA-852BF75037ED}|SistemNutrisi\\SistemNutrisi.csproj|solutionrelative:sistemnutrisi\\formkategori.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E75F7115-66C7-40D9-98AA-852BF75037ED}|SistemNutrisi\\SistemNutrisi.csproj|D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\sistemnutrisi\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E75F7115-66C7-40D9-98AA-852BF75037ED}|SistemNutrisi\\SistemNutrisi.csproj|solutionrelative:sistemnutrisi\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E75F7115-66C7-40D9-98AA-852BF75037ED}|SistemNutrisi\\SistemNutrisi.csproj|D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\sistemnutrisi\\form1.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E75F7115-66C7-40D9-98AA-852BF75037ED}|SistemNutrisi\\SistemNutrisi.csproj|solutionrelative:sistemnutrisi\\form1.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E75F7115-66C7-40D9-98AA-852BF75037ED}|SistemNutrisi\\SistemNutrisi.csproj|D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\sistemnutrisi\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E75F7115-66C7-40D9-98AA-852BF75037ED}|SistemNutrisi\\SistemNutrisi.csproj|solutionrelative:sistemnutrisi\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E75F7115-66C7-40D9-98AA-852BF75037ED}|SistemNutrisi\\SistemNutrisi.csproj|D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\sistemnutrisi\\formkategori.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E75F7115-66C7-40D9-98AA-852BF75037ED}|SistemNutrisi\\SistemNutrisi.csproj|solutionrelative:sistemnutrisi\\formkategori.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E75F7115-66C7-40D9-98AA-852BF75037ED}|SistemNutrisi\\SistemNutrisi.csproj|D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\sistemnutrisi\\formmakanan.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E75F7115-66C7-40D9-98AA-852BF75037ED}|SistemNutrisi\\SistemNutrisi.csproj|solutionrelative:sistemnutrisi\\formmakanan.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E75F7115-66C7-40D9-98AA-852BF75037ED}|SistemNutrisi\\SistemNutrisi.csproj|D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\sistemnutrisi\\formadmin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E75F7115-66C7-40D9-98AA-852BF75037ED}|SistemNutrisi\\SistemNutrisi.csproj|solutionrelative:sistemnutrisi\\formadmin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E75F7115-66C7-40D9-98AA-852BF75037ED}|SistemNutrisi\\SistemNutrisi.csproj|D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\sistemnutrisi\\formmakanan.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E75F7115-66C7-40D9-98AA-852BF75037ED}|SistemNutrisi\\SistemNutrisi.csproj|solutionrelative:sistemnutrisi\\formmakanan.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E75F7115-66C7-40D9-98AA-852BF75037ED}|SistemNutrisi\\SistemNutrisi.csproj|D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\sistemnutrisi\\formregistrasi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E75F7115-66C7-40D9-98AA-852BF75037ED}|SistemNutrisi\\SistemNutrisi.csproj|solutionrelative:sistemnutrisi\\formregistrasi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E75F7115-66C7-40D9-98AA-852BF75037ED}|SistemNutrisi\\SistemNutrisi.csproj|D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\sistemnutrisi\\formnutrisi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E75F7115-66C7-40D9-98AA-852BF75037ED}|SistemNutrisi\\SistemNutrisi.csproj|solutionrelative:sistemnutrisi\\formnutrisi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E75F7115-66C7-40D9-98AA-852BF75037ED}|SistemNutrisi\\SistemNutrisi.csproj|D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\sistemnutrisi\\formriwayat.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E75F7115-66C7-40D9-98AA-852BF75037ED}|SistemNutrisi\\SistemNutrisi.csproj|solutionrelative:sistemnutrisi\\formriwayat.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E75F7115-66C7-40D9-98AA-852BF75037ED}|SistemNutrisi\\SistemNutrisi.csproj|D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\sistemnutrisi\\formuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E75F7115-66C7-40D9-98AA-852BF75037ED}|SistemNutrisi\\SistemNutrisi.csproj|solutionrelative:sistemnutrisi\\formuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E75F7115-66C7-40D9-98AA-852BF75037ED}|SistemNutrisi\\SistemNutrisi.csproj|D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\sistemnutrisi\\formregistrasi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E75F7115-66C7-40D9-98AA-852BF75037ED}|SistemNutrisi\\SistemNutrisi.csproj|solutionrelative:sistemnutrisi\\formregistrasi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E75F7115-66C7-40D9-98AA-852BF75037ED}|SistemNutrisi\\SistemNutrisi.csproj|D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\sistemnutrisi\\formadmin.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E75F7115-66C7-40D9-98AA-852BF75037ED}|SistemNutrisi\\SistemNutrisi.csproj|solutionrelative:sistemnutrisi\\formadmin.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E75F7115-66C7-40D9-98AA-852BF75037ED}|SistemNutrisi\\SistemNutrisi.csproj|D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\sistemnutrisi\\formuser.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E75F7115-66C7-40D9-98AA-852BF75037ED}|SistemNutrisi\\SistemNutrisi.csproj|solutionrelative:sistemnutrisi\\formuser.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E75F7115-66C7-40D9-98AA-852BF75037ED}|SistemNutrisi\\SistemNutrisi.csproj|D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\sistemnutrisi\\formadmin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E75F7115-66C7-40D9-98AA-852BF75037ED}|SistemNutrisi\\SistemNutrisi.csproj|solutionrelative:sistemnutrisi\\formadmin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E75F7115-66C7-40D9-98AA-852BF75037ED}|SistemNutrisi\\SistemNutrisi.csproj|D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\sistemnutrisi\\formuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E75F7115-66C7-40D9-98AA-852BF75037ED}|SistemNutrisi\\SistemNutrisi.csproj|solutionrelative:sistemnutrisi\\formuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E75F7115-66C7-40D9-98AA-852BF75037ED}|SistemNutrisi\\SistemNutrisi.csproj|D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\sistemnutrisi\\formkonsumsi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E75F7115-66C7-40D9-98AA-852BF75037ED}|SistemNutrisi\\SistemNutrisi.csproj|solutionrelative:sistemnutrisi\\formkonsumsi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E75F7115-66C7-40D9-98AA-852BF75037ED}|SistemNutrisi\\SistemNutrisi.csproj|D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\sistemnutrisi\\formnutrisi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E75F7115-66C7-40D9-98AA-852BF75037ED}|SistemNutrisi\\SistemNutrisi.csproj|solutionrelative:sistemnutrisi\\formnutrisi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E75F7115-66C7-40D9-98AA-852BF75037ED}|SistemNutrisi\\SistemNutrisi.csproj|D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\sistemnutrisi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E75F7115-66C7-40D9-98AA-852BF75037ED}|SistemNutrisi\\SistemNutrisi.csproj|solutionrelative:sistemnutrisi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "FormUser.cs [Design]",
+              "DocumentMoniker": "D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\SistemNutrisi\\FormUser.cs",
+              "RelativeDocumentMoniker": "SistemNutrisi\\FormUser.cs",
+              "ToolTip": "D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\SistemNutrisi\\FormUser.cs [Design]",
+              "RelativeToolTip": "SistemNutrisi\\FormUser.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-12T10:17:05.581Z",
+              "IsPinned": true
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Form1.cs [Design]",
+              "DocumentMoniker": "D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\SistemNutrisi\\Form1.cs",
+              "RelativeDocumentMoniker": "SistemNutrisi\\Form1.cs",
+              "ToolTip": "D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\SistemNutrisi\\Form1.cs [Design]*",
+              "RelativeToolTip": "SistemNutrisi\\Form1.cs [Design]*",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-12T10:15:37.684Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "FormKategori.cs [Design]",
+              "DocumentMoniker": "D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\SistemNutrisi\\FormKategori.cs",
+              "RelativeDocumentMoniker": "SistemNutrisi\\FormKategori.cs",
+              "ToolTip": "D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\SistemNutrisi\\FormKategori.cs [Design]",
+              "RelativeToolTip": "SistemNutrisi\\FormKategori.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-12T08:06:46.045Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "FormKonsumsi.cs [Design]",
+              "DocumentMoniker": "D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\SistemNutrisi\\FormKonsumsi.cs",
+              "RelativeDocumentMoniker": "SistemNutrisi\\FormKonsumsi.cs",
+              "ToolTip": "D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\SistemNutrisi\\FormKonsumsi.cs [Design]",
+              "RelativeToolTip": "SistemNutrisi\\FormKonsumsi.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-12T08:07:11.98Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "FormMakanan.cs [Design]",
+              "DocumentMoniker": "D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\SistemNutrisi\\FormMakanan.cs",
+              "RelativeDocumentMoniker": "SistemNutrisi\\FormMakanan.cs",
+              "ToolTip": "D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\SistemNutrisi\\FormMakanan.cs [Design]",
+              "RelativeToolTip": "SistemNutrisi\\FormMakanan.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-12T08:07:01.25Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Form1.Designer.cs",
+              "DocumentMoniker": "D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\SistemNutrisi\\Form1.Designer.cs",
+              "RelativeDocumentMoniker": "SistemNutrisi\\Form1.Designer.cs",
+              "ToolTip": "D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\SistemNutrisi\\Form1.Designer.cs*",
+              "RelativeToolTip": "SistemNutrisi\\Form1.Designer.cs*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-12T07:45:58.988Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Form1.cs",
+              "DocumentMoniker": "D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\SistemNutrisi\\Form1.cs",
+              "RelativeDocumentMoniker": "SistemNutrisi\\Form1.cs",
+              "ToolTip": "D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\SistemNutrisi\\Form1.cs*",
+              "RelativeToolTip": "SistemNutrisi\\Form1.cs*",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAiwA0AAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-12T06:09:01.092Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "FormMakanan.cs",
+              "DocumentMoniker": "D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\SistemNutrisi\\FormMakanan.cs",
+              "RelativeDocumentMoniker": "SistemNutrisi\\FormMakanan.cs",
+              "ToolTip": "D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\SistemNutrisi\\FormMakanan.cs",
+              "RelativeToolTip": "SistemNutrisi\\FormMakanan.cs",
+              "ViewState": "AgIAACcAAAAAAAAAAAA3wDQAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-12T08:23:59.714Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "FormKategori.cs",
+              "DocumentMoniker": "D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\SistemNutrisi\\FormKategori.cs",
+              "RelativeDocumentMoniker": "SistemNutrisi\\FormKategori.cs",
+              "ToolTip": "D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\SistemNutrisi\\FormKategori.cs",
+              "RelativeToolTip": "SistemNutrisi\\FormKategori.cs",
+              "ViewState": "AgIAABsAAAAAAAAAAAAuwA0AAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-12T08:56:42.181Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "FormAdmin.cs [Design]",
+              "DocumentMoniker": "D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\SistemNutrisi\\FormAdmin.cs",
+              "RelativeDocumentMoniker": "SistemNutrisi\\FormAdmin.cs",
+              "ToolTip": "D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\SistemNutrisi\\FormAdmin.cs [Design]",
+              "RelativeToolTip": "SistemNutrisi\\FormAdmin.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-12T08:06:51.714Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "FormMakanan.Designer.cs",
+              "DocumentMoniker": "D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\SistemNutrisi\\FormMakanan.Designer.cs",
+              "RelativeDocumentMoniker": "SistemNutrisi\\FormMakanan.Designer.cs",
+              "ToolTip": "D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\SistemNutrisi\\FormMakanan.Designer.cs",
+              "RelativeToolTip": "SistemNutrisi\\FormMakanan.Designer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-13T20:09:24.558Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "FormRegistrasi.cs [Design]",
+              "DocumentMoniker": "D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\SistemNutrisi\\FormRegistrasi.cs",
+              "RelativeDocumentMoniker": "SistemNutrisi\\FormRegistrasi.cs",
+              "ToolTip": "D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\SistemNutrisi\\FormRegistrasi.cs [Design]",
+              "RelativeToolTip": "SistemNutrisi\\FormRegistrasi.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-12T08:07:09.438Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "FormRiwayat.cs [Design]",
+              "DocumentMoniker": "D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\SistemNutrisi\\FormRiwayat.cs",
+              "RelativeDocumentMoniker": "SistemNutrisi\\FormRiwayat.cs",
+              "ToolTip": "D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\SistemNutrisi\\FormRiwayat.cs [Design]",
+              "RelativeToolTip": "SistemNutrisi\\FormRiwayat.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-12T10:16:53.392Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "FormNutrisi.cs [Design]",
+              "DocumentMoniker": "D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\SistemNutrisi\\FormNutrisi.cs",
+              "RelativeDocumentMoniker": "SistemNutrisi\\FormNutrisi.cs",
+              "ToolTip": "D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\SistemNutrisi\\FormNutrisi.cs [Design]",
+              "RelativeToolTip": "SistemNutrisi\\FormNutrisi.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-12T10:16:34.768Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "FormRegistrasi.cs",
+              "DocumentMoniker": "D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\SistemNutrisi\\FormRegistrasi.cs",
+              "RelativeDocumentMoniker": "SistemNutrisi\\FormRegistrasi.cs",
+              "ToolTip": "D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\SistemNutrisi\\FormRegistrasi.cs",
+              "RelativeToolTip": "SistemNutrisi\\FormRegistrasi.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAmwBoAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-12T11:51:34.732Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "FormAdmin.Designer.cs",
+              "DocumentMoniker": "D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\SistemNutrisi\\FormAdmin.Designer.cs",
+              "RelativeDocumentMoniker": "SistemNutrisi\\FormAdmin.Designer.cs",
+              "ToolTip": "D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\SistemNutrisi\\FormAdmin.Designer.cs",
+              "RelativeToolTip": "SistemNutrisi\\FormAdmin.Designer.cs",
+              "ViewState": "AgIAAJQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-12T11:32:27.881Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "FormUser.Designer.cs",
+              "DocumentMoniker": "D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\SistemNutrisi\\FormUser.Designer.cs",
+              "RelativeDocumentMoniker": "SistemNutrisi\\FormUser.Designer.cs",
+              "ToolTip": "D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\SistemNutrisi\\FormUser.Designer.cs",
+              "RelativeToolTip": "SistemNutrisi\\FormUser.Designer.cs",
+              "ViewState": "AgIAAJIAAAAAAAAAAAAAwA8AAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-12T11:31:30.673Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "FormAdmin.cs",
+              "DocumentMoniker": "D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\SistemNutrisi\\FormAdmin.cs",
+              "RelativeDocumentMoniker": "SistemNutrisi\\FormAdmin.cs",
+              "ToolTip": "D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\SistemNutrisi\\FormAdmin.cs",
+              "RelativeToolTip": "SistemNutrisi\\FormAdmin.cs",
+              "ViewState": "AgIAAEQAAAAAAAAAAAAcwEoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-12T10:11:39.34Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "FormUser.cs",
+              "DocumentMoniker": "D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\SistemNutrisi\\FormUser.cs",
+              "RelativeDocumentMoniker": "SistemNutrisi\\FormUser.cs",
+              "ToolTip": "D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\SistemNutrisi\\FormUser.cs",
+              "RelativeToolTip": "SistemNutrisi\\FormUser.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAmwA8AAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-12T10:17:12.803Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "FormKonsumsi.cs",
+              "DocumentMoniker": "D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\SistemNutrisi\\FormKonsumsi.cs",
+              "RelativeDocumentMoniker": "SistemNutrisi\\FormKonsumsi.cs",
+              "ToolTip": "D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\SistemNutrisi\\FormKonsumsi.cs",
+              "RelativeToolTip": "SistemNutrisi\\FormKonsumsi.cs",
+              "ViewState": "AgIAAFoAAAAAAAAAAAAcwGMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-12T10:24:36.524Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "FormNutrisi.cs",
+              "DocumentMoniker": "D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\SistemNutrisi\\FormNutrisi.cs",
+              "RelativeDocumentMoniker": "SistemNutrisi\\FormNutrisi.cs",
+              "ToolTip": "D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\SistemNutrisi\\FormNutrisi.cs",
+              "RelativeToolTip": "SistemNutrisi\\FormNutrisi.cs",
+              "ViewState": "AgIAANkAAAAAAAAAAAAmwOQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-12T10:21:11.378Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\SistemNutrisi\\Program.cs",
+              "RelativeDocumentMoniker": "SistemNutrisi\\Program.cs",
+              "ToolTip": "D:\\semester 4\\Pengembangan Aplikasi Basis Data\\project\\SistemNutrisiDesain\\SistemNutrisi\\Program.cs",
+              "RelativeToolTip": "SistemNutrisi\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-12T07:43:19.923Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
