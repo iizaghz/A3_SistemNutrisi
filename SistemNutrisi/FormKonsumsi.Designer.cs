@@ -105,7 +105,62 @@ namespace SistemNutrisi
             this.txtJumlah.Name = "txtJumlah";
             this.txtJumlah.Size = new System.Drawing.Size(230, 30);
             this.txtJumlah.TabIndex = 6;
-            
+            // 
+            // btnInsert
+            // 
+            this.btnInsert.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(204)))), ((int)(((byte)(113)))));
+            this.btnInsert.FlatAppearance.BorderSize = 0;
+            this.btnInsert.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnInsert.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.btnInsert.ForeColor = System.Drawing.Color.White;
+            this.btnInsert.Location = new System.Drawing.Point(140, 210);
+            this.btnInsert.Name = "btnInsert";
+            this.btnInsert.Size = new System.Drawing.Size(110, 35);
+            this.btnInsert.TabIndex = 7;
+            this.btnInsert.Text = "SIMPAN";
+            this.btnInsert.UseVisualStyleBackColor = false;
+            this.btnInsert.Click += new System.EventHandler(this.btnInsert_Click);
+            // 
+            // btnBack
+            // 
+            this.btnBack.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(149)))), ((int)(((byte)(165)))), ((int)(((byte)(166)))));
+            this.btnBack.FlatAppearance.BorderSize = 0;
+            this.btnBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBack.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.btnBack.ForeColor = System.Drawing.Color.White;
+            this.btnBack.Location = new System.Drawing.Point(260, 210);
+            this.btnBack.Name = "btnBack";
+            this.btnBack.Size = new System.Drawing.Size(110, 35);
+            this.btnBack.TabIndex = 8;
+            this.btnBack.Text = "BATAL";
+            this.btnBack.UseVisualStyleBackColor = false;
+            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
+            // 
+            // FormKonsumsi
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
+            this.ClientSize = new System.Drawing.Size(400, 280);
+            this.Controls.Add(this.btnBack);
+            this.Controls.Add(this.btnInsert);
+            this.Controls.Add(this.txtJumlah);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.dtpTanggal);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.cmbMakanan);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.pnlHeader);
+            this.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.Name = "FormKonsumsi";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Input Konsumsi";
+            this.Load += new System.EventHandler(this.FormKonsumsi_Load);
+            this.pnlHeader.ResumeLayout(false);
+            this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
         #endregion
