@@ -75,8 +75,65 @@ namespace SistemNutrisi
             this.label1.Size = new System.Drawing.Size(247, 41);
             this.label1.TabIndex = 0;
             this.label1.Text = "Daftar Makanan";
+            // 
+            // pnlInput
+            // 
+            this.pnlInput.Controls.Add(this.cmbKategori);
+            this.pnlInput.Controls.Add(this.label4);
+            this.pnlInput.Controls.Add(this.txtNamaMakanan);
+            this.pnlInput.Controls.Add(this.label3);
+            this.pnlInput.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlInput.Location = new System.Drawing.Point(0, 74);
+            this.pnlInput.Margin = new System.Windows.Forms.Padding(4);
+            this.pnlInput.Name = "pnlInput";
+            this.pnlInput.Padding = new System.Windows.Forms.Padding(27, 25, 27, 25);
+            this.pnlInput.Size = new System.Drawing.Size(1190, 130);
+            this.pnlInput.TabIndex = 1;
+            // 
+            // cmbKategori
+            // 
+            this.cmbKategori.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbKategori.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.cmbKategori.FormattingEnabled = true;
+            this.cmbKategori.Location = new System.Drawing.Point(187, 68);
+            this.cmbKategori.Margin = new System.Windows.Forms.Padding(4);
+            this.cmbKategori.Name = "cmbKategori";
+            this.cmbKategori.Size = new System.Drawing.Size(332, 31);
+            this.cmbKategori.TabIndex = 3;
+            this.cmbKategori.SelectedIndexChanged += new System.EventHandler(this.cmbKategori_SelectedIndexChanged);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.label4.Location = new System.Drawing.Point(31, 71);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(78, 23);
+            this.label4.TabIndex = 2;
+            this.label4.Text = "Kategori:";
+            this.label4.Click += new System.EventHandler(this.label4_Click);
+            // 
+            // txtNamaMakanan
+            // 
+            this.txtNamaMakanan.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.txtNamaMakanan.Location = new System.Drawing.Point(187, 25);
+            this.txtNamaMakanan.Margin = new System.Windows.Forms.Padding(4);
+            this.txtNamaMakanan.Name = "txtNamaMakanan";
+            this.txtNamaMakanan.Size = new System.Drawing.Size(332, 30);
+            this.txtNamaMakanan.TabIndex = 1;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.label3.Location = new System.Drawing.Point(31, 28);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(135, 23);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "Nama Makanan:";
             
-
         }
         #endregion
 
