@@ -60,6 +60,11 @@ namespace SistemNutrisi
 
         private void btnLoad_Click(object sender, EventArgs e)
         {
+            LoadData();
+        }
+
+        private void LoadData(string searchTerm = "")
+        {
             try
             {
                 if (conn.State == ConnectionState.Closed) { conn.Open(); }
@@ -77,7 +82,17 @@ namespace SistemNutrisi
                                  FROM Makanan m
                                  LEFT JOIN Nutrisi n ON m.id_makanan = n.id_makanan";
 
+                if (!string.IsNullOrEmpty(searchTerm))
+                {
+                    query += " WHERE m.nama_makanan LIKE @search";
+                }
+
                 SqlCommand cmd = new SqlCommand(query, conn);
+                if (!string.IsNullOrEmpty(searchTerm))
+                {
+                    cmd.Parameters.AddWithValue("@search", "%" + searchTerm + "%");
+                }
+
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
@@ -93,6 +108,11 @@ namespace SistemNutrisi
                 reader.Close();
             }
             catch (Exception ex) { MessageBox.Show("Gagal menampilkan data: " + ex.Message); }
+        }
+
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            LoadData(txtSearch.Text);
         }
 
         private void btnInsert_Click(object sender, EventArgs e)

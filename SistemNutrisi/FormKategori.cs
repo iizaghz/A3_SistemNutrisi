@@ -38,6 +38,11 @@ namespace SistemNutrisi
 
         private void btnLoad_Click(object sender, EventArgs e)
         {
+            LoadData();
+        }
+
+        private void LoadData(string searchTerm = "")
+        {
             try
             {
                 if (conn.State == ConnectionState.Closed)
@@ -52,8 +57,17 @@ namespace SistemNutrisi
                 dataGridView1.Columns.Add("nama_kategori", "Nama Kategori");
 
                 string query = "SELECT id_kategori, nama_kategori FROM KategoriMakanan";
+                if (!string.IsNullOrEmpty(searchTerm))
+                {
+                    query += " WHERE nama_kategori LIKE @search";
+                }
 
                 SqlCommand cmd = new SqlCommand(query, conn);
+                if (!string.IsNullOrEmpty(searchTerm))
+                {
+                    cmd.Parameters.AddWithValue("@search", "%" + searchTerm + "%");
+                }
+
                 SqlDataReader reader = cmd.ExecuteReader();
 
                 while (reader.Read())
@@ -69,6 +83,11 @@ namespace SistemNutrisi
             {
                 MessageBox.Show("Gagal menampilkan data: " + ex.Message);
             }
+        }
+
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            LoadData(txtSearch.Text);
         }
 
         private void btnInsert_Click(object sender, EventArgs e)
@@ -238,6 +257,11 @@ namespace SistemNutrisi
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void pnlSearch_Paint(object sender, PaintEventArgs e)
         {
 
         }

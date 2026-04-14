@@ -17,7 +17,6 @@ namespace SistemNutrisi
             this.btnBack = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.pnlInput = new System.Windows.Forms.Panel();
-
             this.txtNamaKategori = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.pnlActions = new System.Windows.Forms.Panel();
@@ -25,6 +24,8 @@ namespace SistemNutrisi
             this.btnUpdate = new System.Windows.Forms.Button();
             this.btnInsert = new System.Windows.Forms.Button();
             this.btnLoad = new System.Windows.Forms.Button();
+            this.labelSearch = new System.Windows.Forms.Label();
+            this.txtSearch = new System.Windows.Forms.TextBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.pnlHeader.SuspendLayout();
             this.pnlInput.SuspendLayout();
@@ -39,7 +40,7 @@ namespace SistemNutrisi
             this.pnlHeader.Controls.Add(this.label1);
             this.pnlHeader.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlHeader.Location = new System.Drawing.Point(0, 0);
-            this.pnlHeader.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pnlHeader.Margin = new System.Windows.Forms.Padding(4);
             this.pnlHeader.Name = "pnlHeader";
             this.pnlHeader.Size = new System.Drawing.Size(920, 74);
             this.pnlHeader.TabIndex = 0;
@@ -51,7 +52,7 @@ namespace SistemNutrisi
             this.btnBack.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnBack.ForeColor = System.Drawing.Color.White;
             this.btnBack.Location = new System.Drawing.Point(16, 18);
-            this.btnBack.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnBack.Margin = new System.Windows.Forms.Padding(4);
             this.btnBack.Name = "btnBack";
             this.btnBack.Size = new System.Drawing.Size(100, 37);
             this.btnBack.TabIndex = 1;
@@ -77,19 +78,17 @@ namespace SistemNutrisi
             this.pnlInput.Controls.Add(this.label3);
             this.pnlInput.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlInput.Location = new System.Drawing.Point(0, 74);
-            this.pnlInput.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pnlInput.Margin = new System.Windows.Forms.Padding(4);
             this.pnlInput.Name = "pnlInput";
             this.pnlInput.Padding = new System.Windows.Forms.Padding(27, 25, 27, 25);
             this.pnlInput.Size = new System.Drawing.Size(920, 85);
             this.pnlInput.TabIndex = 1;
             // 
-
-            // 
             // txtNamaKategori
             // 
             this.txtNamaKategori.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.txtNamaKategori.Location = new System.Drawing.Point(173, 25);
-            this.txtNamaKategori.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtNamaKategori.Margin = new System.Windows.Forms.Padding(4);
             this.txtNamaKategori.Name = "txtNamaKategori";
             this.txtNamaKategori.Size = new System.Drawing.Size(332, 30);
             this.txtNamaKategori.TabIndex = 1;
@@ -107,13 +106,15 @@ namespace SistemNutrisi
             // 
             // pnlActions
             // 
+            this.pnlActions.Controls.Add(this.txtSearch);
+            this.pnlActions.Controls.Add(this.labelSearch);
             this.pnlActions.Controls.Add(this.btnDelete);
             this.pnlActions.Controls.Add(this.btnUpdate);
             this.pnlActions.Controls.Add(this.btnInsert);
             this.pnlActions.Controls.Add(this.btnLoad);
             this.pnlActions.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlActions.Location = new System.Drawing.Point(0, 159);
-            this.pnlActions.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pnlActions.Margin = new System.Windows.Forms.Padding(4);
             this.pnlActions.Name = "pnlActions";
             this.pnlActions.Size = new System.Drawing.Size(920, 74);
             this.pnlActions.TabIndex = 2;
@@ -125,7 +126,7 @@ namespace SistemNutrisi
             this.btnDelete.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnDelete.ForeColor = System.Drawing.Color.White;
             this.btnDelete.Location = new System.Drawing.Point(460, 15);
-            this.btnDelete.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnDelete.Margin = new System.Windows.Forms.Padding(4);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(133, 43);
             this.btnDelete.TabIndex = 3;
@@ -140,7 +141,7 @@ namespace SistemNutrisi
             this.btnUpdate.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnUpdate.ForeColor = System.Drawing.Color.White;
             this.btnUpdate.Location = new System.Drawing.Point(319, 15);
-            this.btnUpdate.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnUpdate.Margin = new System.Windows.Forms.Padding(4);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(133, 43);
             this.btnUpdate.TabIndex = 2;
@@ -155,7 +156,7 @@ namespace SistemNutrisi
             this.btnInsert.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnInsert.ForeColor = System.Drawing.Color.White;
             this.btnInsert.Location = new System.Drawing.Point(177, 15);
-            this.btnInsert.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnInsert.Margin = new System.Windows.Forms.Padding(4);
             this.btnInsert.Name = "btnInsert";
             this.btnInsert.Size = new System.Drawing.Size(133, 43);
             this.btnInsert.TabIndex = 1;
@@ -170,7 +171,7 @@ namespace SistemNutrisi
             this.btnLoad.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnLoad.ForeColor = System.Drawing.Color.White;
             this.btnLoad.Location = new System.Drawing.Point(36, 15);
-            this.btnLoad.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnLoad.Margin = new System.Windows.Forms.Padding(4);
             this.btnLoad.Name = "btnLoad";
             this.btnLoad.Size = new System.Drawing.Size(133, 43);
             this.btnLoad.TabIndex = 0;
@@ -178,14 +179,34 @@ namespace SistemNutrisi
             this.btnLoad.UseVisualStyleBackColor = false;
             this.btnLoad.Click += new System.EventHandler(this.btnLoad_Click);
             // 
+            // labelSearch
+            // 
+            this.labelSearch.AutoSize = true;
+            this.labelSearch.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.labelSearch.Location = new System.Drawing.Point(609, 25);
+            this.labelSearch.Name = "labelSearch";
+            this.labelSearch.Size = new System.Drawing.Size(44, 23);
+            this.labelSearch.TabIndex = 0;
+            this.labelSearch.Text = "Cari:";
+            // 
+            // txtSearch
+            // 
+            this.txtSearch.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.txtSearch.Location = new System.Drawing.Point(669, 22);
+            this.txtSearch.Name = "txtSearch";
+            this.txtSearch.Size = new System.Drawing.Size(210, 30);
+            this.txtSearch.TabIndex = 1;
+            this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
+            // 
             // dataGridView1
             // 
             this.dataGridView1.BackgroundColor = System.Drawing.Color.White;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 233);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dataGridView1.ColumnHeadersHeight = 29;
+            this.dataGridView1.Location = new System.Drawing.Point(0, 225);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(4);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
-            this.dataGridView1.Size = new System.Drawing.Size(920, 223);
+            this.dataGridView1.Size = new System.Drawing.Size(920, 231);
             this.dataGridView1.TabIndex = 3;
             // 
             // FormKategori
@@ -197,7 +218,7 @@ namespace SistemNutrisi
             this.Controls.Add(this.pnlActions);
             this.Controls.Add(this.pnlInput);
             this.Controls.Add(this.pnlHeader);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FormKategori";
             this.Text = "Kategori Makanan";
             this.Load += new System.EventHandler(this.FormKategori_Load);
@@ -206,6 +227,7 @@ namespace SistemNutrisi
             this.pnlInput.ResumeLayout(false);
             this.pnlInput.PerformLayout();
             this.pnlActions.ResumeLayout(false);
+            this.pnlActions.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
@@ -223,6 +245,8 @@ namespace SistemNutrisi
         private System.Windows.Forms.Button btnInsert;
         private System.Windows.Forms.Button btnLoad;
         private System.Windows.Forms.Button btnBack;
+        private System.Windows.Forms.Label labelSearch;
+        private System.Windows.Forms.TextBox txtSearch;
         private System.Windows.Forms.DataGridView dataGridView1;
     }
 }
