@@ -106,6 +106,13 @@ namespace SistemNutrisi
                     return;
                 }
 
+                if (!IsValidText(txtNamaKategori.Text))
+                {
+                    MessageBox.Show("Nama Kategori tidak boleh mengandung angka atau simbol.");
+                    txtNamaKategori.Focus();
+                    return;
+                }
+
                 string query = @"INSERT INTO KategoriMakanan (nama_kategori) VALUES (@nama)";
 
                 SqlCommand cmd = new SqlCommand(query, conn);
@@ -148,6 +155,13 @@ namespace SistemNutrisi
                 if (string.IsNullOrEmpty(txtNamaKategori.Text))
                 {
                     MessageBox.Show("Nama Kategori harus diisi");
+                    txtNamaKategori.Focus();
+                    return;
+                }
+
+                if (!IsValidText(txtNamaKategori.Text))
+                {
+                    MessageBox.Show("Nama Kategori tidak boleh mengandung angka atau simbol.");
                     txtNamaKategori.Focus();
                     return;
                 }
@@ -201,6 +215,17 @@ namespace SistemNutrisi
                     return;
                 }
 
+                string checkQuery = "SELECT COUNT(*) FROM Makanan WHERE id_kategori = @id";
+                SqlCommand checkCmd = new SqlCommand(checkQuery, conn);
+                checkCmd.Parameters.AddWithValue("@id", selectedId);
+                int count = Convert.ToInt32(checkCmd.ExecuteScalar());
+
+                if (count > 0)
+                {
+                    MessageBox.Show("Data Kategori tidak bisa dihapus karena sedang terpakai di data Makanan.");
+                    return;
+                }
+
                 DialogResult resultConfirm = MessageBox.Show(
                     "Yakin ingin menghapus data?",
                     "Konfirmasi",
@@ -251,6 +276,11 @@ namespace SistemNutrisi
             txtNamaKategori.Focus();
         }
 
+        private bool IsValidText(string input)
+        {
+            return System.Text.RegularExpressions.Regex.IsMatch(input, @"^[a-zA-Z\s]+$");
+        }
+
         private void btnBack_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -262,6 +292,11 @@ namespace SistemNutrisi
         }
 
         private void pnlSearch_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
         {
 
         }
