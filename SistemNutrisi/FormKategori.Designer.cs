@@ -20,12 +20,12 @@ namespace SistemNutrisi
             this.txtNamaKategori = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.pnlActions = new System.Windows.Forms.Panel();
+            this.txtSearch = new System.Windows.Forms.TextBox();
+            this.labelSearch = new System.Windows.Forms.Label();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.btnInsert = new System.Windows.Forms.Button();
             this.btnLoad = new System.Windows.Forms.Button();
-            this.labelSearch = new System.Windows.Forms.Label();
-            this.txtSearch = new System.Windows.Forms.TextBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.pnlHeader.SuspendLayout();
             this.pnlInput.SuspendLayout();
@@ -71,6 +71,7 @@ namespace SistemNutrisi
             this.label1.Size = new System.Drawing.Size(277, 41);
             this.label1.TabIndex = 0;
             this.label1.Text = "Kategori Makanan";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // pnlInput
             // 
@@ -118,6 +119,25 @@ namespace SistemNutrisi
             this.pnlActions.Name = "pnlActions";
             this.pnlActions.Size = new System.Drawing.Size(920, 74);
             this.pnlActions.TabIndex = 2;
+            // 
+            // txtSearch
+            // 
+            this.txtSearch.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.txtSearch.Location = new System.Drawing.Point(669, 22);
+            this.txtSearch.Name = "txtSearch";
+            this.txtSearch.Size = new System.Drawing.Size(210, 30);
+            this.txtSearch.TabIndex = 1;
+            this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
+            // 
+            // labelSearch
+            // 
+            this.labelSearch.AutoSize = true;
+            this.labelSearch.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.labelSearch.Location = new System.Drawing.Point(609, 25);
+            this.labelSearch.Name = "labelSearch";
+            this.labelSearch.Size = new System.Drawing.Size(44, 23);
+            this.labelSearch.TabIndex = 0;
+            this.labelSearch.Text = "Cari:";
             // 
             // btnDelete
             // 
@@ -178,25 +198,6 @@ namespace SistemNutrisi
             this.btnLoad.Text = "Tampilkan";
             this.btnLoad.UseVisualStyleBackColor = false;
             this.btnLoad.Click += new System.EventHandler(this.btnLoad_Click);
-            // 
-            // labelSearch
-            // 
-            this.labelSearch.AutoSize = true;
-            this.labelSearch.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.labelSearch.Location = new System.Drawing.Point(609, 25);
-            this.labelSearch.Name = "labelSearch";
-            this.labelSearch.Size = new System.Drawing.Size(44, 23);
-            this.labelSearch.TabIndex = 0;
-            this.labelSearch.Text = "Cari:";
-            // 
-            // txtSearch
-            // 
-            this.txtSearch.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtSearch.Location = new System.Drawing.Point(669, 22);
-            this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(210, 30);
-            this.txtSearch.TabIndex = 1;
-            this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
             // 
             // dataGridView1
             // 
