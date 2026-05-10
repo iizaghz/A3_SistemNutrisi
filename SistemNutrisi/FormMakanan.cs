@@ -107,6 +107,12 @@ namespace SistemNutrisi
                     txtNamaMakanan.Focus();
                     return;
                 }
+                if (!IsValidText(txtNamaMakanan.Text))
+                {
+                    MessageBox.Show("Nama Makanan tidak boleh mengandung angka atau simbol.");
+                    txtNamaMakanan.Focus();
+                    return;
+                }
                 if (cmbKategori.SelectedIndex < 0)
                 {
                     MessageBox.Show("Kategori harus dipilih");
@@ -145,6 +151,12 @@ namespace SistemNutrisi
                 if (string.IsNullOrEmpty(txtNamaMakanan.Text))
                 {
                     MessageBox.Show("Nama makanan harus diisi");
+                    txtNamaMakanan.Focus();
+                    return;
+                }
+                if (!IsValidText(txtNamaMakanan.Text))
+                {
+                    MessageBox.Show("Nama Makanan tidak boleh mengandung angka atau simbol.");
                     txtNamaMakanan.Focus();
                     return;
                 }
@@ -192,6 +204,17 @@ namespace SistemNutrisi
             {
                 if (conn.State == ConnectionState.Closed) { conn.Open(); }
                 if (string.IsNullOrEmpty(selectedId)) { MessageBox.Show("Pilih data dulu!"); return; }
+
+                string checkQuery = "SELECT (SELECT COUNT(*) FROM Nutrisi WHERE id_makanan = @id) + (SELECT COUNT(*) FROM KonsumsiMakanan WHERE id_makanan = @id)";
+                SqlCommand checkCmd = new SqlCommand(checkQuery, conn);
+                checkCmd.Parameters.AddWithValue("@id", selectedId);
+                int count = Convert.ToInt32(checkCmd.ExecuteScalar());
+
+                if (count > 0)
+                {
+                    MessageBox.Show("Data Makanan tidak bisa dihapus karena sedang terpakai di data Nutrisi atau Konsumsi.");
+                    return;
+                }
 
                 DialogResult resultConfirm = MessageBox.Show(
                     "Yakin ingin menghapus data?",
@@ -268,6 +291,11 @@ namespace SistemNutrisi
             cmbKategori.SelectedIndex = -1;
             txtSearch.Clear();
             txtNamaMakanan.Focus();
+        }
+
+        private bool IsValidText(string input)
+        {
+            return System.Text.RegularExpressions.Regex.IsMatch(input, @"^[a-zA-Z\s]+$");
         }
 
         private void btnBack_Click(object sender, EventArgs e)
