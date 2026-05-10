@@ -125,6 +125,13 @@ namespace SistemNutrisi
                 if (string.IsNullOrEmpty(txtLemak.Text)) { MessageBox.Show("Lemak harus diisi"); txtLemak.Focus(); return; }
                 if (string.IsNullOrEmpty(txtKarbohidrat.Text)) { MessageBox.Show("Karbohidrat harus diisi"); txtKarbohidrat.Focus(); return; }
 
+                if (!IsValidNumber(txtKalori.Text) || !IsValidNumber(txtProtein.Text) || 
+                    !IsValidNumber(txtLemak.Text) || !IsValidNumber(txtKarbohidrat.Text))
+                {
+                    MessageBox.Show("Data angka tidak boleh minus, 0, atau mengandung karakter selain angka.");
+                    return;
+                }
+
                 if (conn.State == ConnectionState.Closed) { conn.Open(); }
 
                 string query = @"INSERT INTO Nutrisi (id_makanan, kalori, protein, lemak, karbohidrat) 
@@ -163,6 +170,13 @@ namespace SistemNutrisi
                 if (string.IsNullOrEmpty(txtProtein.Text)) { MessageBox.Show("Protein harus diisi"); txtProtein.Focus(); return; }
                 if (string.IsNullOrEmpty(txtLemak.Text)) { MessageBox.Show("Lemak harus diisi"); txtLemak.Focus(); return; }
                 if (string.IsNullOrEmpty(txtKarbohidrat.Text)) { MessageBox.Show("Karbohidrat harus diisi"); txtKarbohidrat.Focus(); return; }
+
+                if (!IsValidNumber(txtKalori.Text) || !IsValidNumber(txtProtein.Text) || 
+                    !IsValidNumber(txtLemak.Text) || !IsValidNumber(txtKarbohidrat.Text))
+                {
+                    MessageBox.Show("Data angka tidak boleh minus, 0, atau mengandung karakter selain angka.");
+                    return;
+                }
 
                 if (conn.State == ConnectionState.Closed) { conn.Open(); }
 
@@ -257,6 +271,15 @@ namespace SistemNutrisi
             txtProtein.Clear();
             txtLemak.Clear();
             txtKarbohidrat.Clear();
+        }
+
+        private bool IsValidNumber(string input)
+        {
+            if (decimal.TryParse(input, out decimal value))
+            {
+                return value > 0;
+            }
+            return false;
         }
 
         private void btnBack_Click(object sender, EventArgs e)
