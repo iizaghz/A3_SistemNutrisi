@@ -43,6 +43,9 @@ namespace SistemNutrisi
             bn.Dock = DockStyle.Bottom;
             this.Controls.Add(bn);
 
+            // Data Binding ke TextBox (Otomatis update saat navigasi)
+            txtNamaKategori.DataBindings.Add("Text", bs, "nama_kategori", true, DataSourceUpdateMode.OnPropertyChanged);
+
             LoadData();
         }
 
@@ -129,17 +132,8 @@ namespace SistemNutrisi
         {
             try
             {
-                if (string.IsNullOrEmpty(selectedId)) { MessageBox.Show("Pilih data dulu!"); return; }
-                if (string.IsNullOrEmpty(txtNamaKategori.Text))
-                {
-                    MessageBox.Show("Nama Kategori harus diisi");
-                    txtNamaKategori.Focus(); return;
-                }
-                if (!IsValidText(txtNamaKategori.Text))
-                {
-                    MessageBox.Show("Nama Kategori tidak boleh mengandung angka atau simbol.");
-                    txtNamaKategori.Focus(); return;
-                }
+                if (bs.Current == null) { MessageBox.Show("Pilih data dulu!"); return; }
+                string id = ((DataRowView)bs.Current)["id_kategori"].ToString();
 
                 DialogResult confirm = MessageBox.Show("Yakin ingin mengubah data kategori ini?", "Konfirmasi",
                     MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -149,7 +143,7 @@ namespace SistemNutrisi
 
                 SqlCommand cmd = new SqlCommand("sp_UpdateKategori", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@id_kategori", int.Parse(selectedId));
+                cmd.Parameters.AddWithValue("@id_kategori", int.Parse(id));
                 cmd.Parameters.AddWithValue("@nama_kategori", txtNamaKategori.Text);
 
                 int result = cmd.ExecuteNonQuery();
@@ -174,7 +168,8 @@ namespace SistemNutrisi
         {
             try
             {
-                if (string.IsNullOrEmpty(selectedId)) { MessageBox.Show("Pilih data dulu!"); return; }
+                if (bs.Current == null) { MessageBox.Show("Pilih data dulu!"); return; }
+                string id = ((DataRowView)bs.Current)["id_kategori"].ToString();
 
                 DialogResult confirm = MessageBox.Show("Yakin ingin menghapus data?", "Konfirmasi",
                     MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -184,7 +179,7 @@ namespace SistemNutrisi
 
                 SqlCommand cmd = new SqlCommand("sp_DeleteKategori", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@id_kategori", int.Parse(selectedId));
+                cmd.Parameters.AddWithValue("@id_kategori", int.Parse(id));
 
                 int result = cmd.ExecuteNonQuery();
                 if (result > 0)
@@ -210,17 +205,10 @@ namespace SistemNutrisi
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0)
-            {
-                DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
-                selectedId = row.Cells["id_kategori"].Value?.ToString();
-                txtNamaKategori.Text = row.Cells["nama_kategori"].Value?.ToString();
-            }
         }
 
         private void ClearForm()
         {
-            selectedId = "";
             txtNamaKategori.Clear();
             txtNamaKategori.Focus();
         }
