@@ -3,18 +3,13 @@ GO
 USE DBSistemNutrisi;
 GO
 
-CREATE TABLE Admin (
-    id_admin INT IDENTITY(1,1) PRIMARY KEY,
-    nama VARCHAR(100) NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL
-);
-
 CREATE TABLE [User] (
     id_user INT IDENTITY(1,1) PRIMARY KEY,
     nama VARCHAR(100) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL
+    password VARCHAR(255) NOT NULL,
+    role VARCHAR(10) NOT NULL
+        CHECK (role IN ('admin', 'user'))
 );
 
 CREATE TABLE KategoriMakanan (
@@ -66,5 +61,5 @@ CREATE TABLE KonsumsiMakanan (
 );
 
 
-INSERT INTO Admin (nama, email, password) VALUES
-('Iza', 'iza@gmail.com', 'iza123');
+INSERT INTO [User] (nama, email, password, role) VALUES
+('Iza', 'iza@gmail.com', 'iza123', 'admin');
