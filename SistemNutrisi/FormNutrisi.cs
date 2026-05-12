@@ -18,6 +18,8 @@ namespace SistemNutrisi
             "Data Source=IZAYAAA\\IZA;Initial Catalog=DBSistemNutrisi;Integrated Security=True";
 
         private List<int> idMakananList = new List<int>();
+        private BindingSource bs = new BindingSource();
+        private BindingNavigator bn;
 
         public FormNutrisi()
         {
@@ -32,7 +34,15 @@ namespace SistemNutrisi
             dataGridView1.ReadOnly = true;
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            // Inisialisasi BindingNavigator
+            bn = new BindingNavigator(true);
+            bn.BindingSource = bs;
+            bn.Dock = DockStyle.Bottom;
+            this.Controls.Add(bn);
+
             LoadMakananComboBox();
+            btnLoad.PerformClick();
         }
 
         private void LoadMakananComboBox()
@@ -75,7 +85,8 @@ namespace SistemNutrisi
                 DataTable dt = new DataTable();
                 adapter.Fill(dt);
 
-                dataGridView1.DataSource = dt;
+                bs.DataSource = dt;
+                dataGridView1.DataSource = bs;
 
                 // Mempercantik Header
                 if (dataGridView1.Columns.Count > 0)
