@@ -37,12 +37,12 @@ namespace SistemNutrisi
         {
             try
             {
-                if (conn.State == ConnectionState.Closed) { conn.Open(); }
+                if (conn.State == ConnectionState.Closed) conn.Open();
                 cmbMakanan.Items.Clear();
                 idMakananList.Clear();
 
-                string query = "SELECT id_makanan, nama_makanan FROM Makanan";
-                SqlCommand cmd = new SqlCommand(query, conn);
+                SqlCommand cmd = new SqlCommand("sp_GetMakananList", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
                 SqlDataReader reader = cmd.ExecuteReader();
 
                 while (reader.Read())
@@ -65,17 +65,21 @@ namespace SistemNutrisi
                     return;
                 }
 
-                if (conn.State == ConnectionState.Closed) { conn.Open(); }
+                if (!int.TryParse(txtJumlah.Text, out int jumlah) || jumlah <= 0)
+                {
+                    MessageBox.Show("Jumlah harus berupa angka lebih dari 0!");
+                    txtJumlah.Focus();
+                    return;
+                }
 
-                // Sesuai skema Baru (id_makanan, id_user, tanggal, jumlah)
-                string query = @"INSERT INTO KonsumsiMakanan (id_makanan, id_user, tanggal, jumlah) 
-                                 VALUES (@idm, @idu, @tgl, @jml)";
+                if (conn.State == ConnectionState.Closed) conn.Open();
 
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@idm", idMakananList[cmbMakanan.SelectedIndex]);
-                cmd.Parameters.AddWithValue("@idu", idUser);
-                cmd.Parameters.AddWithValue("@tgl", dtpTanggal.Value.Date);
-                cmd.Parameters.AddWithValue("@jml", int.Parse(txtJumlah.Text));
+                SqlCommand cmd = new SqlCommand("sp_InsertKonsumsi", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@id_makanan", idMakananList[cmbMakanan.SelectedIndex]);
+                cmd.Parameters.AddWithValue("@id_user", idUser);
+                cmd.Parameters.AddWithValue("@tanggal", dtpTanggal.Value.Date);
+                cmd.Parameters.AddWithValue("@jumlah", jumlah);
 
                 int result = cmd.ExecuteNonQuery();
                 if (result > 0)
