@@ -20,7 +20,6 @@ namespace SistemNutrisi
         private List<int> idKategoriList = new List<int>();
         private BindingSource bs = new BindingSource();
         private BindingNavigator bn;
-        private string selectedId = "";
 
         public FormMakanan()
         {
@@ -43,12 +42,11 @@ namespace SistemNutrisi
             this.Controls.Add(bn);
 
             LoadKategoriComboBox();
+            btnLoad.PerformClick();
             
             // Data Binding (Otomatis sinkron saat navigasi)
             txtNamaMakanan.DataBindings.Add("Text", bs, "nama_makanan", true, DataSourceUpdateMode.OnPropertyChanged);
             cmbKategori.DataBindings.Add("Text", bs, "nama_kategori", true, DataSourceUpdateMode.OnPropertyChanged);
-
-            btnLoad.PerformClick();
         }
 
         private void LoadKategoriComboBox()
@@ -59,7 +57,7 @@ namespace SistemNutrisi
                 cmbKategori.Items.Clear();
                 idKategoriList.Clear();
 
-                SqlCommand cmd = new SqlCommand("SELECT * FROM v_SemuaKategori", conn);
+                SqlCommand cmd = new SqlCommand("SELECT * FROM v_KategoriMakanan", conn);
                 SqlDataReader reader = cmd.ExecuteReader();
 
                 while (reader.Read())
@@ -78,9 +76,8 @@ namespace SistemNutrisi
             {
                 if (conn.State == ConnectionState.Closed) conn.Open();
 
-                SqlCommand cmd = new SqlCommand("sp_GetMakanan", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@search", DBNull.Value);
+                SqlCommand cmd = new SqlCommand("SELECT * FROM v_MakananLengkap", conn);
+                cmd.CommandType = CommandType.Text;
 
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
@@ -219,9 +216,8 @@ namespace SistemNutrisi
             {
                 if (conn.State == ConnectionState.Closed) conn.Open();
 
-                SqlCommand cmd = new SqlCommand("sp_GetMakanan", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@search", txtSearch.Text);
+                SqlCommand cmd = new SqlCommand("SELECT * FROM v_MakananLengkap WHERE nama_makanan LIKE @search", conn);
+                cmd.Parameters.AddWithValue("@search", "%" + txtSearch.Text + "%");
 
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
