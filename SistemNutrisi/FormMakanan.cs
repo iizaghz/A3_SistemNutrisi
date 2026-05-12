@@ -17,8 +17,9 @@ namespace SistemNutrisi
         private readonly string connectionString =
             "Data Source=IZAYAAA\\IZA;Initial Catalog=DBSistemNutrisi;Integrated Security=True";
 
-        private List<int> idKategoriList = new List<int>();
-        private BindingSource bs = new BindingSource();
+        // Data Binding Sources
+        private BindingSource bsMakanan = new BindingSource();
+        private BindingSource bsKategori = new BindingSource();
         private BindingNavigator bn;
 
         public FormMakanan()
@@ -37,16 +38,17 @@ namespace SistemNutrisi
 
             // Inisialisasi BindingNavigator
             bn = new BindingNavigator(true);
-            bn.BindingSource = bs;
+            bn.BindingSource = bsMakanan;
             bn.Dock = DockStyle.Bottom;
             this.Controls.Add(bn);
 
             LoadKategoriComboBox();
             btnLoad.PerformClick();
             
-            // Data Binding (Otomatis sinkron saat navigasi)
-            txtNamaMakanan.DataBindings.Add("Text", bs, "nama_makanan", true, DataSourceUpdateMode.OnPropertyChanged);
-            cmbKategori.DataBindings.Add("Text", bs, "nama_kategori", true, DataSourceUpdateMode.OnPropertyChanged);
+            // Data Binding Control (Otomatis sinkron saat navigasi)
+            txtNamaMakanan.DataBindings.Add("Text", bsMakanan, "nama_makanan", true, DataSourceUpdateMode.OnPropertyChanged);
+            // Binding ComboBox (Display name based on what's in the grid)
+            cmbKategori.DataBindings.Add("Text", bsMakanan, "nama_kategori", true, DataSourceUpdateMode.OnPropertyChanged);
         }
 
         private void LoadKategoriComboBox()
@@ -122,7 +124,7 @@ namespace SistemNutrisi
 
                 SqlCommand cmd = new SqlCommand("sp_InsertMakanan", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@id_kategori", idKategoriList[cmbKategori.SelectedIndex]);
+                cmd.Parameters.AddWithValue("@id_kategori", cmbKategori.SelectedValue);
                 cmd.Parameters.AddWithValue("@nama_makanan", txtNamaMakanan.Text);
 
                 int result = cmd.ExecuteNonQuery();
@@ -144,8 +146,8 @@ namespace SistemNutrisi
         {
             try
             {
-                if (bs.Current == null) { MessageBox.Show("Pilih data dulu!"); return; }
-                string id = ((DataRowView)bs.Current)["id_makanan"].ToString();
+                if (bsMakanan.Current == null) { MessageBox.Show("Pilih data dulu!"); return; }
+                string id = ((DataRowView)bsMakanan.Current)["id_makanan"].ToString();
 
                 DialogResult confirm = MessageBox.Show("Yakin ingin mengubah data ini?", "Konfirmasi",
                     MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -156,7 +158,7 @@ namespace SistemNutrisi
                 SqlCommand cmd = new SqlCommand("sp_UpdateMakanan", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@id_makanan", int.Parse(id));
-                cmd.Parameters.AddWithValue("@id_kategori", idKategoriList[cmbKategori.SelectedIndex]);
+                cmd.Parameters.AddWithValue("@id_kategori", cmbKategori.SelectedValue);
                 cmd.Parameters.AddWithValue("@nama_makanan", txtNamaMakanan.Text);
 
                 int result = cmd.ExecuteNonQuery();
@@ -178,8 +180,8 @@ namespace SistemNutrisi
         {
             try
             {
-                if (bs.Current == null) { MessageBox.Show("Pilih data dulu!"); return; }
-                string id = ((DataRowView)bs.Current)["id_makanan"].ToString();
+                if (bsMakanan.Current == null) { MessageBox.Show("Pilih data dulu!"); return; }
+                string id = ((DataRowView)bsMakanan.Current)["id_makanan"].ToString();
 
                 DialogResult confirm = MessageBox.Show("Yakin ingin menghapus data?", "Konfirmasi",
                     MessageBoxButtons.YesNo, MessageBoxIcon.Question);
