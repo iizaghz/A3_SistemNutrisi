@@ -76,3 +76,104 @@ Form ini digunakan untuk menghubungkan aplikasi dengan database.
 | Kategori | Daftar Makanan | Data Nutrisi |
 |----------|---------------|--------------|
 | ![Search Kategori](https://github.com/user-attachments/assets/7b3e7fb0-5218-4187-8354-a49820268861) | ![Search Makanan](https://github.com/user-attachments/assets/338575b1-6235-457f-b695-776e5790518a) | ![Search Nutrisi](https://github.com/user-attachments/assets/fdd350ca-1ca3-4558-8c97-e6faff838735) |
+
+
+
+````md
+# SQL Injection Scenario
+
+## Form yang Diuji
+Form Login User pada aplikasi Sistem Nutrisi.
+
+## Query Vulnerable
+
+```csharp
+string query = "SELECT * FROM [User] WHERE email='" 
+    + txtEmail.Text + 
+    "' AND password='" + txtPassword.Text + "'";
+````
+
+## Skenario SQL Injection
+
+### Input Attacker
+
+Email:
+
+```text
+' OR 1=1 --
+```
+
+Password:
+
+```text
+bebas
+```
+
+## Query yang Terbentuk
+
+```sql
+SELECT * FROM [User]
+WHERE email='' OR 1=1 --'
+AND password='bebas'
+```
+
+## Analisis Serangan
+
+* `OR 1=1` selalu bernilai TRUE
+* `--` digunakan untuk mengabaikan sisa query
+* Login berhasil tanpa mengetahui password user
+
+## Dampak
+
+Attacker dapat:
+
+* Login tanpa autentikasi
+* Mengakses data user
+* Mengambil hak akses admin
+
+## Penyebab Kerentanan
+
+Kerentanan terjadi karena query dibuat menggunakan string concatenation sehingga input user menjadi bagian dari sintaks SQL.
+
+## Solusi
+
+Menggunakan:
+
+* Stored Procedure
+* Parameterized Query
+* Validasi Input
+
+## Stored Procedure Aman
+
+```sql
+CREATE PROCEDURE sp_LoginUser
+    @email VARCHAR(100),
+    @password VARCHAR(255)
+AS
+BEGIN
+    SELECT *
+    FROM [User]
+    WHERE email = @email
+    AND password = @password;
+END
+```
+
+## Implementasi Aman di Windows Form
+
+```csharp
+SqlCommand cmd = new SqlCommand("sp_LoginUser", conn);
+
+cmd.CommandType = CommandType.StoredProcedure;
+
+cmd.Parameters.AddWithValue("@email", txtEmail.Text);
+cmd.Parameters.AddWithValue("@password", txtPassword.Text);
+```
+
+## Kesimpulan
+
+SQL Injection dapat terjadi jika input user langsung digabung ke query SQL.
+Penggunaan Stored Procedure dan Parameterized Query dapat mencegah SQL Injection.
+
+```
+```
+
