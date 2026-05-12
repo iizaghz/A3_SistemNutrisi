@@ -30,6 +30,19 @@ namespace SistemNutrisi
             conn = new SqlConnection(connectionString);
         }
 
+        private void loadForm(object Form)
+        {
+            if (this.pnlContent.Controls.Count > 0)
+                this.pnlContent.Controls.RemoveAt(0);
+            Form f = Form as Form;
+            f.TopLevel = false;
+            f.Dock = DockStyle.Fill;
+            f.FormBorderStyle = FormBorderStyle.None;
+            this.pnlContent.Controls.Add(f);
+            this.pnlContent.Tag = f;
+            f.Show();
+        }
+
         private void FormUser_Load(object sender, EventArgs e)
         {
             lblWelcome.Text = "Selamat datang, " + namaUser;
@@ -45,12 +58,22 @@ namespace SistemNutrisi
             bn.BindingSource = bs;
             bn.Dock = DockStyle.Bottom;
             this.Controls.Add(bn);
+            bn.BringToFront();
+
+            dataGridView1.Dock = DockStyle.Fill;
 
             btnLoad.PerformClick();
         }
 
         private void btnLoad_Click(object sender, EventArgs e)
         {
+            // Kembalikan dataGridView1 ke pnlContent jika sedang menampilkan form lain
+            if (!this.pnlContent.Controls.Contains(dataGridView1))
+            {
+                this.pnlContent.Controls.Clear();
+                this.pnlContent.Controls.Add(dataGridView1);
+            }
+
             try
             {
                 if (conn.State == ConnectionState.Closed) conn.Open();
@@ -83,14 +106,12 @@ namespace SistemNutrisi
 
         private void btnKonsumsi_Click(object sender, EventArgs e)
         {
-            FormKonsumsi formKonsumsi = new FormKonsumsi(idUser);
-            formKonsumsi.ShowDialog();
+            loadForm(new FormKonsumsi(idUser));
         }
 
         private void btnRiwayat_Click(object sender, EventArgs e)
         {
-            FormRiwayat formRiwayat = new FormRiwayat(idUser, namaUser);
-            formRiwayat.ShowDialog();
+            loadForm(new FormRiwayat(idUser, namaUser));
         }
 
         private void btnLogout_Click(object sender, EventArgs e)

@@ -18,7 +18,6 @@ namespace SistemNutrisi
             "Data Source=IZAYAAA\\IZA;Initial Catalog=DBSistemNutrisi;Integrated Security=True";
 
         private int idUser;
-        private List<int> idMakananList = new List<int>();
 
         public FormKonsumsi(int idUser)
         {
@@ -38,18 +37,13 @@ namespace SistemNutrisi
             try
             {
                 if (conn.State == ConnectionState.Closed) conn.Open();
-                cmbMakanan.Items.Clear();
-                idMakananList.Clear();
+                SqlDataAdapter adapter = new SqlDataAdapter("SELECT id_makanan, nama_makanan FROM v_MakananLengkap", conn);
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
 
-                SqlCommand cmd = new SqlCommand("SELECT id_makanan, nama_makanan FROM v_MakananLengkap", conn);
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                while (reader.Read())
-                {
-                    idMakananList.Add(Convert.ToInt32(reader["id_makanan"]));
-                    cmbMakanan.Items.Add(reader["nama_makanan"].ToString());
-                }
-                reader.Close();
+                cmbMakanan.DataSource = dt;
+                cmbMakanan.DisplayMember = "nama_makanan";
+                cmbMakanan.ValueMember = "id_makanan";
             }
             catch (Exception ex) { MessageBox.Show("Error: " + ex.Message); }
         }
@@ -75,7 +69,7 @@ namespace SistemNutrisi
 
                 SqlCommand cmd = new SqlCommand("sp_InsertKonsumsi", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@id_makanan", idMakananList[cmbMakanan.SelectedIndex]);
+                cmd.Parameters.AddWithValue("@id_makanan", cmbMakanan.SelectedValue);
                 cmd.Parameters.AddWithValue("@id_user", idUser);
                 cmd.Parameters.AddWithValue("@tanggal", dtpTanggal.Value.Date);
                 cmd.Parameters.AddWithValue("@jumlah", jumlah);

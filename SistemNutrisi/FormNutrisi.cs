@@ -17,8 +17,7 @@ namespace SistemNutrisi
         private readonly string connectionString =
             "Data Source=IZAYAAA\\IZA;Initial Catalog=DBSistemNutrisi;Integrated Security=True";
 
-        private List<int> idMakananList = new List<int>();
-        private BindingSource bs = new BindingSource();
+        private BindingSource bsNutrisi = new BindingSource();
         private BindingNavigator bn;
 
         public FormNutrisi()
@@ -37,19 +36,20 @@ namespace SistemNutrisi
 
             // Inisialisasi BindingNavigator
             bn = new BindingNavigator(true);
-            bn.BindingSource = bs;
+            bn.BindingSource = bsNutrisi;
             bn.Dock = DockStyle.Bottom;
             this.Controls.Add(bn);
+            bn.BringToFront();
 
             LoadMakananComboBox();
             btnLoad.PerformClick();
 
             // Data Binding (Otomatis sinkron saat navigasi)
-            cmbMakanan.DataBindings.Add("Text", bs, "nama_makanan", true, DataSourceUpdateMode.OnPropertyChanged);
-            txtKalori.DataBindings.Add("Text", bs, "kalori", true, DataSourceUpdateMode.OnPropertyChanged);
-            txtProtein.DataBindings.Add("Text", bs, "protein", true, DataSourceUpdateMode.OnPropertyChanged);
-            txtLemak.DataBindings.Add("Text", bs, "lemak", true, DataSourceUpdateMode.OnPropertyChanged);
-            txtKarbohidrat.DataBindings.Add("Text", bs, "karbohidrat", true, DataSourceUpdateMode.OnPropertyChanged);
+            cmbMakanan.DataBindings.Add("Text", bsNutrisi, "nama_makanan", true, DataSourceUpdateMode.OnPropertyChanged);
+            txtKalori.DataBindings.Add("Text", bsNutrisi, "kalori", true, DataSourceUpdateMode.OnPropertyChanged);
+            txtProtein.DataBindings.Add("Text", bsNutrisi, "protein", true, DataSourceUpdateMode.OnPropertyChanged);
+            txtLemak.DataBindings.Add("Text", bsNutrisi, "lemak", true, DataSourceUpdateMode.OnPropertyChanged);
+            txtKarbohidrat.DataBindings.Add("Text", bsNutrisi, "karbohidrat", true, DataSourceUpdateMode.OnPropertyChanged);
         }
 
         private void LoadMakananComboBox()
@@ -57,18 +57,13 @@ namespace SistemNutrisi
             try
             {
                 if (conn.State == ConnectionState.Closed) conn.Open();
-                cmbMakanan.Items.Clear();
-                idMakananList.Clear();
+                SqlDataAdapter adapter = new SqlDataAdapter("SELECT id_makanan, nama_makanan FROM v_MakananLengkap", conn);
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
 
-                SqlCommand cmd = new SqlCommand("SELECT id_makanan, nama_makanan FROM v_MakananLengkap", conn);
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                while (reader.Read())
-                {
-                    idMakananList.Add(Convert.ToInt32(reader["id_makanan"]));
-                    cmbMakanan.Items.Add(reader["nama_makanan"].ToString());
-                }
-                reader.Close();
+                cmbMakanan.DataSource = dt;
+                cmbMakanan.DisplayMember = "nama_makanan";
+                cmbMakanan.ValueMember = "id_makanan";
             }
             catch (Exception ex) { MessageBox.Show("Terjadi kesalahan: " + ex.Message); }
         }
@@ -95,8 +90,8 @@ namespace SistemNutrisi
                 DataTable dt = new DataTable();
                 adapter.Fill(dt);
 
-                bs.DataSource = dt;
-                dataGridView1.DataSource = bs;
+                bsNutrisi.DataSource = dt;
+                dataGridView1.DataSource = bsNutrisi;
 
                 // Mempercantik Header
                 if (dataGridView1.Columns.Count > 0)
@@ -138,7 +133,7 @@ namespace SistemNutrisi
 
                 SqlCommand cmd = new SqlCommand("sp_InsertNutrisi", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@id_makanan", idMakananList[cmbMakanan.SelectedIndex]);
+                cmd.Parameters.AddWithValue("@id_makanan", cmbMakanan.SelectedValue);
                 cmd.Parameters.AddWithValue("@kalori", double.Parse(txtKalori.Text));
                 cmd.Parameters.AddWithValue("@protein", double.Parse(txtProtein.Text));
                 cmd.Parameters.AddWithValue("@lemak", double.Parse(txtLemak.Text));
@@ -163,8 +158,8 @@ namespace SistemNutrisi
         {
             try
             {
-                if (bs.Current == null) { MessageBox.Show("Pilih data dulu!"); return; }
-                string id = ((DataRowView)bs.Current)["id_makanan"].ToString();
+                if (bsNutrisi.Current == null) { MessageBox.Show("Pilih data dulu!"); return; }
+                string id = ((DataRowView)bsNutrisi.Current)["id_makanan"].ToString();
 
                 DialogResult confirm = MessageBox.Show("Yakin ingin mengubah data nutrisi ini?", "Konfirmasi",
                     MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -199,8 +194,8 @@ namespace SistemNutrisi
         {
             try
             {
-                if (bs.Current == null) { MessageBox.Show("Pilih data dulu!"); return; }
-                string id = ((DataRowView)bs.Current)["id_makanan"].ToString();
+                if (bsNutrisi.Current == null) { MessageBox.Show("Pilih data dulu!"); return; }
+                string id = ((DataRowView)bsNutrisi.Current)["id_makanan"].ToString();
 
                 DialogResult confirm = MessageBox.Show("Yakin ingin menghapus data nutrisi?", "Konfirmasi",
                     MessageBoxButtons.YesNo, MessageBoxIcon.Question);

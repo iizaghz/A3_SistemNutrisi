@@ -23,6 +23,19 @@ namespace SistemNutrisi
             this.namaUser = namaUser;
         }
 
+        private void loadForm(object Form)
+        {
+            if (this.pnlContent.Controls.Count > 0)
+                this.pnlContent.Controls.RemoveAt(0);
+            Form f = Form as Form;
+            f.TopLevel = false;
+            f.Dock = DockStyle.Fill;
+            f.FormBorderStyle = FormBorderStyle.None;
+            this.pnlContent.Controls.Add(f);
+            this.pnlContent.Tag = f;
+            f.Show();
+        }
+
         private void FormAdmin_Load(object sender, EventArgs e)
         {
             lblWelcome.Text = "Selamat datang, " + namaUser + " (Admin)";
@@ -30,20 +43,17 @@ namespace SistemNutrisi
 
         private void btnKategori_Click(object sender, EventArgs e)
         {
-            FormKategori formKategori = new FormKategori();
-            formKategori.Show();
+            loadForm(new FormKategori());
         }
 
         private void btnMakanan_Click(object sender, EventArgs e)
         {
-            FormMakanan formMakanan = new FormMakanan();
-            formMakanan.Show();
+            loadForm(new FormMakanan());
         }
 
         private void btnNutrisi_Click(object sender, EventArgs e)
         {
-            FormNutrisi formNutrisi = new FormNutrisi();
-            formNutrisi.Show();
+            loadForm(new FormNutrisi());
         }
 
         private void btnLogout_Click(object sender, EventArgs e)

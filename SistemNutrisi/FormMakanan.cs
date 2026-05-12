@@ -41,6 +41,9 @@ namespace SistemNutrisi
             bn.BindingSource = bsMakanan;
             bn.Dock = DockStyle.Bottom;
             this.Controls.Add(bn);
+            bn.BringToFront();
+
+            dataGridView1.Dock = DockStyle.Fill;
 
             LoadKategoriComboBox();
             btnLoad.PerformClick();
@@ -56,18 +59,13 @@ namespace SistemNutrisi
             try
             {
                 if (conn.State == ConnectionState.Closed) conn.Open();
-                cmbKategori.Items.Clear();
-                idKategoriList.Clear();
+                SqlDataAdapter adapter = new SqlDataAdapter("SELECT * FROM v_KategoriMakanan", conn);
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
 
-                SqlCommand cmd = new SqlCommand("SELECT * FROM v_KategoriMakanan", conn);
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                while (reader.Read())
-                {
-                    idKategoriList.Add(Convert.ToInt32(reader["id_kategori"]));
-                    cmbKategori.Items.Add(reader["nama_kategori"].ToString());
-                }
-                reader.Close();
+                cmbKategori.DataSource = dt;
+                cmbKategori.DisplayMember = "nama_kategori";
+                cmbKategori.ValueMember = "id_kategori";
             }
             catch (Exception ex) { MessageBox.Show("Terjadi kesalahan load kategori: " + ex.Message); }
         }
@@ -85,8 +83,8 @@ namespace SistemNutrisi
                 DataTable dt = new DataTable();
                 adapter.Fill(dt);
 
-                bs.DataSource = dt;
-                dataGridView1.DataSource = bs;
+                bsMakanan.DataSource = dt;
+                dataGridView1.DataSource = bsMakanan;
 
                 // Mempercantik Header
                 if (dataGridView1.Columns.Count > 0)
@@ -225,8 +223,8 @@ namespace SistemNutrisi
                 DataTable dt = new DataTable();
                 adapter.Fill(dt);
 
-                bs.DataSource = dt;
-                dataGridView1.DataSource = bs;
+                bsMakanan.DataSource = dt;
+                dataGridView1.DataSource = bsMakanan;
 
                 if (dataGridView1.Columns.Count > 0)
                 {

@@ -45,6 +45,9 @@ namespace SistemNutrisi
             bn.BindingSource = bs;
             bn.Dock = DockStyle.Bottom;
             this.Controls.Add(bn);
+            bn.BringToFront();
+
+            dataGridView1.Dock = DockStyle.Fill;
 
             btnLoad.PerformClick();
         }
