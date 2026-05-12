@@ -45,29 +45,24 @@ namespace SistemNutrisi
             {
                 if (conn.State == ConnectionState.Closed) conn.Open();
 
-                dataGridView1.Rows.Clear();
-                dataGridView1.Columns.Clear();
-                dataGridView1.Columns.Add("nama_makanan", "Makanan");
-                dataGridView1.Columns.Add("kalori", "Kalori");
-                dataGridView1.Columns.Add("protein", "Protein");
-                dataGridView1.Columns.Add("lemak", "Lemak");
-                dataGridView1.Columns.Add("karbohidrat", "Karbohidrat");
-
                 SqlCommand cmd = new SqlCommand("sp_GetNutrisiUser", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                SqlDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
+
+                dataGridView1.DataSource = dt;
+
+                // Mempercantik Header
+                if (dataGridView1.Columns.Count > 0)
                 {
-                    dataGridView1.Rows.Add(
-                        reader["nama_makanan"].ToString(),
-                        reader["kalori"].ToString(),
-                        reader["protein"].ToString(),
-                        reader["lemak"].ToString(),
-                        reader["karbohidrat"].ToString()
-                    );
+                    dataGridView1.Columns["nama_makanan"].HeaderText = "Makanan";
+                    dataGridView1.Columns["kalori"].HeaderText = "Kalori";
+                    dataGridView1.Columns["protein"].HeaderText = "Protein";
+                    dataGridView1.Columns["lemak"].HeaderText = "Lemak";
+                    dataGridView1.Columns["karbohidrat"].HeaderText = "Karbohidrat";
                 }
-                reader.Close();
             }
             catch (Exception ex)
             {
