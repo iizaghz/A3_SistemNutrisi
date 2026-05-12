@@ -36,36 +36,17 @@ namespace SistemNutrisi
         {
             try
             {
-                if (conn.State == ConnectionState.Closed)
-                {
-                    conn.Open();
-                }
+                if (string.IsNullOrEmpty(txtNama.Text)) { MessageBox.Show("Nama harus diisi"); txtNama.Focus(); return; }
+                if (string.IsNullOrEmpty(txtEmail.Text)) { MessageBox.Show("Email harus diisi"); txtEmail.Focus(); return; }
+                if (string.IsNullOrEmpty(txtPassword.Text)) { MessageBox.Show("Password harus diisi"); txtPassword.Focus(); return; }
 
-                if (string.IsNullOrEmpty(txtNama.Text))
-                {
-                    MessageBox.Show("Nama harus diisi");
-                    txtNama.Focus();
-                    return;
-                }
-                if (string.IsNullOrEmpty(txtEmail.Text))
-                {
-                    MessageBox.Show("Email harus diisi");
-                    txtEmail.Focus();
-                    return;
-                }
-                if (string.IsNullOrEmpty(txtPassword.Text))
-                {
-                    MessageBox.Show("Password harus diisi");
-                    txtPassword.Focus();
-                    return;
-                }
+                if (conn.State == ConnectionState.Closed) conn.Open();
 
-                string query = @"INSERT INTO [User] (nama, email, password, role) VALUES (@nama, @email, @pass, @role)";
-
-                SqlCommand cmd = new SqlCommand(query, conn);
+                SqlCommand cmd = new SqlCommand("sp_Registrasi", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@nama", txtNama.Text);
                 cmd.Parameters.AddWithValue("@email", txtEmail.Text);
-                cmd.Parameters.AddWithValue("@pass", txtPassword.Text);
+                cmd.Parameters.AddWithValue("@password", txtPassword.Text);
                 cmd.Parameters.AddWithValue("@role", "user");
 
                 int result = cmd.ExecuteNonQuery();
