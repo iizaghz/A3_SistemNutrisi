@@ -46,24 +46,22 @@ namespace SistemNutrisi
             {
                 if (conn.State == ConnectionState.Closed) conn.Open();
 
-                dataGridView1.Rows.Clear();
-                dataGridView1.Columns.Clear();
-                dataGridView1.Columns.Add("id_kategori", "ID Kategori");
-                dataGridView1.Columns.Add("nama_kategori", "Nama Kategori");
-
                 SqlCommand cmd = new SqlCommand("sp_GetKategori", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@search", string.IsNullOrEmpty(searchTerm) ? (object)DBNull.Value : searchTerm);
 
-                SqlDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
+
+                dataGridView1.DataSource = dt;
+
+                // Mempercantik Header
+                if (dataGridView1.Columns.Count > 0)
                 {
-                    dataGridView1.Rows.Add(
-                        reader["id_kategori"].ToString(),
-                        reader["nama_kategori"].ToString()
-                    );
+                    dataGridView1.Columns["id_kategori"].HeaderText = "ID Kategori";
+                    dataGridView1.Columns["nama_kategori"].HeaderText = "Nama Kategori";
                 }
-                reader.Close();
             }
             catch (Exception ex)
             {
