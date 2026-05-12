@@ -43,22 +43,19 @@ namespace SistemNutrisi
         {
             try
             {
-                if (conn.State == ConnectionState.Closed) { conn.Open(); }
+                if (conn.State == ConnectionState.Closed) conn.Open();
 
                 dataGridView1.Rows.Clear();
                 dataGridView1.Columns.Clear();
-
                 dataGridView1.Columns.Add("nama_makanan", "Makanan");
                 dataGridView1.Columns.Add("kalori", "Kalori");
                 dataGridView1.Columns.Add("protein", "Protein");
                 dataGridView1.Columns.Add("lemak", "Lemak");
                 dataGridView1.Columns.Add("karbohidrat", "Karbohidrat");
 
-                string query = @"SELECT m.nama_makanan, n.kalori, n.protein, n.lemak, n.karbohidrat
-                                 FROM Makanan m
-                                 LEFT JOIN Nutrisi n ON m.id_makanan = n.id_makanan";
+                SqlCommand cmd = new SqlCommand("sp_GetNutrisiUser", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
 
-                SqlCommand cmd = new SqlCommand(query, conn);
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
