@@ -31,7 +31,7 @@ namespace SistemNutrisi
         private void FormRiwayat_Load(object sender, EventArgs e)
         {
             lblInfo.Text = "Riwayat Konsumsi: " + namaUser;
-            
+
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView1.MultiSelect = false;
             dataGridView1.ReadOnly = true;
@@ -43,11 +43,10 @@ namespace SistemNutrisi
         {
             try
             {
-                if (conn.State == ConnectionState.Closed) { conn.Open(); }
+                if (conn.State == ConnectionState.Closed) conn.Open();
 
                 dataGridView1.Rows.Clear();
                 dataGridView1.Columns.Clear();
-
                 dataGridView1.Columns.Add("tanggal", "Tanggal");
                 dataGridView1.Columns.Add("nama_makanan", "Makanan");
                 dataGridView1.Columns.Add("jumlah", "Jumlah");
@@ -56,19 +55,9 @@ namespace SistemNutrisi
                 dataGridView1.Columns.Add("total_lemak", "Lemak");
                 dataGridView1.Columns.Add("total_karbohidrat", "Karbohidrat");
 
-                string query = @"SELECT k.tanggal, m.nama_makanan, k.jumlah, 
-                                        (n.kalori * k.jumlah) as total_kalori, 
-                                        (n.protein * k.jumlah) as total_protein,
-                                        (n.lemak * k.jumlah) as total_lemak, 
-                                        (n.karbohidrat * k.jumlah) as total_karbohidrat
-                                 FROM KonsumsiMakanan k
-                                 JOIN Makanan m ON k.id_makanan = m.id_makanan
-                                 LEFT JOIN Nutrisi n ON m.id_makanan = n.id_makanan
-                                 WHERE k.id_user = @idu
-                                 ORDER BY k.tanggal DESC";
-
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@idu", idUser);
+                SqlCommand cmd = new SqlCommand("sp_GetRiwayatKonsumsi", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@id_user", idUser);
 
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
