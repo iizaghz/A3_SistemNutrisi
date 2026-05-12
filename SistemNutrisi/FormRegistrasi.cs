@@ -60,12 +60,13 @@ namespace SistemNutrisi
                     return;
                 }
 
-                string query = @"INSERT INTO [User] (nama, email, password) VALUES (@nama, @email, @pass)";
+                string query = @"INSERT INTO [User] (nama, email, password, role) VALUES (@nama, @email, @pass, @role)";
 
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@nama", txtNama.Text);
                 cmd.Parameters.AddWithValue("@email", txtEmail.Text);
                 cmd.Parameters.AddWithValue("@pass", txtPassword.Text);
+                cmd.Parameters.AddWithValue("@role", "user");
 
                 int result = cmd.ExecuteNonQuery();
 

@@ -13,19 +13,19 @@ namespace SistemNutrisi
 {
     public partial class FormAdmin : Form
     {
-        private int idAdmin;
-        private string namaAdmin;
+        private int idUser;
+        private string namaUser;
 
-        public FormAdmin(int idAdmin, string namaAdmin)
+        public FormAdmin(int idUser, string namaUser)
         {
             InitializeComponent();
-            this.idAdmin = idAdmin;
-            this.namaAdmin = namaAdmin;
+            this.idUser = idUser;
+            this.namaUser = namaUser;
         }
 
         private void FormAdmin_Load(object sender, EventArgs e)
         {
-            lblWelcome.Text = "Selamat datang, " + namaAdmin + " (Admin)";
+            lblWelcome.Text = "Selamat datang, " + namaUser + " (Admin)";
         }
 
         private void btnKategori_Click(object sender, EventArgs e)

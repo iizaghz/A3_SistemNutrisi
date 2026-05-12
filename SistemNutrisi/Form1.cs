@@ -45,47 +45,36 @@ namespace SistemNutrisi
             {
                 if (conn.State == ConnectionState.Closed) { conn.Open(); }
 
-                // 1. Cek di tabel Admin
-                string queryAdmin = @"SELECT id_admin, nama FROM Admin WHERE email = @email AND password = @pass";
-                SqlCommand cmdAdmin = new SqlCommand(queryAdmin, conn);
-                cmdAdmin.Parameters.AddWithValue("@email", txtEmail.Text);
-                cmdAdmin.Parameters.AddWithValue("@pass", txtPassword.Text);
+                // Cek login menggunakan tabel [User] dengan kolom role
+                string query = @"SELECT id_user, nama, role FROM [User] WHERE email = @email AND password = @pass";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@email", txtEmail.Text);
+                cmd.Parameters.AddWithValue("@pass", txtPassword.Text);
 
-                SqlDataReader readerAdmin = cmdAdmin.ExecuteReader();
-                if (readerAdmin.Read())
+                SqlDataReader reader = cmd.ExecuteReader();
+                if (reader.Read())
                 {
-                    int id = Convert.ToInt32(readerAdmin["id_admin"]);
-                    string nama = readerAdmin["nama"].ToString();
-                    readerAdmin.Close();
+                    int id = Convert.ToInt32(reader["id_user"]);
+                    string nama = reader["nama"].ToString();
+                    string role = reader["role"].ToString();
+                    reader.Close();
 
                     this.Hide();
-                    FormAdmin formAdmin = new FormAdmin(id, nama);
-                    formAdmin.Show();
+
+                    if (role == "admin")
+                    {
+                        FormAdmin formAdmin = new FormAdmin(id, nama);
+                        formAdmin.Show();
+                    }
+                    else
+                    {
+                        FormUser formUser = new FormUser(id, nama);
+                        formUser.Show();
+                    }
                     return;
                 }
-                readerAdmin.Close();
+                reader.Close();
 
-                // 2. Cek di tabel User jika tidak ada di Admin
-                string queryUser = @"SELECT id_user, nama FROM [User] WHERE email = @email AND password = @pass";
-                SqlCommand cmdUser = new SqlCommand(queryUser, conn);
-                cmdUser.Parameters.AddWithValue("@email", txtEmail.Text);
-                cmdUser.Parameters.AddWithValue("@pass", txtPassword.Text);
-
-                SqlDataReader readerUser = cmdUser.ExecuteReader();
-                if (readerUser.Read())
-                {
-                    int id = Convert.ToInt32(readerUser["id_user"]);
-                    string nama = readerUser["nama"].ToString();
-                    readerUser.Close();
-
-                    this.Hide();
-                    FormUser formUser = new FormUser(id, nama);
-                    formUser.Show();
-                    return;
-                }
-                readerUser.Close();
-
-                // 3. Jika tidak ditemukan di keduanya
                 MessageBox.Show("Email atau Password salah!");
             }
             catch (Exception ex) 
