@@ -32,7 +32,6 @@ namespace SistemNutrisi
             dataGridView1.ReadOnly = true;
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
             dataGridView1.CellClick += dataGridView1_CellClick;
         }
 
@@ -45,31 +44,18 @@ namespace SistemNutrisi
         {
             try
             {
-                if (conn.State == ConnectionState.Closed)
-                {
-                    conn.Open();
-                }
+                if (conn.State == ConnectionState.Closed) conn.Open();
 
                 dataGridView1.Rows.Clear();
                 dataGridView1.Columns.Clear();
-
                 dataGridView1.Columns.Add("id_kategori", "ID Kategori");
                 dataGridView1.Columns.Add("nama_kategori", "Nama Kategori");
 
-                string query = "SELECT id_kategori, nama_kategori FROM KategoriMakanan";
-                if (!string.IsNullOrEmpty(searchTerm))
-                {
-                    query += " WHERE nama_kategori LIKE @search";
-                }
-
-                SqlCommand cmd = new SqlCommand(query, conn);
-                if (!string.IsNullOrEmpty(searchTerm))
-                {
-                    cmd.Parameters.AddWithValue("@search", "%" + searchTerm + "%");
-                }
+                SqlCommand cmd = new SqlCommand("sp_GetKategori", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@search", string.IsNullOrEmpty(searchTerm) ? (object)DBNull.Value : searchTerm);
 
                 SqlDataReader reader = cmd.ExecuteReader();
-
                 while (reader.Read())
                 {
                     dataGridView1.Rows.Add(
@@ -94,32 +80,24 @@ namespace SistemNutrisi
         {
             try
             {
-                if (conn.State == ConnectionState.Closed)
-                {
-                    conn.Open();
-                }
-
                 if (string.IsNullOrEmpty(txtNamaKategori.Text))
                 {
                     MessageBox.Show("Nama Kategori harus diisi");
-                    txtNamaKategori.Focus();
-                    return;
+                    txtNamaKategori.Focus(); return;
                 }
-
                 if (!IsValidText(txtNamaKategori.Text))
                 {
                     MessageBox.Show("Nama Kategori tidak boleh mengandung angka atau simbol.");
-                    txtNamaKategori.Focus();
-                    return;
+                    txtNamaKategori.Focus(); return;
                 }
 
-                string query = @"INSERT INTO KategoriMakanan (nama_kategori) VALUES (@nama)";
+                if (conn.State == ConnectionState.Closed) conn.Open();
 
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@nama", txtNamaKategori.Text);
+                SqlCommand cmd = new SqlCommand("sp_InsertKategori", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@nama_kategori", txtNamaKategori.Text);
 
                 int result = cmd.ExecuteNonQuery();
-
                 if (result > 0)
                 {
                     MessageBox.Show("Data kategori berhasil ditambahkan");
@@ -141,48 +119,30 @@ namespace SistemNutrisi
         {
             try
             {
-                if (conn.State == ConnectionState.Closed)
-                {
-                    conn.Open();
-                }
-
-                if (string.IsNullOrEmpty(selectedId))
-                {
-                    MessageBox.Show("Pilih data dulu!");
-                    return;
-                }
-
+                if (string.IsNullOrEmpty(selectedId)) { MessageBox.Show("Pilih data dulu!"); return; }
                 if (string.IsNullOrEmpty(txtNamaKategori.Text))
                 {
                     MessageBox.Show("Nama Kategori harus diisi");
-                    txtNamaKategori.Focus();
-                    return;
+                    txtNamaKategori.Focus(); return;
                 }
-
                 if (!IsValidText(txtNamaKategori.Text))
                 {
                     MessageBox.Show("Nama Kategori tidak boleh mengandung angka atau simbol.");
-                    txtNamaKategori.Focus();
-                    return;
+                    txtNamaKategori.Focus(); return;
                 }
 
-                DialogResult resultConfirm = MessageBox.Show(
-                    "Yakin ingin mengubah data kategori ini?",
-                    "Konfirmasi",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question);
+                DialogResult confirm = MessageBox.Show("Yakin ingin mengubah data kategori ini?", "Konfirmasi",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (confirm == DialogResult.No) return;
 
-                if (resultConfirm == DialogResult.No) return;
+                if (conn.State == ConnectionState.Closed) conn.Open();
 
-                string query = @"UPDATE KategoriMakanan SET nama_kategori = @nama WHERE id_kategori = @id";
-
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@id", selectedId);
-                cmd.Parameters.AddWithValue("@nama", txtNamaKategori.Text);
-
+                SqlCommand cmd = new SqlCommand("sp_UpdateKategori", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@id_kategori", int.Parse(selectedId));
+                cmd.Parameters.AddWithValue("@nama_kategori", txtNamaKategori.Text);
 
                 int result = cmd.ExecuteNonQuery();
-
                 if (result > 0)
                 {
                     MessageBox.Show("Data berhasil diupdate");
@@ -204,54 +164,33 @@ namespace SistemNutrisi
         {
             try
             {
-                if (conn.State == ConnectionState.Closed)
+                if (string.IsNullOrEmpty(selectedId)) { MessageBox.Show("Pilih data dulu!"); return; }
+
+                DialogResult confirm = MessageBox.Show("Yakin ingin menghapus data?", "Konfirmasi",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (confirm == DialogResult.No) return;
+
+                if (conn.State == ConnectionState.Closed) conn.Open();
+
+                SqlCommand cmd = new SqlCommand("sp_DeleteKategori", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@id_kategori", int.Parse(selectedId));
+
+                int result = cmd.ExecuteNonQuery();
+                if (result > 0)
                 {
-                    conn.Open();
+                    MessageBox.Show("Data berhasil dihapus");
+                    ClearForm();
+                    btnLoad.PerformClick();
                 }
-
-                if (string.IsNullOrEmpty(selectedId))
+                else
                 {
-                    MessageBox.Show("Pilih data dulu!");
-                    return;
+                    MessageBox.Show("Data tidak ditemukan");
                 }
-
-                string checkQuery = "SELECT COUNT(*) FROM Makanan WHERE id_kategori = @id";
-                SqlCommand checkCmd = new SqlCommand(checkQuery, conn);
-                checkCmd.Parameters.AddWithValue("@id", selectedId);
-                int count = Convert.ToInt32(checkCmd.ExecuteScalar());
-
-                if (count > 0)
-                {
-                    MessageBox.Show("Data Kategori tidak bisa dihapus karena sedang terpakai di data Makanan.");
-                    return;
-                }
-
-                DialogResult resultConfirm = MessageBox.Show(
-                    "Yakin ingin menghapus data?",
-                    "Konfirmasi",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question);
-
-                if (resultConfirm == DialogResult.Yes)
-                {
-                    string query = "DELETE FROM KategoriMakanan WHERE id_kategori = @id";
-
-                    SqlCommand cmd = new SqlCommand(query, conn);
-                    cmd.Parameters.AddWithValue("@id", selectedId);
-
-                    int result = cmd.ExecuteNonQuery();
-
-                    if (result > 0)
-                    {
-                        MessageBox.Show("Data berhasil dihapus");
-                        ClearForm();
-                        btnLoad.PerformClick();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Data tidak ditemukan");
-                    }
-                }
+            }
+            catch (SqlException ex) when (ex.Number == 50000)
+            {
+                MessageBox.Show(ex.Message);
             }
             catch (Exception ex)
             {
