@@ -27,10 +27,7 @@ namespace SistemNutrisi
         {
             try
             {
-                if (conn.State == ConnectionState.Closed)
-                {
-                    conn.Open();
-                }
+                if (conn.State == ConnectionState.Closed) conn.Open();
                 MessageBox.Show("Koneksi Berhasil!");
             }
             catch (Exception ex)
@@ -43,13 +40,12 @@ namespace SistemNutrisi
         {
             try
             {
-                if (conn.State == ConnectionState.Closed) { conn.Open(); }
+                if (conn.State == ConnectionState.Closed) conn.Open();
 
-                // Cek login menggunakan tabel [User] dengan kolom role
-                string query = @"SELECT id_user, nama, role FROM [User] WHERE email = @email AND password = @pass";
-                SqlCommand cmd = new SqlCommand(query, conn);
+                SqlCommand cmd = new SqlCommand("sp_Login", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@email", txtEmail.Text);
-                cmd.Parameters.AddWithValue("@pass", txtPassword.Text);
+                cmd.Parameters.AddWithValue("@password", txtPassword.Text);
 
                 SqlDataReader reader = cmd.ExecuteReader();
                 if (reader.Read())
@@ -60,7 +56,6 @@ namespace SistemNutrisi
                     reader.Close();
 
                     this.Hide();
-
                     if (role == "admin")
                     {
                         FormAdmin formAdmin = new FormAdmin(id, nama);
@@ -74,12 +69,11 @@ namespace SistemNutrisi
                     return;
                 }
                 reader.Close();
-
                 MessageBox.Show("Email atau Password salah!");
             }
-            catch (Exception ex) 
-            { 
-                MessageBox.Show("Terjadi kesalahan: " + ex.Message); 
+            catch (Exception ex)
+            {
+                MessageBox.Show("Terjadi kesalahan: " + ex.Message);
             }
         }
 
@@ -93,12 +87,7 @@ namespace SistemNutrisi
         {
             try
             {
-                if (conn.State == ConnectionState.Closed)
-                {
-                    conn.Open();
-                }
-                // Jika koneksi berhasil, aplikasi lanjut. Jika gagal akan ke catch.
-                // Bisa menambahkan indikator status di UI jika diperlukan.
+                if (conn.State == ConnectionState.Closed) conn.Open();
             }
             catch (Exception ex)
             {
