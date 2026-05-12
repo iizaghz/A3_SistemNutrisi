@@ -338,6 +338,10 @@ BEGIN
 END
 GO
 
+CREATE OR ALTER VIEW v_UserDetail AS
+SELECT id_user, nama, email, password, role 
+FROM [User];
+GO
 
 CREATE OR ALTER VIEW v_MakananLengkap AS
 SELECT m.id_makanan, m.nama_makanan, m.id_kategori, k.nama_kategori
