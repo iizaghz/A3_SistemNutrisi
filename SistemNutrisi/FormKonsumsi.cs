@@ -41,8 +41,7 @@ namespace SistemNutrisi
                 cmbMakanan.Items.Clear();
                 idMakananList.Clear();
 
-                SqlCommand cmd = new SqlCommand("sp_GetMakananList", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
+                SqlCommand cmd = new SqlCommand("SELECT id_makanan, nama_makanan FROM v_MakananLengkap", conn);
                 SqlDataReader reader = cmd.ExecuteReader();
 
                 while (reader.Read())
