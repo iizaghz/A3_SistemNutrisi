@@ -19,7 +19,6 @@ namespace SistemNutrisi
 
         private BindingSource bs = new BindingSource();
         private BindingNavigator bn;
-        private string selectedId = "";
 
         public FormKategori()
         {
@@ -43,10 +42,10 @@ namespace SistemNutrisi
             bn.Dock = DockStyle.Bottom;
             this.Controls.Add(bn);
 
+            LoadData();
+
             // Data Binding ke TextBox (Otomatis update saat navigasi)
             txtNamaKategori.DataBindings.Add("Text", bs, "nama_kategori", true, DataSourceUpdateMode.OnPropertyChanged);
-
-            LoadData();
         }
 
         private void btnLoad_Click(object sender, EventArgs e)
@@ -60,9 +59,12 @@ namespace SistemNutrisi
             {
                 if (conn.State == ConnectionState.Closed) conn.Open();
 
-                SqlCommand cmd = new SqlCommand("sp_GetKategori", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@search", string.IsNullOrEmpty(searchTerm) ? (object)DBNull.Value : searchTerm);
+                SqlCommand cmd = new SqlCommand("SELECT * FROM v_KategoriMakanan", conn);
+                if (!string.IsNullOrEmpty(searchTerm))
+                {
+                    cmd.CommandText += " WHERE nama_kategori LIKE @search";
+                    cmd.Parameters.AddWithValue("@search", "%" + searchTerm + "%");
+                }
 
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
