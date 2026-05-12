@@ -42,6 +42,7 @@ namespace SistemNutrisi
             this.Controls.Add(bn);
 
             LoadMakananComboBox();
+            btnLoad.PerformClick();
 
             // Data Binding (Otomatis sinkron saat navigasi)
             cmbMakanan.DataBindings.Add("Text", bs, "nama_makanan", true, DataSourceUpdateMode.OnPropertyChanged);
@@ -49,8 +50,6 @@ namespace SistemNutrisi
             txtProtein.DataBindings.Add("Text", bs, "protein", true, DataSourceUpdateMode.OnPropertyChanged);
             txtLemak.DataBindings.Add("Text", bs, "lemak", true, DataSourceUpdateMode.OnPropertyChanged);
             txtKarbohidrat.DataBindings.Add("Text", bs, "karbohidrat", true, DataSourceUpdateMode.OnPropertyChanged);
-
-            btnLoad.PerformClick();
         }
 
         private void LoadMakananComboBox()
@@ -85,9 +84,12 @@ namespace SistemNutrisi
             {
                 if (conn.State == ConnectionState.Closed) conn.Open();
                 
-                SqlCommand cmd = new SqlCommand("sp_GetNutrisi", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@search", string.IsNullOrEmpty(searchTerm) ? (object)DBNull.Value : searchTerm);
+                SqlCommand cmd = new SqlCommand("SELECT * FROM v_NutrisiLengkap", conn);
+                if (!string.IsNullOrEmpty(searchTerm))
+                {
+                    cmd.CommandText += " WHERE nama_makanan LIKE @search";
+                    cmd.Parameters.AddWithValue("@search", "%" + searchTerm + "%");
+                }
 
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
