@@ -19,6 +19,8 @@ namespace SistemNutrisi
 
         private int idUser;
         private string namaUser;
+        private BindingSource bs = new BindingSource();
+        private BindingNavigator bn;
 
         public FormUser(int idUser, string namaUser)
         {
@@ -37,6 +39,14 @@ namespace SistemNutrisi
             dataGridView1.ReadOnly = true;
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            // Inisialisasi BindingNavigator
+            bn = new BindingNavigator(true);
+            bn.BindingSource = bs;
+            bn.Dock = DockStyle.Bottom;
+            this.Controls.Add(bn);
+
+            btnLoad.PerformClick();
         }
 
         private void btnLoad_Click(object sender, EventArgs e)
@@ -52,7 +62,8 @@ namespace SistemNutrisi
                 DataTable dt = new DataTable();
                 adapter.Fill(dt);
 
-                dataGridView1.DataSource = dt;
+                bs.DataSource = dt;
+                dataGridView1.DataSource = bs;
 
                 // Mempercantik Header
                 if (dataGridView1.Columns.Count > 0)
