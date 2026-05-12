@@ -17,6 +17,8 @@ namespace SistemNutrisi
         private readonly string connectionString =
             "Data Source=IZAYAAA\\IZA;Initial Catalog=DBSistemNutrisi;Integrated Security=True";
 
+        private BindingSource bs = new BindingSource();
+        private BindingNavigator bn;
         private string selectedId = "";
 
         public FormKategori()
@@ -27,12 +29,21 @@ namespace SistemNutrisi
 
         private void FormKategori_Load(object sender, EventArgs e)
         {
+            // Konfigurasi DataGridView
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView1.MultiSelect = false;
             dataGridView1.ReadOnly = true;
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.CellClick += dataGridView1_CellClick;
+
+            // Inisialisasi BindingNavigator secara programmatik
+            bn = new BindingNavigator(true);
+            bn.BindingSource = bs;
+            bn.Dock = DockStyle.Bottom;
+            this.Controls.Add(bn);
+
+            LoadData();
         }
 
         private void btnLoad_Click(object sender, EventArgs e)
@@ -54,7 +65,8 @@ namespace SistemNutrisi
                 DataTable dt = new DataTable();
                 adapter.Fill(dt);
 
-                dataGridView1.DataSource = dt;
+                bs.DataSource = dt;
+                dataGridView1.DataSource = bs;
 
                 // Mempercantik Header
                 if (dataGridView1.Columns.Count > 0)
