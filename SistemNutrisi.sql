@@ -337,3 +337,27 @@ BEGIN
     LEFT JOIN Nutrisi n ON m.id_makanan = n.id_makanan;
 END
 GO
+
+
+CREATE OR ALTER VIEW v_MakananLengkap AS
+SELECT m.id_makanan, m.nama_makanan, m.id_kategori, k.nama_kategori
+FROM Makanan m
+JOIN KategoriMakanan k ON m.id_kategori = k.id_kategori;
+GO
+
+CREATE OR ALTER VIEW v_NutrisiLengkap AS
+SELECT m.id_makanan, m.nama_makanan, n.kalori, n.protein, n.lemak, n.karbohidrat
+FROM Makanan m
+LEFT JOIN Nutrisi n ON m.id_makanan = n.id_makanan;
+GO
+
+CREATE OR ALTER VIEW v_RiwayatKonsumsiLengkap AS
+SELECT k.id_konsumsi, k.id_user, k.tanggal, m.id_makanan, m.nama_makanan, k.jumlah,
+       (ISNULL(n.kalori, 0) * k.jumlah) AS total_kalori,
+       (ISNULL(n.protein, 0) * k.jumlah) AS total_protein,
+       (ISNULL(n.lemak, 0) * k.jumlah) AS total_lemak,
+       (ISNULL(n.karbohidrat, 0) * k.jumlah) AS total_karbohidrat
+FROM KonsumsiMakanan k
+JOIN Makanan m ON k.id_makanan = m.id_makanan
+LEFT JOIN Nutrisi n ON m.id_makanan = n.id_makanan;
+GO
