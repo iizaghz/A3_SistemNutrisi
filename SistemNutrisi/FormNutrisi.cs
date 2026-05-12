@@ -42,6 +42,14 @@ namespace SistemNutrisi
             this.Controls.Add(bn);
 
             LoadMakananComboBox();
+
+            // Data Binding (Otomatis sinkron saat navigasi)
+            cmbMakanan.DataBindings.Add("Text", bs, "nama_makanan", true, DataSourceUpdateMode.OnPropertyChanged);
+            txtKalori.DataBindings.Add("Text", bs, "kalori", true, DataSourceUpdateMode.OnPropertyChanged);
+            txtProtein.DataBindings.Add("Text", bs, "protein", true, DataSourceUpdateMode.OnPropertyChanged);
+            txtLemak.DataBindings.Add("Text", bs, "lemak", true, DataSourceUpdateMode.OnPropertyChanged);
+            txtKarbohidrat.DataBindings.Add("Text", bs, "karbohidrat", true, DataSourceUpdateMode.OnPropertyChanged);
+
             btnLoad.PerformClick();
         }
 
@@ -153,18 +161,8 @@ namespace SistemNutrisi
         {
             try
             {
-                if (cmbMakanan.SelectedIndex < 0) { MessageBox.Show("Pilih Makanan!"); cmbMakanan.Focus(); return; }
-                if (string.IsNullOrEmpty(txtKalori.Text)) { MessageBox.Show("Kalori harus diisi"); txtKalori.Focus(); return; }
-                if (string.IsNullOrEmpty(txtProtein.Text)) { MessageBox.Show("Protein harus diisi"); txtProtein.Focus(); return; }
-                if (string.IsNullOrEmpty(txtLemak.Text)) { MessageBox.Show("Lemak harus diisi"); txtLemak.Focus(); return; }
-                if (string.IsNullOrEmpty(txtKarbohidrat.Text)) { MessageBox.Show("Karbohidrat harus diisi"); txtKarbohidrat.Focus(); return; }
-
-                if (!IsValidNumber(txtKalori.Text) || !IsValidNumber(txtProtein.Text) ||
-                    !IsValidNumber(txtLemak.Text) || !IsValidNumber(txtKarbohidrat.Text))
-                {
-                    MessageBox.Show("Data angka tidak boleh minus, 0, atau mengandung karakter selain angka.");
-                    return;
-                }
+                if (bs.Current == null) { MessageBox.Show("Pilih data dulu!"); return; }
+                string id = ((DataRowView)bs.Current)["id_makanan"].ToString();
 
                 DialogResult confirm = MessageBox.Show("Yakin ingin mengubah data nutrisi ini?", "Konfirmasi",
                     MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -174,7 +172,7 @@ namespace SistemNutrisi
 
                 SqlCommand cmd = new SqlCommand("sp_UpdateNutrisi", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@id_makanan", idMakananList[cmbMakanan.SelectedIndex]);
+                cmd.Parameters.AddWithValue("@id_makanan", int.Parse(id));
                 cmd.Parameters.AddWithValue("@kalori", double.Parse(txtKalori.Text));
                 cmd.Parameters.AddWithValue("@protein", double.Parse(txtProtein.Text));
                 cmd.Parameters.AddWithValue("@lemak", double.Parse(txtLemak.Text));
@@ -199,7 +197,8 @@ namespace SistemNutrisi
         {
             try
             {
-                if (cmbMakanan.SelectedIndex < 0) { MessageBox.Show("Pilih Makanan!"); return; }
+                if (bs.Current == null) { MessageBox.Show("Pilih data dulu!"); return; }
+                string id = ((DataRowView)bs.Current)["id_makanan"].ToString();
 
                 DialogResult confirm = MessageBox.Show("Yakin ingin menghapus data nutrisi?", "Konfirmasi",
                     MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -209,7 +208,7 @@ namespace SistemNutrisi
 
                 SqlCommand cmd = new SqlCommand("sp_DeleteNutrisi", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@id_makanan", idMakananList[cmbMakanan.SelectedIndex]);
+                cmd.Parameters.AddWithValue("@id_makanan", int.Parse(id));
 
                 int result = cmd.ExecuteNonQuery();
                 if (result > 0)
@@ -228,15 +227,6 @@ namespace SistemNutrisi
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0)
-            {
-                DataGridViewRow r = dataGridView1.Rows[e.RowIndex];
-                cmbMakanan.Text = r.Cells["nama_makanan"].Value?.ToString();
-                txtKalori.Text = r.Cells["kalori"].Value?.ToString();
-                txtProtein.Text = r.Cells["protein"].Value?.ToString();
-                txtLemak.Text = r.Cells["lemak"].Value?.ToString();
-                txtKarbohidrat.Text = r.Cells["karbohidrat"].Value?.ToString();
-            }
         }
 
         private void ClearForm()
