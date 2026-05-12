@@ -32,7 +32,6 @@ namespace SistemNutrisi
             dataGridView1.ReadOnly = true;
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
             LoadMakananComboBox();
         }
 
@@ -40,12 +39,12 @@ namespace SistemNutrisi
         {
             try
             {
-                if (conn.State == ConnectionState.Closed) { conn.Open(); }
+                if (conn.State == ConnectionState.Closed) conn.Open();
                 cmbMakanan.Items.Clear();
                 idMakananList.Clear();
 
-                string query = "SELECT id_makanan, nama_makanan FROM Makanan";
-                SqlCommand cmd = new SqlCommand(query, conn);
+                SqlCommand cmd = new SqlCommand("sp_GetMakananList", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
                 SqlDataReader reader = cmd.ExecuteReader();
 
                 while (reader.Read())
@@ -67,10 +66,9 @@ namespace SistemNutrisi
         {
             try
             {
-                if (conn.State == ConnectionState.Closed) { conn.Open(); }
+                if (conn.State == ConnectionState.Closed) conn.Open();
                 dataGridView1.Rows.Clear();
                 dataGridView1.Columns.Clear();
-
                 dataGridView1.Columns.Add("id_makanan", "ID Makanan");
                 dataGridView1.Columns.Add("nama_makanan", "Nama Makanan");
                 dataGridView1.Columns.Add("kalori", "Kalori");
@@ -78,20 +76,9 @@ namespace SistemNutrisi
                 dataGridView1.Columns.Add("lemak", "Lemak");
                 dataGridView1.Columns.Add("karbohidrat", "Karbohidrat");
 
-                string query = @"SELECT m.id_makanan, m.nama_makanan, n.kalori, n.protein, n.lemak, n.karbohidrat
-                                 FROM Makanan m
-                                 LEFT JOIN Nutrisi n ON m.id_makanan = n.id_makanan";
-
-                if (!string.IsNullOrEmpty(searchTerm))
-                {
-                    query += " WHERE m.nama_makanan LIKE @search";
-                }
-
-                SqlCommand cmd = new SqlCommand(query, conn);
-                if (!string.IsNullOrEmpty(searchTerm))
-                {
-                    cmd.Parameters.AddWithValue("@search", "%" + searchTerm + "%");
-                }
+                SqlCommand cmd = new SqlCommand("sp_GetNutrisi", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@search", string.IsNullOrEmpty(searchTerm) ? (object)DBNull.Value : searchTerm);
 
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
@@ -125,28 +112,24 @@ namespace SistemNutrisi
                 if (string.IsNullOrEmpty(txtLemak.Text)) { MessageBox.Show("Lemak harus diisi"); txtLemak.Focus(); return; }
                 if (string.IsNullOrEmpty(txtKarbohidrat.Text)) { MessageBox.Show("Karbohidrat harus diisi"); txtKarbohidrat.Focus(); return; }
 
-                if (!IsValidNumber(txtKalori.Text) || !IsValidNumber(txtProtein.Text) || 
+                if (!IsValidNumber(txtKalori.Text) || !IsValidNumber(txtProtein.Text) ||
                     !IsValidNumber(txtLemak.Text) || !IsValidNumber(txtKarbohidrat.Text))
                 {
                     MessageBox.Show("Data angka tidak boleh minus, 0, atau mengandung karakter selain angka.");
                     return;
                 }
 
-                if (conn.State == ConnectionState.Closed) { conn.Open(); }
+                if (conn.State == ConnectionState.Closed) conn.Open();
 
-                string query = @"INSERT INTO Nutrisi (id_makanan, kalori, protein, lemak, karbohidrat) 
-                                 VALUES (@id, @kal, @pro, @lem, @kar)";
-                
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@id", idMakananList[cmbMakanan.SelectedIndex]);
-                cmd.Parameters.AddWithValue("@kal", txtKalori.Text);
-                cmd.Parameters.AddWithValue("@pro", txtProtein.Text);
-                cmd.Parameters.AddWithValue("@lem", txtLemak.Text);
-                cmd.Parameters.AddWithValue("@kar", txtKarbohidrat.Text);
+                SqlCommand cmd = new SqlCommand("sp_InsertNutrisi", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@id_makanan", idMakananList[cmbMakanan.SelectedIndex]);
+                cmd.Parameters.AddWithValue("@kalori", double.Parse(txtKalori.Text));
+                cmd.Parameters.AddWithValue("@protein", double.Parse(txtProtein.Text));
+                cmd.Parameters.AddWithValue("@lemak", double.Parse(txtLemak.Text));
+                cmd.Parameters.AddWithValue("@karbohidrat", double.Parse(txtKarbohidrat.Text));
 
-                
                 int result = cmd.ExecuteNonQuery();
-
                 if (result > 0)
                 {
                     MessageBox.Show("Data nutrisi berhasil ditambahkan");
@@ -171,37 +154,28 @@ namespace SistemNutrisi
                 if (string.IsNullOrEmpty(txtLemak.Text)) { MessageBox.Show("Lemak harus diisi"); txtLemak.Focus(); return; }
                 if (string.IsNullOrEmpty(txtKarbohidrat.Text)) { MessageBox.Show("Karbohidrat harus diisi"); txtKarbohidrat.Focus(); return; }
 
-                if (!IsValidNumber(txtKalori.Text) || !IsValidNumber(txtProtein.Text) || 
+                if (!IsValidNumber(txtKalori.Text) || !IsValidNumber(txtProtein.Text) ||
                     !IsValidNumber(txtLemak.Text) || !IsValidNumber(txtKarbohidrat.Text))
                 {
                     MessageBox.Show("Data angka tidak boleh minus, 0, atau mengandung karakter selain angka.");
                     return;
                 }
 
-                if (conn.State == ConnectionState.Closed) { conn.Open(); }
+                DialogResult confirm = MessageBox.Show("Yakin ingin mengubah data nutrisi ini?", "Konfirmasi",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (confirm == DialogResult.No) return;
 
-                DialogResult resultConfirm = MessageBox.Show(
-                    "Yakin ingin mengubah data nutrisi ini?",
-                    "Konfirmasi",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question);
+                if (conn.State == ConnectionState.Closed) conn.Open();
 
-                if (resultConfirm == DialogResult.No) return;
-
-                string query = @"UPDATE Nutrisi 
-                                SET kalori=@kal, protein=@pro, lemak=@lem, karbohidrat=@kar 
-                                WHERE id_makanan=@id";
-                
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@id", idMakananList[cmbMakanan.SelectedIndex]);
-                cmd.Parameters.AddWithValue("@kal", txtKalori.Text);
-                cmd.Parameters.AddWithValue("@pro", txtProtein.Text);
-                cmd.Parameters.AddWithValue("@lem", txtLemak.Text);
-                cmd.Parameters.AddWithValue("@kar", txtKarbohidrat.Text);
-
+                SqlCommand cmd = new SqlCommand("sp_UpdateNutrisi", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@id_makanan", idMakananList[cmbMakanan.SelectedIndex]);
+                cmd.Parameters.AddWithValue("@kalori", double.Parse(txtKalori.Text));
+                cmd.Parameters.AddWithValue("@protein", double.Parse(txtProtein.Text));
+                cmd.Parameters.AddWithValue("@lemak", double.Parse(txtLemak.Text));
+                cmd.Parameters.AddWithValue("@karbohidrat", double.Parse(txtKarbohidrat.Text));
 
                 int result = cmd.ExecuteNonQuery();
-
                 if (result > 0)
                 {
                     MessageBox.Show("Data berhasil diupdate");
@@ -221,31 +195,27 @@ namespace SistemNutrisi
             try
             {
                 if (cmbMakanan.SelectedIndex < 0) { MessageBox.Show("Pilih Makanan!"); return; }
-                if (conn.State == ConnectionState.Closed) { conn.Open(); }
 
-                DialogResult resultConfirm = MessageBox.Show(
-                    "Yakin ingin menghapus data nutrisi?",
-                    "Konfirmasi",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question);
+                DialogResult confirm = MessageBox.Show("Yakin ingin menghapus data nutrisi?", "Konfirmasi",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (confirm == DialogResult.No) return;
 
-                if (resultConfirm == DialogResult.Yes)
+                if (conn.State == ConnectionState.Closed) conn.Open();
+
+                SqlCommand cmd = new SqlCommand("sp_DeleteNutrisi", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@id_makanan", idMakananList[cmbMakanan.SelectedIndex]);
+
+                int result = cmd.ExecuteNonQuery();
+                if (result > 0)
                 {
-                    string query = "DELETE FROM Nutrisi WHERE id_makanan=@id";
-                    SqlCommand cmd = new SqlCommand(query, conn);
-                    cmd.Parameters.AddWithValue("@id", idMakananList[cmbMakanan.SelectedIndex]);
-
-                    int result = cmd.ExecuteNonQuery();
-                    if (result > 0)
-                    {
-                        MessageBox.Show("Data berhasil dihapus");
-                        ClearForm();
-                        btnLoad.PerformClick();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Data tidak ditemukan");
-                    }
+                    MessageBox.Show("Data berhasil dihapus");
+                    ClearForm();
+                    btnLoad.PerformClick();
+                }
+                else
+                {
+                    MessageBox.Show("Data tidak ditemukan");
                 }
             }
             catch (Exception ex) { MessageBox.Show("Terjadi kesalahan: " + ex.Message); }
@@ -276,9 +246,7 @@ namespace SistemNutrisi
         private bool IsValidNumber(string input)
         {
             if (decimal.TryParse(input, out decimal value))
-            {
                 return value > 0;
-            }
             return false;
         }
 
