@@ -44,8 +44,7 @@ namespace SistemNutrisi
                 cmbKategori.Items.Clear();
                 idKategoriList.Clear();
 
-                SqlCommand cmd = new SqlCommand("sp_GetKategoriList", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
+                SqlCommand cmd = new SqlCommand("SELECT * FROM v_SemuaKategori", conn);
                 SqlDataReader reader = cmd.ExecuteReader();
 
                 while (reader.Read())
