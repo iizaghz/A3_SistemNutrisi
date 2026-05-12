@@ -45,34 +45,27 @@ namespace SistemNutrisi
             {
                 if (conn.State == ConnectionState.Closed) conn.Open();
 
-                dataGridView1.Rows.Clear();
-                dataGridView1.Columns.Clear();
-                dataGridView1.Columns.Add("tanggal", "Tanggal");
-                dataGridView1.Columns.Add("nama_makanan", "Makanan");
-                dataGridView1.Columns.Add("jumlah", "Jumlah");
-                dataGridView1.Columns.Add("total_kalori", "Kalori");
-                dataGridView1.Columns.Add("total_protein", "Protein");
-                dataGridView1.Columns.Add("total_lemak", "Lemak");
-                dataGridView1.Columns.Add("total_karbohidrat", "Karbohidrat");
-
                 SqlCommand cmd = new SqlCommand("sp_GetRiwayatKonsumsi", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@id_user", idUser);
 
-                SqlDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
+
+                dataGridView1.DataSource = dt;
+
+                // Mempercantik Header
+                if (dataGridView1.Columns.Count > 0)
                 {
-                    dataGridView1.Rows.Add(
-                        Convert.ToDateTime(reader["tanggal"]).ToShortDateString(),
-                        reader["nama_makanan"].ToString(),
-                        reader["jumlah"].ToString(),
-                        reader["total_kalori"].ToString(),
-                        reader["total_protein"].ToString(),
-                        reader["total_lemak"].ToString(),
-                        reader["total_karbohidrat"].ToString()
-                    );
+                    dataGridView1.Columns["tanggal"].HeaderText = "Tanggal";
+                    dataGridView1.Columns["nama_makanan"].HeaderText = "Makanan";
+                    dataGridView1.Columns["jumlah"].HeaderText = "Jumlah";
+                    dataGridView1.Columns["total_kalori"].HeaderText = "Kalori";
+                    dataGridView1.Columns["total_protein"].HeaderText = "Protein";
+                    dataGridView1.Columns["total_lemak"].HeaderText = "Lemak";
+                    dataGridView1.Columns["total_karbohidrat"].HeaderText = "Karbohidrat";
                 }
-                reader.Close();
             }
             catch (Exception ex)
             {
