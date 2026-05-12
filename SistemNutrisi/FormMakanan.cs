@@ -62,26 +62,24 @@ namespace SistemNutrisi
             try
             {
                 if (conn.State == ConnectionState.Closed) conn.Open();
-                dataGridView1.Rows.Clear();
-                dataGridView1.Columns.Clear();
-                dataGridView1.Columns.Add("id_makanan", "ID Makanan");
-                dataGridView1.Columns.Add("nama_makanan", "Nama Makanan");
-                dataGridView1.Columns.Add("nama_kategori", "Kategori");
 
                 SqlCommand cmd = new SqlCommand("sp_GetMakanan", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@search", DBNull.Value);
 
-                SqlDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
+
+                dataGridView1.DataSource = dt;
+
+                // Mempercantik Header
+                if (dataGridView1.Columns.Count > 0)
                 {
-                    dataGridView1.Rows.Add(
-                        reader["id_makanan"].ToString(),
-                        reader["nama_makanan"].ToString(),
-                        reader["nama_kategori"].ToString()
-                    );
+                    dataGridView1.Columns["id_makanan"].HeaderText = "ID Makanan";
+                    dataGridView1.Columns["nama_makanan"].HeaderText = "Nama Makanan";
+                    dataGridView1.Columns["nama_kategori"].HeaderText = "Kategori";
                 }
-                reader.Close();
 
                 SqlCommand cmdCount = new SqlCommand("sp_GetMakananCount", conn);
                 cmdCount.CommandType = CommandType.StoredProcedure;
@@ -214,22 +212,23 @@ namespace SistemNutrisi
             try
             {
                 if (conn.State == ConnectionState.Closed) conn.Open();
-                dataGridView1.Rows.Clear();
 
                 SqlCommand cmd = new SqlCommand("sp_GetMakanan", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@search", txtSearch.Text);
 
-                SqlDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
+
+                dataGridView1.DataSource = dt;
+
+                if (dataGridView1.Columns.Count > 0)
                 {
-                    dataGridView1.Rows.Add(
-                        reader["id_makanan"].ToString(),
-                        reader["nama_makanan"].ToString(),
-                        reader["nama_kategori"].ToString()
-                    );
+                    dataGridView1.Columns["id_makanan"].HeaderText = "ID Makanan";
+                    dataGridView1.Columns["nama_makanan"].HeaderText = "Nama Makanan";
+                    dataGridView1.Columns["nama_kategori"].HeaderText = "Kategori";
                 }
-                reader.Close();
             }
             catch (Exception ex) { MessageBox.Show("Gagal menampilkan data: " + ex.Message); }
         }
