@@ -212,21 +212,7 @@ namespace SistemNutrisi
                 currentY += 45;
             }
 
-            // 5. Signatures
-            int signY = currentY + 20;
-            if (signY < marginT + height - 100)
-            {
-                using (Font signFont = new Font("Segoe UI", 9.5F, FontStyle.Regular))
-                using (Font signBold = new Font("Segoe UI", 9.5F, FontStyle.Bold))
-                {
-                    string cityText = "Yogyakarta, " + DateTime.Now.ToString("dd MMMM yyyy");
-                    g.DrawString(cityText, signFont, Brushes.Black, marginL + width - 250, signY);
-                    g.DrawString("Petugas Pemeriksa,", signFont, Brushes.Black, marginL + width - 250, signY + 20);
 
-                    g.DrawLine(Pens.Black, marginL + width - 250, signY + 95, marginL + width - 50, signY + 95);
-                    g.DrawString("Sistem Nutrisi App", signBold, Brushes.Black, marginL + width - 250, signY + 100);
-                }
-            }
 
             // End of page
             e.HasMorePages = false;
