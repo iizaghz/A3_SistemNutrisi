@@ -9,8 +9,7 @@ namespace SistemNutrisi
     public partial class FormKategori : Form
     {
         // CONNECTION STRING
-        private readonly string connectionString =
-            "Data Source=IZAYAAA\\IZA;Initial Catalog=DBSistemNutrisi;Integrated Security=True";
+        private readonly string connectionString = DAL.GetConnectionString();
 
         // SQL CONNECTION
         private SqlConnection conn;
