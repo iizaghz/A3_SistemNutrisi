@@ -11,8 +11,7 @@ namespace SistemNutrisi
         // =====================================================
         // CONNECTION STRING
         // =====================================================
-        private readonly string connectionString =
-            "Data Source=IZAYAAA\\IZA;Initial Catalog=DBSistemNutrisi;Integrated Security=True";
+        private readonly string connectionString = DAL.GetConnectionString();
 
 
 
@@ -82,17 +81,7 @@ namespace SistemNutrisi
             bindingNavigator1.AddNewItem = null;
             bindingNavigator1.DeleteItem = null;
 
-            // Tambahkan tombol Rekap & Cetak ke BindingNavigator
-            ToolStripButton btnCetakNav = new ToolStripButton();
-            btnCetakNav.Text = "Rekap & Cetak Laporan";
-            btnCetakNav.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            btnCetakNav.ForeColor = Color.FromArgb(46, 204, 113);
-            btnCetakNav.Click += (s, ev) => {
-                FormRekap rekapForm = new FormRekap(idUser, namaUser);
-                rekapForm.ShowDialog();
-            };
-            bindingNavigator1.Items.Add(new ToolStripSeparator());
-            bindingNavigator1.Items.Add(btnCetakNav);
+
 
             // EVENT UNTUK SYNCHRONIZE NAVIGASI KE SELEKSI GRID
             bs.PositionChanged += (s, ev) =>
