@@ -1,281 +1,760 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace SistemNutrisi
 {
     public partial class FormMakanan : Form
     {
-        private readonly SqlConnection conn;
+        // CONNECTION STRING
         private readonly string connectionString =
             "Data Source=IZAYAAA\\IZA;Initial Catalog=DBSistemNutrisi;Integrated Security=True";
 
-        // Data Binding Sources
-        private BindingSource bsMakanan = new BindingSource();
-        private BindingSource bsKategori = new BindingSource();
-        private BindingNavigator bn;
+        // SQL CONNECTION
+        private SqlConnection conn;
+
+        // BINDING SOURCE
+        private BindingSource bs = new BindingSource();
+
+        // IMPORT PREVIEW DATA
+        private DataTable importedDataPreview = null;
 
         public FormMakanan()
         {
             InitializeComponent();
+
             conn = new SqlConnection(connectionString);
         }
 
+        // =====================================================
+        // FORM LOAD
+        // =====================================================
         private void FormMakanan_Load(object sender, EventArgs e)
         {
-            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            btnBack.BringToFront();
+
+            // DATAGRIDVIEW SETTING
+            dataGridView1.SelectionMode =
+                DataGridViewSelectionMode.FullRowSelect;
+
             dataGridView1.MultiSelect = false;
+
             dataGridView1.ReadOnly = true;
+
             dataGridView1.AllowUserToAddRows = false;
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-            // Inisialisasi BindingNavigator
-            bn = new BindingNavigator(true);
-            bn.BindingSource = bsMakanan;
-            bn.Dock = DockStyle.Bottom;
-            this.Controls.Add(bn);
-            bn.BringToFront();
+            dataGridView1.AutoSizeColumnsMode =
+                DataGridViewAutoSizeColumnsMode.Fill;
 
-            dataGridView1.Dock = DockStyle.Fill;
+            // HUBUNGKAN NAVIGATOR
+            bindingNavigator1.BindingSource = bs;
 
+            // HUBUNGKAN DATAGRIDVIEW
+            dataGridView1.DataSource = bs;
+
+            // LOAD COMBOBOX
             LoadKategoriComboBox();
-            btnLoad.PerformClick();
-            
-            // Data Binding Control (Otomatis sinkron saat navigasi)
-            txtNamaMakanan.DataBindings.Add("Text", bsMakanan, "nama_makanan", true, DataSourceUpdateMode.OnPropertyChanged);
-            // Binding ComboBox (Display name based on what's in the grid)
-            cmbKategori.DataBindings.Add("Text", bsMakanan, "nama_kategori", true, DataSourceUpdateMode.OnPropertyChanged);
+
+            // LOAD DATA
+            LoadData();
+
+            // SET INITIAL IMPORTING STATE
+            SetImportingState(false);
+
+            // BINDING TEXTBOX
+            txtNamaMakanan.DataBindings.Clear();
+
+            txtNamaMakanan.DataBindings.Add(
+                "Text",
+                bs,
+                "nama_makanan",
+                true,
+                DataSourceUpdateMode.OnPropertyChanged
+            );
+
+            // BINDING COMBOBOX
+            cmbKategori.DataBindings.Clear();
+
+            cmbKategori.DataBindings.Add(
+                "SelectedValue",
+                bs,
+                "id_kategori",
+                true,
+                DataSourceUpdateMode.OnPropertyChanged
+            );
         }
 
+        // =====================================================
+        // LOAD KATEGORI COMBOBOX
+        // =====================================================
         private void LoadKategoriComboBox()
         {
             try
             {
-                if (conn.State == ConnectionState.Closed) conn.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter("SELECT * FROM v_KategoriMakanan", conn);
-                DataTable dt = new DataTable();
-                adapter.Fill(dt);
-
-                cmbKategori.DataSource = dt;
-                cmbKategori.DisplayMember = "nama_kategori";
-                cmbKategori.ValueMember = "id_kategori";
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string query = "SELECT * FROM v_KategoriMakanan";
+                    using (SqlDataAdapter adapter = new SqlDataAdapter(query, conn))
+                    {
+                        DataTable dt = new DataTable();
+                        adapter.Fill(dt);
+                        cmbKategori.DataSource = dt;
+                        cmbKategori.DisplayMember = "nama_kategori";
+                        cmbKategori.ValueMember = "id_kategori";
+                    }
+                }
             }
-            catch (Exception ex) { MessageBox.Show("Terjadi kesalahan load kategori: " + ex.Message); }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Terjadi kesalahan load kategori : " + ex.Message);
+            }
         }
 
-        private void btnLoad_Click(object sender, EventArgs e)
+        // =====================================================
+        // LOAD DATA
+        // =====================================================
+        private void LoadData(string search = "")
         {
             try
             {
-                if (conn.State == ConnectionState.Closed) conn.Open();
-
-                SqlCommand cmd = new SqlCommand("SELECT * FROM v_MakananLengkap", conn);
-                cmd.CommandType = CommandType.Text;
-
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                adapter.Fill(dt);
-
-                bsMakanan.DataSource = dt;
-                dataGridView1.DataSource = bsMakanan;
-
-                // Mempercantik Header
-                if (dataGridView1.Columns.Count > 0)
+                using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    dataGridView1.Columns["id_makanan"].HeaderText = "ID Makanan";
-                    dataGridView1.Columns["nama_makanan"].HeaderText = "Nama Makanan";
-                    dataGridView1.Columns["nama_kategori"].HeaderText = "Kategori";
-                }
+                    conn.Open();
+                    string query = "SELECT * FROM v_MakananLengkap";
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        query += " WHERE nama_makanan LIKE @search";
+                    }
 
-                SqlCommand cmdCount = new SqlCommand("sp_GetMakananCount", conn);
-                cmdCount.CommandType = CommandType.StoredProcedure;
-                lblJumlah.Text = "Total Makanan: " + cmdCount.ExecuteScalar().ToString();
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        if (!string.IsNullOrEmpty(search))
+                        {
+                            cmd.Parameters.AddWithValue("@search", "%" + search + "%");
+                        }
+
+                        using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
+                        {
+                            DataTable dt = new DataTable();
+                            adapter.Fill(dt);
+                            bs.DataSource = dt;
+                            dataGridView1.DataSource = bs;
+
+                            if (dataGridView1.Columns.Count > 0)
+                            {
+                                dataGridView1.Columns["id_makanan"].HeaderText = "ID Makanan";
+                                dataGridView1.Columns["nama_makanan"].HeaderText = "Nama Makanan";
+                                dataGridView1.Columns["nama_kategori"].HeaderText = "Kategori";
+                            }
+                        }
+                    }
+
+                    using (SqlCommand cmdCount = new SqlCommand("sp_GetMakananCount", conn))
+                    {
+                        cmdCount.CommandType = CommandType.StoredProcedure;
+                        lblJumlah.Text = "Total Makanan : " + cmdCount.ExecuteScalar().ToString();
+                    }
+                }
             }
-            catch (Exception ex) { MessageBox.Show("Gagal menampilkan data: " + ex.Message); }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Gagal menampilkan data : " + ex.Message);
+            }
         }
 
-        private void btnInsert_Click(object sender, EventArgs e)
+        // =====================================================
+        // BUTTON LOAD
+        // =====================================================
+        private void btnLoad_Click(
+            object sender,
+            EventArgs e
+        )
+        {
+            LoadData();
+        }
+
+        // =====================================================
+        // SEARCH
+        // =====================================================
+        private void btnSearch_Click(
+            object sender,
+            EventArgs e
+        )
+        {
+            LoadData(txtSearch.Text);
+        }
+
+        // =====================================================
+        // INSERT DATA
+        // =====================================================
+        private void btnInsert_Click(
+            object sender,
+            EventArgs e
+        )
         {
             try
             {
-                if (string.IsNullOrEmpty(txtNamaMakanan.Text))
+                // VALIDASI
+                if (string.IsNullOrWhiteSpace(
+                    txtNamaMakanan.Text))
                 {
-                    MessageBox.Show("Nama makanan harus diisi"); txtNamaMakanan.Focus(); return;
+                    MessageBox.Show(
+                        "Nama makanan wajib diisi"
+                    );
+
+                    txtNamaMakanan.Focus();
+
+                    return;
                 }
-                if (!IsValidText(txtNamaMakanan.Text))
+
+                if (!IsValidText(
+                    txtNamaMakanan.Text))
                 {
-                    MessageBox.Show("Nama Makanan tidak boleh mengandung angka atau simbol."); txtNamaMakanan.Focus(); return;
+                    MessageBox.Show(
+                        "Nama makanan hanya boleh huruf"
+                    );
+
+                    txtNamaMakanan.Focus();
+
+                    return;
                 }
+
                 if (cmbKategori.SelectedIndex < 0)
                 {
-                    MessageBox.Show("Kategori harus dipilih"); cmbKategori.Focus(); return;
+                    MessageBox.Show(
+                        "Kategori wajib dipilih"
+                    );
+
+                    cmbKategori.Focus();
+
+                    return;
                 }
 
-                if (conn.State == ConnectionState.Closed) conn.Open();
+                if (conn.State == ConnectionState.Closed)
+                    conn.Open();
 
-                SqlCommand cmd = new SqlCommand("sp_InsertMakanan", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@id_kategori", cmbKategori.SelectedValue);
-                cmd.Parameters.AddWithValue("@nama_makanan", txtNamaMakanan.Text);
+                SqlCommand cmd =
+                    new SqlCommand(
+                        "sp_InsertMakanan",
+                        conn
+                    );
 
-                int result = cmd.ExecuteNonQuery();
+                cmd.CommandType =
+                    CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue(
+                    "@id_kategori",
+                    cmbKategori.SelectedValue
+                );
+
+                cmd.Parameters.AddWithValue(
+                    "@nama_makanan",
+                    txtNamaMakanan.Text.Trim()
+                );
+
+                int result =
+                    cmd.ExecuteNonQuery();
+
                 if (result > 0)
                 {
-                    MessageBox.Show("Data makanan berhasil ditambahkan");
+                    MessageBox.Show(
+                        "Data berhasil ditambahkan"
+                    );
+
                     ClearForm();
-                    btnLoad.PerformClick();
+
+                    LoadData();
                 }
                 else
                 {
-                    MessageBox.Show("Data gagal ditambahkan");
+                    MessageBox.Show(
+                        "Data gagal ditambahkan"
+                    );
                 }
             }
-            catch (Exception ex) { MessageBox.Show("Terjadi kesalahan: " + ex.Message); }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Terjadi kesalahan : "
+                    + ex.Message
+                );
+            }
+            finally
+            {
+                if (conn.State == ConnectionState.Open)
+                    conn.Close();
+            }
         }
 
-        private void btnUpdate_Click(object sender, EventArgs e)
+        // =====================================================
+        // UPDATE DATA
+        // =====================================================
+        private void btnUpdate_Click(
+            object sender,
+            EventArgs e
+        )
         {
             try
             {
-                if (bsMakanan.Current == null) { MessageBox.Show("Pilih data dulu!"); return; }
-                string id = ((DataRowView)bsMakanan.Current)["id_makanan"].ToString();
+                // VALIDASI PILIH DATA
+                if (bs.Current == null)
+                {
+                    MessageBox.Show(
+                        "Pilih data terlebih dahulu"
+                    );
 
-                DialogResult confirm = MessageBox.Show("Yakin ingin mengubah data ini?", "Konfirmasi",
-                    MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (confirm == DialogResult.No) return;
+                    return;
+                }
 
-                if (conn.State == ConnectionState.Closed) conn.Open();
+                // AMBIL ID
+                string id =
+                    ((DataRowView)bs.Current)["id_makanan"]
+                    .ToString();
 
-                SqlCommand cmd = new SqlCommand("sp_UpdateMakanan", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@id_makanan", int.Parse(id));
-                cmd.Parameters.AddWithValue("@id_kategori", cmbKategori.SelectedValue);
-                cmd.Parameters.AddWithValue("@nama_makanan", txtNamaMakanan.Text);
+                if (conn.State == ConnectionState.Closed)
+                    conn.Open();
 
-                int result = cmd.ExecuteNonQuery();
+                SqlCommand cmd =
+                    new SqlCommand(
+                        "sp_UpdateMakanan",
+                        conn
+                    );
+
+                cmd.CommandType =
+                    CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue(
+                    "@id_makanan",
+                    int.Parse(id)
+                );
+
+                cmd.Parameters.AddWithValue(
+                    "@id_kategori",
+                    cmbKategori.SelectedValue
+                );
+
+                cmd.Parameters.AddWithValue(
+                    "@nama_makanan",
+                    txtNamaMakanan.Text.Trim()
+                );
+
+                int result =
+                    cmd.ExecuteNonQuery();
+
                 if (result > 0)
                 {
-                    MessageBox.Show("Data berhasil diupdate");
+                    MessageBox.Show(
+                        "Data berhasil diupdate"
+                    );
+
                     ClearForm();
-                    btnLoad.PerformClick();
+
+                    LoadData();
                 }
                 else
                 {
-                    MessageBox.Show("Data tidak ditemukan");
+                    MessageBox.Show(
+                        "Data gagal diupdate"
+                    );
                 }
             }
-            catch (Exception ex) { MessageBox.Show("Terjadi kesalahan: " + ex.Message); }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Terjadi kesalahan : "
+                    + ex.Message
+                );
+            }
+            finally
+            {
+                if (conn.State == ConnectionState.Open)
+                    conn.Close();
+            }
         }
 
-        private void btnDelete_Click(object sender, EventArgs e)
+        // =====================================================
+        // DELETE DATA
+        // =====================================================
+        private void btnDelete_Click(
+            object sender,
+            EventArgs e
+        )
         {
             try
             {
-                if (bsMakanan.Current == null) { MessageBox.Show("Pilih data dulu!"); return; }
-                string id = ((DataRowView)bsMakanan.Current)["id_makanan"].ToString();
+                // VALIDASI PILIH DATA
+                if (bs.Current == null)
+                {
+                    MessageBox.Show(
+                        "Pilih data terlebih dahulu"
+                    );
 
-                DialogResult confirm = MessageBox.Show("Yakin ingin menghapus data?", "Konfirmasi",
-                    MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (confirm == DialogResult.No) return;
+                    return;
+                }
 
-                if (conn.State == ConnectionState.Closed) conn.Open();
+                // AMBIL ID
+                string id =
+                    ((DataRowView)bs.Current)["id_makanan"]
+                    .ToString();
 
-                SqlCommand cmd = new SqlCommand("sp_DeleteMakanan", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@id_makanan", int.Parse(id));
+                DialogResult confirm =
+                    MessageBox.Show(
+                        "Yakin ingin menghapus data?",
+                        "Konfirmasi",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question
+                    );
 
-                int result = cmd.ExecuteNonQuery();
+                if (confirm == DialogResult.No)
+                    return;
+
+                if (conn.State == ConnectionState.Closed)
+                    conn.Open();
+
+                SqlCommand cmd =
+                    new SqlCommand(
+                        "sp_DeleteMakanan",
+                        conn
+                    );
+
+                cmd.CommandType =
+                    CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue(
+                    "@id_makanan",
+                    int.Parse(id)
+                );
+
+                int result =
+                    cmd.ExecuteNonQuery();
+
                 if (result > 0)
                 {
-                    MessageBox.Show("Data berhasil dihapus");
+                    MessageBox.Show(
+                        "Data berhasil dihapus"
+                    );
+
                     ClearForm();
-                    btnLoad.PerformClick();
+
+                    LoadData();
                 }
                 else
                 {
-                    MessageBox.Show("Data tidak ditemukan");
+                    MessageBox.Show(
+                        "Data gagal dihapus"
+                    );
                 }
             }
-            catch (SqlException ex) when (ex.Number == 50000)
+            catch (SqlException ex)
+            when (ex.Number == 50000)
             {
                 MessageBox.Show(ex.Message);
             }
-            catch (Exception ex) { MessageBox.Show("Terjadi kesalahan: " + ex.Message); }
-        }
-
-        private void btnSearch_Click(object sender, EventArgs e)
-        {
-            try
+            catch (Exception ex)
             {
-                if (conn.State == ConnectionState.Closed) conn.Open();
-
-                SqlCommand cmd = new SqlCommand("SELECT * FROM v_MakananLengkap WHERE nama_makanan LIKE @search", conn);
-                cmd.Parameters.AddWithValue("@search", "%" + txtSearch.Text + "%");
-
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                adapter.Fill(dt);
-
-                bsMakanan.DataSource = dt;
-                dataGridView1.DataSource = bsMakanan;
-
-                if (dataGridView1.Columns.Count > 0)
-                {
-                    dataGridView1.Columns["id_makanan"].HeaderText = "ID Makanan";
-                    dataGridView1.Columns["nama_makanan"].HeaderText = "Nama Makanan";
-                    dataGridView1.Columns["nama_kategori"].HeaderText = "Kategori";
-                }
+                MessageBox.Show(
+                    "Terjadi kesalahan : "
+                    + ex.Message
+                );
             }
-            catch (Exception ex) { MessageBox.Show("Gagal menampilkan data: " + ex.Message); }
+            finally
+            {
+                if (conn.State == ConnectionState.Open)
+                    conn.Close();
+            }
         }
 
-        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-        }
-
+        // =====================================================
+        // CLEAR FORM
+        // =====================================================
         private void ClearForm()
         {
             txtNamaMakanan.Clear();
+
             cmbKategori.SelectedIndex = -1;
+
             txtSearch.Clear();
+
             txtNamaMakanan.Focus();
         }
 
+        // =====================================================
+        // VALIDASI TEXT
+        // =====================================================
         private bool IsValidText(string input)
         {
-            return System.Text.RegularExpressions.Regex.IsMatch(input, @"^[a-zA-Z\s]+$");
+            return Regex.IsMatch(
+                input,
+                @"^[a-zA-Z\s]+$"
+            );
         }
 
-        private void btnBack_Click(object sender, EventArgs e)
+        // =====================================================
+        // BUTTON BACK
+        // =====================================================
+        private void btnBack_Click(
+            object sender,
+            EventArgs e
+        )
         {
             this.Close();
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        // =====================================================
+        // EVENT KOSONG
+        // =====================================================
+        private void dataGridView1_CellContentClick(
+            object sender,
+            DataGridViewCellEventArgs e
+        )
         {
 
         }
 
-        private void cmbKategori_SelectedIndexChanged(object sender, EventArgs e)
+        private void cmbKategori_SelectedIndexChanged(
+            object sender,
+            EventArgs e
+        )
         {
 
         }
 
-        private void label4_Click(object sender, EventArgs e)
+        private void label4_Click(
+            object sender,
+            EventArgs e
+        )
         {
 
         }
 
-        private void pnlHeader_Paint(object sender, PaintEventArgs e)
+        private void pnlHeader_Paint(
+            object sender,
+            PaintEventArgs e
+        )
         {
 
         }
+
+        private void bindingNavigator1_RefreshItems(
+            object sender,
+            EventArgs e
+        )
+        {
+
+        }
+
+        private void dataGridView1_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            LoadData(txtSearch.Text);
+        }
+
+        private void lblJumlah_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void SetImportingState(bool isImporting)
+        {
+            dataGridView1.Enabled = !isImporting;
+            btnImportDb.Enabled = isImporting;
+            btnInsert.Enabled = !isImporting;
+            btnUpdate.Enabled = !isImporting;
+            btnDelete.Enabled = !isImporting;
+            btnLoad.Enabled = !isImporting;
+        }
+
+        private void btnImportExcel_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Excel Files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
+            openFileDialog.Title = "Pilih File Excel Data Makanan";
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    DataTable dt = ExcelReader.ReadExcel(openFileDialog.FileName);
+                    if (dt == null || dt.Rows.Count == 0)
+                    {
+                        MessageBox.Show("File Excel kosong atau tidak valid.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    // Identifikasi kolom
+                    int colMakananIdx = -1;
+                    int colKategoriIdx = -1;
+
+                    for (int i = 0; i < dt.Columns.Count; i++)
+                    {
+                        string colName = dt.Columns[i].ColumnName.ToLower();
+                        if (colName.Contains("makanan") || colName.Contains("nama"))
+                        {
+                            colMakananIdx = i;
+                        }
+                        else if (colName.Contains("kategori") || colName.Contains("category"))
+                        {
+                            colKategoriIdx = i;
+                        }
+                    }
+
+                    // Default mapping jika kolom tidak terdeteksi
+                    if (colMakananIdx == -1 && dt.Columns.Count > 0) colMakananIdx = 0;
+                    if (colKategoriIdx == -1 && dt.Columns.Count > 1) colKategoriIdx = 1;
+
+                    if (colMakananIdx == -1 || colKategoriIdx == -1)
+                    {
+                        MessageBox.Show("Format kolom Excel tidak sesuai. Pastikan ada kolom Makanan dan Kategori.", "Format Salah", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    // Buat preview DataTable dengan struktur yang sesuai dengan grid
+                    DataTable previewTable = new DataTable();
+                    previewTable.Columns.Add("id_makanan", typeof(string));
+                    previewTable.Columns.Add("nama_makanan", typeof(string));
+                    previewTable.Columns.Add("id_kategori", typeof(string));
+                    previewTable.Columns.Add("nama_kategori", typeof(string));
+
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        string namaMakanan = row[colMakananIdx]?.ToString()?.Trim();
+                        string namaKategori = row[colKategoriIdx]?.ToString()?.Trim();
+
+                        if (!string.IsNullOrEmpty(namaMakanan) || !string.IsNullOrEmpty(namaKategori))
+                        {
+                            previewTable.Rows.Add("PREVIEW", namaMakanan, "", namaKategori);
+                        }
+                    }
+
+                    if (previewTable.Rows.Count == 0)
+                    {
+                        MessageBox.Show("Tidak ada data makanan valid untuk di-import.", "Data Kosong", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    // Simpan ke private member
+                    importedDataPreview = previewTable;
+
+                    // Bind ke grid agar tampil ke layar
+                    dataGridView1.DataSource = importedDataPreview;
+
+                    // Set control state to importing
+                    SetImportingState(true);
+
+                    // Update label jumlah
+                    lblJumlah.Text = "Total Makanan (Preview): " + importedDataPreview.Rows.Count;
+
+                    MessageBox.Show("Berhasil memuat data dari Excel. Silakan periksa data pada layar, lalu klik 'Import to Database' untuk menyimpannya.", "Preview Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Terjadi kesalahan saat membaca file Excel: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void btnImportDb_Click(object sender, EventArgs e)
+        {
+            if (importedDataPreview == null || importedDataPreview.Rows.Count == 0)
+            {
+                MessageBox.Show("Tidak ada data preview untuk diimport ke database.\nSilakan klik 'Import from Excel' terlebih dahulu.", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            DialogResult confirm = MessageBox.Show($"Yakin ingin mengimpor {importedDataPreview.Rows.Count} data dari preview ke database?", "Konfirmasi Import", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (confirm != DialogResult.Yes)
+                return;
+
+            try
+            {
+                int successCount = 0;
+                int skipCount = 0;
+
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    foreach (DataRow row in importedDataPreview.Rows)
+                    {
+                        string namaMakanan = row["nama_makanan"]?.ToString()?.Trim();
+                        string namaKategori = row["nama_kategori"]?.ToString()?.Trim();
+
+                        if (string.IsNullOrEmpty(namaMakanan) || string.IsNullOrEmpty(namaKategori))
+                        {
+                            skipCount++;
+                            continue;
+                        }
+
+                        // 1. Dapatkan atau masukkan Kategori
+                        int idKategori = -1;
+                        string qKategori = "SELECT id_kategori FROM KategoriMakanan WHERE LOWER(nama_kategori) = LOWER(@nama_kategori)";
+                        using (SqlCommand cmdKategori = new SqlCommand(qKategori, connection))
+                        {
+                            cmdKategori.Parameters.AddWithValue("@nama_kategori", namaKategori);
+                            object res = cmdKategori.ExecuteScalar();
+                            if (res != null)
+                            {
+                                idKategori = Convert.ToInt32(res);
+                            }
+                            else
+                            {
+                                string insKategori = "INSERT INTO KategoriMakanan (nama_kategori) OUTPUT INSERTED.id_kategori VALUES (@nama_kategori)";
+                                using (SqlCommand cmdInsKategori = new SqlCommand(insKategori, connection))
+                                {
+                                    cmdInsKategori.Parameters.AddWithValue("@nama_kategori", namaKategori);
+                                    idKategori = Convert.ToInt32(cmdInsKategori.ExecuteScalar());
+                                }
+                            }
+                        }
+
+                        // 2. Cek apakah Makanan sudah ada
+                        string qMakanan = "SELECT COUNT(*) FROM Makanan WHERE LOWER(nama_makanan) = LOWER(@nama_makanan) AND id_kategori = @id_kategori";
+                        using (SqlCommand cmdMakanan = new SqlCommand(qMakanan, connection))
+                        {
+                            cmdMakanan.Parameters.AddWithValue("@nama_makanan", namaMakanan);
+                            cmdMakanan.Parameters.AddWithValue("@id_kategori", idKategori);
+                            int count = Convert.ToInt32(cmdMakanan.ExecuteScalar());
+                            if (count > 0)
+                            {
+                                skipCount++;
+                                continue;
+                            }
+                        }
+
+                        // 3. Masukkan Makanan baru
+                        using (SqlCommand cmdInsMakanan = new SqlCommand("sp_InsertMakanan", connection))
+                        {
+                            cmdInsMakanan.CommandType = CommandType.StoredProcedure;
+                            cmdInsMakanan.Parameters.AddWithValue("@id_kategori", idKategori);
+                            cmdInsMakanan.Parameters.AddWithValue("@nama_makanan", namaMakanan);
+                            cmdInsMakanan.ExecuteNonQuery();
+                            successCount++;
+                        }
+                    }
+                }
+
+                // Reset preview data
+                importedDataPreview = null;
+
+                // Reset control state
+                SetImportingState(false);
+
+                // Reload database data & update bindings
+                LoadData();
+
+                MessageBox.Show($"Import ke database selesai!\nBerhasil: {successCount} data\nLewati (sudah ada/kosong): {skipCount} data", "Import Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Terjadi kesalahan saat mengimpor data ke database: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
     }
 }
