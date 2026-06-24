@@ -11,8 +11,7 @@ namespace SistemNutrisi
         // CONNECTION STRING & FIELDS
         // =====================================================
         private readonly SqlConnection conn;
-        private readonly string connectionString =
-            "Data Source=IZAYAAA\\IZA;Initial Catalog=DBSistemNutrisi;Integrated Security=True";
+        private readonly string connectionString = DAL.GetConnectionString();
 
         // =====================================================
         // CONSTRUCTOR
