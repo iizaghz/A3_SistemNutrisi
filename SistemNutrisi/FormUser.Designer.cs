@@ -15,6 +15,7 @@ namespace SistemNutrisi
         {
             this.pnlSidebar = new System.Windows.Forms.Panel();
             this.lblWelcome = new System.Windows.Forms.Label();
+            this.btnDashboard = new System.Windows.Forms.Button();
             this.btnLoad = new System.Windows.Forms.Button();
             this.btnKonsumsi = new System.Windows.Forms.Button();
             this.btnRiwayat = new System.Windows.Forms.Button();
@@ -31,6 +32,7 @@ namespace SistemNutrisi
             // 
             this.pnlSidebar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(62)))), ((int)(((byte)(80)))));
             this.pnlSidebar.Controls.Add(this.lblWelcome);
+            this.pnlSidebar.Controls.Add(this.btnDashboard);
             this.pnlSidebar.Controls.Add(this.btnLoad);
             this.pnlSidebar.Controls.Add(this.btnKonsumsi);
             this.pnlSidebar.Controls.Add(this.btnRiwayat);
@@ -54,13 +56,28 @@ namespace SistemNutrisi
             this.lblWelcome.Text = "Selamat datang, User";
             this.lblWelcome.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // btnDashboard
+            // 
+            this.btnDashboard.FlatAppearance.BorderSize = 0;
+            this.btnDashboard.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDashboard.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.btnDashboard.ForeColor = System.Drawing.Color.White;
+            this.btnDashboard.Location = new System.Drawing.Point(0, 98);
+            this.btnDashboard.Margin = new System.Windows.Forms.Padding(4);
+            this.btnDashboard.Name = "btnDashboard";
+            this.btnDashboard.Size = new System.Drawing.Size(267, 62);
+            this.btnDashboard.TabIndex = 0;
+            this.btnDashboard.Text = "Dashboard";
+            this.btnDashboard.UseVisualStyleBackColor = true;
+            this.btnDashboard.Click += new System.EventHandler(this.btnDashboard_Click);
+            // 
             // btnLoad
             // 
             this.btnLoad.FlatAppearance.BorderSize = 0;
             this.btnLoad.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLoad.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.btnLoad.ForeColor = System.Drawing.Color.White;
-            this.btnLoad.Location = new System.Drawing.Point(0, 98);
+            this.btnLoad.Location = new System.Drawing.Point(0, 160);
             this.btnLoad.Margin = new System.Windows.Forms.Padding(4);
             this.btnLoad.Name = "btnLoad";
             this.btnLoad.Size = new System.Drawing.Size(267, 62);
@@ -75,7 +92,7 @@ namespace SistemNutrisi
             this.btnKonsumsi.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnKonsumsi.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.btnKonsumsi.ForeColor = System.Drawing.Color.White;
-            this.btnKonsumsi.Location = new System.Drawing.Point(0, 160);
+            this.btnKonsumsi.Location = new System.Drawing.Point(0, 222);
             this.btnKonsumsi.Margin = new System.Windows.Forms.Padding(4);
             this.btnKonsumsi.Name = "btnKonsumsi";
             this.btnKonsumsi.Size = new System.Drawing.Size(267, 62);
@@ -90,7 +107,7 @@ namespace SistemNutrisi
             this.btnRiwayat.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRiwayat.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.btnRiwayat.ForeColor = System.Drawing.Color.White;
-            this.btnRiwayat.Location = new System.Drawing.Point(0, 222);
+            this.btnRiwayat.Location = new System.Drawing.Point(0, 284);
             this.btnRiwayat.Margin = new System.Windows.Forms.Padding(4);
             this.btnRiwayat.Name = "btnRiwayat";
             this.btnRiwayat.Size = new System.Drawing.Size(267, 62);
@@ -175,6 +192,7 @@ namespace SistemNutrisi
         private System.Windows.Forms.Button btnRiwayat;
         private System.Windows.Forms.Button btnKonsumsi;
         private System.Windows.Forms.Button btnLoad;
+        private System.Windows.Forms.Button btnDashboard;
         private System.Windows.Forms.Panel pnlHeader;
         private System.Windows.Forms.Panel pnlContent;
         private System.Windows.Forms.DataGridView dataGridView1;
