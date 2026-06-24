@@ -57,7 +57,7 @@ namespace SistemNutrisi
 
             dataGridView1.Dock = DockStyle.Fill;
 
-            btnLoad.PerformClick();
+            btnDashboard.PerformClick();
         }
 
         private void loadForm(object Form)
@@ -78,6 +78,11 @@ namespace SistemNutrisi
         // =====================================================
         // BUTTON NAVIGATION ACTIONS
         // =====================================================
+        private void btnDashboard_Click(object sender, EventArgs e)
+        {
+            loadForm(new FormDashboard(idUser));
+        }
+
         private void btnLoad_Click(object sender, EventArgs e)
         {
             if (bn != null) bn.Visible = true;
