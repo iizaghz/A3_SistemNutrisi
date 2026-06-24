@@ -8,8 +8,7 @@ namespace SistemNutrisi
     public partial class FormNutrisi : Form
     {
         // CONNECTION STRING
-        private readonly string connectionString =
-            "Data Source=IZAYAAA\\IZA;Initial Catalog=DBSistemNutrisi;Integrated Security=True";
+        private readonly string connectionString = DAL.GetConnectionString();
 
         // BINDING SOURCE
         private BindingSource bs =
@@ -21,6 +20,9 @@ namespace SistemNutrisi
         public FormNutrisi()
         {
             InitializeComponent();
+
+            // Force warna teks putih pada tombol Import to Database
+            btnImportDb.ForeColor = System.Drawing.Color.White;
         }
 
         // =====================================================
@@ -553,9 +555,6 @@ namespace SistemNutrisi
             }
         }
 
-        // =====================================================
-        // DELETE
-        // =====================================================
         private void btnDelete_Click(
             object sender,
             EventArgs e
@@ -576,10 +575,44 @@ namespace SistemNutrisi
                     ((DataRowView)bs.Current)["id_makanan"]
                     .ToString();
 
+                string namaMakanan =
+                    ((DataRowView)bs.Current)["nama_makanan"]
+                    .ToString();
+
+                // CEK APAKAH MAKANAN SUDAH PERNAH DIKONSUMSI
+                using (SqlConnection connCek =
+                    new SqlConnection(connectionString))
+                {
+                    connCek.Open();
+
+                    using (SqlCommand cmdCek = new SqlCommand(
+                        "SELECT COUNT(*) FROM KonsumsiMakanan WHERE id_makanan = @id",
+                        connCek))
+                    {
+                        cmdCek.Parameters.AddWithValue("@id", int.Parse(id));
+                        int jumlahKonsumsi = (int)cmdCek.ExecuteScalar();
+
+                        if (jumlahKonsumsi > 0)
+                        {
+                            MessageBox.Show(
+                                "⚠️ Makanan \"" + namaMakanan + "\" tidak dapat dihapus sepenuhnya\n\n" +
+                                "Makanan ini sudah tercatat dalam " + jumlahKonsumsi + " riwayat konsumsi user.\n\n" +
+                                "Data nutrisinya akan dihapus, tetapi nama makanan tetap disimpan\n" +
+                                "untuk menjaga integritas riwayat konsumsi.",
+                                "Tidak Bisa Dihapus Penuh",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information
+                            );
+                            return;
+                        }
+                    }
+                }
+
                 DialogResult confirm =
                     MessageBox.Show(
-                        "Yakin ingin menghapus data?",
-                        "Konfirmasi",
+                        "Yakin ingin menghapus data \"" + namaMakanan + "\"?\n" +
+                        "Data makanan dan nutrisinya akan dihapus permanen.",
+                        "Konfirmasi Hapus",
                         MessageBoxButtons.YesNo,
                         MessageBoxIcon.Question
                     );
@@ -605,25 +638,17 @@ namespace SistemNutrisi
                             int.Parse(id)
                         );
 
-                        int result =
-                            cmd.ExecuteNonQuery();
+                        cmd.ExecuteNonQuery();
 
-                        if (result > 0)
-                        {
-                            MessageBox.Show(
-                                "Data berhasil dihapus"
-                            );
+                        MessageBox.Show(
+                            "Data \"" + namaMakanan + "\" berhasil dihapus.",
+                            "Berhasil",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information
+                        );
 
-                            ClearForm();
-
-                            LoadData();
-                        }
-                        else
-                        {
-                            MessageBox.Show(
-                                "Data gagal dihapus"
-                            );
-                        }
+                        ClearForm();
+                        LoadData();
                     }
                 }
             }
@@ -635,6 +660,7 @@ namespace SistemNutrisi
                 );
             }
         }
+
 
         // =====================================================
         // CLEAR FORM
@@ -698,7 +724,10 @@ namespace SistemNutrisi
         private void SetImportingState(bool isImporting)
         {
             dataGridView1.Enabled = !isImporting;
-            btnImportDb.Enabled = isImporting;
+
+            btnImportDb.BackColor = System.Drawing.Color.ForestGreen;
+            btnImportDb.ForeColor = System.Drawing.Color.White;
+
             btnInsert.Enabled = !isImporting;
             btnUpdate.Enabled = !isImporting;
             btnDelete.Enabled = !isImporting;
