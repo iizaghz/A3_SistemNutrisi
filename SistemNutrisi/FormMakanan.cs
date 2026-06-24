@@ -725,28 +725,42 @@ namespace SistemNutrisi
                             }
                         }
 
-                        // 2. Cek apakah Makanan sudah ada
-                        string qMakanan = "SELECT COUNT(*) FROM Makanan WHERE LOWER(nama_makanan) = LOWER(@nama_makanan) AND id_kategori = @id_kategori";
+                        // 2. Cek apakah Makanan sudah ada (tanpa memandang kategori)
+                        int existingIdMakanan = -1;
+                        string qMakanan = "SELECT id_makanan FROM Makanan WHERE LOWER(nama_makanan) = LOWER(@nama_makanan)";
                         using (SqlCommand cmdMakanan = new SqlCommand(qMakanan, connection))
                         {
                             cmdMakanan.Parameters.AddWithValue("@nama_makanan", namaMakanan);
-                            cmdMakanan.Parameters.AddWithValue("@id_kategori", idKategori);
-                            int count = Convert.ToInt32(cmdMakanan.ExecuteScalar());
-                            if (count > 0)
+                            object res = cmdMakanan.ExecuteScalar();
+                            if (res != null)
                             {
-                                skipCount++;
-                                continue;
+                                existingIdMakanan = Convert.ToInt32(res);
                             }
                         }
 
-                        // 3. Masukkan Makanan baru
-                        using (SqlCommand cmdInsMakanan = new SqlCommand("sp_InsertMakanan", connection))
+                        if (existingIdMakanan != -1)
                         {
-                            cmdInsMakanan.CommandType = CommandType.StoredProcedure;
-                            cmdInsMakanan.Parameters.AddWithValue("@id_kategori", idKategori);
-                            cmdInsMakanan.Parameters.AddWithValue("@nama_makanan", namaMakanan);
-                            cmdInsMakanan.ExecuteNonQuery();
+                            // Makanan sudah ada, update kategorinya agar sesuai dengan Excel
+                            string qUpdMakanan = "UPDATE Makanan SET id_kategori = @id_kategori WHERE id_makanan = @id_makanan";
+                            using (SqlCommand cmdUpdM = new SqlCommand(qUpdMakanan, connection))
+                            {
+                                cmdUpdM.Parameters.AddWithValue("@id_kategori", idKategori);
+                                cmdUpdM.Parameters.AddWithValue("@id_makanan", existingIdMakanan);
+                                cmdUpdM.ExecuteNonQuery();
+                            }
                             successCount++;
+                        }
+                        else
+                        {
+                            // 3. Masukkan Makanan baru jika belum ada sama sekali
+                            using (SqlCommand cmdInsMakanan = new SqlCommand("sp_InsertMakanan", connection))
+                            {
+                                cmdInsMakanan.CommandType = CommandType.StoredProcedure;
+                                cmdInsMakanan.Parameters.AddWithValue("@id_kategori", idKategori);
+                                cmdInsMakanan.Parameters.AddWithValue("@nama_makanan", namaMakanan);
+                                cmdInsMakanan.ExecuteNonQuery();
+                                successCount++;
+                            }
                         }
                     }
                 }

@@ -20,9 +20,10 @@ namespace SistemNutrisi
             this.pnlTop = new System.Windows.Forms.Panel();
             this.btnRefresh = new System.Windows.Forms.Button();
             this.dtpTanggal = new System.Windows.Forms.DateTimePicker();
+            this.cmbChartType = new System.Windows.Forms.ComboBox();
             this.lblTitle = new System.Windows.Forms.Label();
             this.pnlMain = new System.Windows.Forms.TableLayoutPanel();
-            this.pnlChart = new System.Windows.Forms.Panel();
+            this.pnlChart = new SistemNutrisi.ChartPanel();
             this.lblChartTitle = new System.Windows.Forms.Label();
             this.pnlCards = new System.Windows.Forms.FlowLayoutPanel();
             this.cardKalori = new System.Windows.Forms.Panel();
@@ -52,6 +53,7 @@ namespace SistemNutrisi
             this.pnlTop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(240)))), ((int)(((byte)(241)))));
             this.pnlTop.Controls.Add(this.btnRefresh);
             this.pnlTop.Controls.Add(this.dtpTanggal);
+            this.pnlTop.Controls.Add(this.cmbChartType);
             this.pnlTop.Controls.Add(this.lblTitle);
             this.pnlTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlTop.Location = new System.Drawing.Point(0, 0);
@@ -79,11 +81,26 @@ namespace SistemNutrisi
             this.dtpTanggal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.dtpTanggal.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.dtpTanggal.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpTanggal.Location = new System.Drawing.Point(655, 16);
+            this.dtpTanggal.Location = new System.Drawing.Point(490, 16);
             this.dtpTanggal.Name = "dtpTanggal";
             this.dtpTanggal.Size = new System.Drawing.Size(150, 30);
             this.dtpTanggal.TabIndex = 1;
             this.dtpTanggal.ValueChanged += new System.EventHandler(this.dtpTanggal_ValueChanged);
+            // 
+            // cmbChartType
+            // 
+            this.cmbChartType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmbChartType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbChartType.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.cmbChartType.FormattingEnabled = true;
+            this.cmbChartType.Items.AddRange(new object[] {
+            "Pie Chart",
+            "Bar Chart"});
+            this.cmbChartType.Location = new System.Drawing.Point(655, 16);
+            this.cmbChartType.Name = "cmbChartType";
+            this.cmbChartType.Size = new System.Drawing.Size(150, 30);
+            this.cmbChartType.TabIndex = 3;
+            this.cmbChartType.SelectedIndexChanged += new System.EventHandler(this.cmbChartType_SelectedIndexChanged);
             // 
             // lblTitle
             // 
@@ -121,7 +138,6 @@ namespace SistemNutrisi
             this.pnlChart.Name = "pnlChart";
             this.pnlChart.Size = new System.Drawing.Size(402, 451);
             this.pnlChart.TabIndex = 1;
-            this.pnlChart.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlChart_Paint);
             // 
             // lblChartTitle
             // 
@@ -334,7 +350,8 @@ namespace SistemNutrisi
         private System.Windows.Forms.Panel cardKarbo;
         private System.Windows.Forms.Label lblKarboVal;
         private System.Windows.Forms.Label lblKarboTitle;
-        private System.Windows.Forms.Panel pnlChart;
+        private SistemNutrisi.ChartPanel pnlChart;
         private System.Windows.Forms.Label lblChartTitle;
+        private System.Windows.Forms.ComboBox cmbChartType;
     }
 }
