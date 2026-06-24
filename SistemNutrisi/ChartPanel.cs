@@ -51,9 +51,7 @@ namespace SistemNutrisi
             DrawChart(e.Graphics);
         }
 
-        // ─────────────────────────────────────────────────────────
-        // Core drawing logic
-        // ─────────────────────────────────────────────────────────
+       
         private void DrawChart(Graphics g)
         {
             g.SmoothingMode = SmoothingMode.AntiAlias;
