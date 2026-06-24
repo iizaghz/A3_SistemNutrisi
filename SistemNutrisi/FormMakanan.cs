@@ -691,7 +691,7 @@ namespace SistemNutrisi
                             continue;
                         }
 
-                        // 1. Dapatkan atau masukkan Kategori
+                        // 1. Dapatkan Kategori (gunakan fallback 'Umum' jika tidak terdaftar)
                         int idKategori = -1;
                         string qKategori = "SELECT id_kategori FROM KategoriMakanan WHERE LOWER(nama_kategori) = LOWER(@nama_kategori)";
                         using (SqlCommand cmdKategori = new SqlCommand(qKategori, connection))
@@ -704,11 +704,23 @@ namespace SistemNutrisi
                             }
                             else
                             {
-                                string insKategori = "INSERT INTO KategoriMakanan (nama_kategori) OUTPUT INSERTED.id_kategori VALUES (@nama_kategori)";
-                                using (SqlCommand cmdInsKategori = new SqlCommand(insKategori, connection))
+                                // Fallback ke Kategori "Umum" jika tidak terdaftar
+                                string qUmum = "SELECT id_kategori FROM KategoriMakanan WHERE LOWER(nama_kategori) = 'umum'";
+                                using (SqlCommand cmdUmum = new SqlCommand(qUmum, connection))
                                 {
-                                    cmdInsKategori.Parameters.AddWithValue("@nama_kategori", namaKategori);
-                                    idKategori = Convert.ToInt32(cmdInsKategori.ExecuteScalar());
+                                    object resUmum = cmdUmum.ExecuteScalar();
+                                    if (resUmum != null)
+                                    {
+                                        idKategori = Convert.ToInt32(resUmum);
+                                    }
+                                    else
+                                    {
+                                        string insKategori = "INSERT INTO KategoriMakanan (nama_kategori) OUTPUT INSERTED.id_kategori VALUES ('Umum')";
+                                        using (SqlCommand cmdInsKategori = new SqlCommand(insKategori, connection))
+                                        {
+                                            idKategori = Convert.ToInt32(cmdInsKategori.ExecuteScalar());
+                                        }
+                                    }
                                 }
                             }
                         }
