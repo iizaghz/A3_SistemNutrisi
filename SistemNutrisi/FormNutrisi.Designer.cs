@@ -103,14 +103,14 @@ namespace SistemNutrisi
             // 
             // btnImportExcel
             // 
-            this.btnImportExcel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(219)))));
+            this.btnImportExcel.BackColor = System.Drawing.Color.YellowGreen;
             this.btnImportExcel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnImportExcel.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnImportExcel.ForeColor = System.Drawing.Color.White;
             this.btnImportExcel.Location = new System.Drawing.Point(720, 76);
             this.btnImportExcel.Margin = new System.Windows.Forms.Padding(4);
             this.btnImportExcel.Name = "btnImportExcel";
-            this.btnImportExcel.Size = new System.Drawing.Size(219, 43);
+            this.btnImportExcel.Size = new System.Drawing.Size(226, 43);
             this.btnImportExcel.TabIndex = 8;
             this.btnImportExcel.Text = "Import from Excel";
             this.btnImportExcel.UseVisualStyleBackColor = false;
@@ -118,14 +118,14 @@ namespace SistemNutrisi
             // 
             // btnImportDb
             // 
-            this.btnImportDb.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(204)))), ((int)(((byte)(113)))));
+            this.btnImportDb.BackColor = System.Drawing.Color.ForestGreen;
             this.btnImportDb.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnImportDb.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnImportDb.ForeColor = System.Drawing.Color.White;
             this.btnImportDb.Location = new System.Drawing.Point(968, 76);
             this.btnImportDb.Margin = new System.Windows.Forms.Padding(4);
             this.btnImportDb.Name = "btnImportDb";
-            this.btnImportDb.Size = new System.Drawing.Size(192, 43);
+            this.btnImportDb.Size = new System.Drawing.Size(219, 43);
             this.btnImportDb.TabIndex = 9;
             this.btnImportDb.Text = "Import to Database";
             this.btnImportDb.UseVisualStyleBackColor = false;
