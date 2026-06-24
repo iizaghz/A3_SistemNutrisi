@@ -285,6 +285,11 @@ CREATE OR ALTER PROCEDURE sp_DeleteNutrisi
 AS
 BEGIN
     DELETE FROM Nutrisi WHERE id_makanan = @id_makanan;
+    
+    IF NOT EXISTS (SELECT 1 FROM KonsumsiMakanan WHERE id_makanan = @id_makanan)
+    BEGIN
+        DELETE FROM Makanan WHERE id_makanan = @id_makanan;
+    END
 END
 GO
 
@@ -381,3 +386,88 @@ BEGIN
     WHERE k.id_user = @id_user
     ORDER BY k.tanggal DESC;
 END
+GO
+
+-- ========================================
+-- LOGGING & AUDIT TRAIL
+-- ========================================
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[LogKonsumsi]') AND type in (N'U'))
+BEGIN
+    CREATE TABLE LogKonsumsi (
+        id_log INT IDENTITY(1,1) PRIMARY KEY,
+        id_konsumsi INT NOT NULL,
+        action_type VARCHAR(10) NOT NULL, 
+        id_user INT NOT NULL,
+        id_makanan INT NOT NULL,
+        tanggal_konsumsi DATE NOT NULL,
+        jumlah_sebelumnya INT NULL,
+        jumlah_baru INT NULL,
+        waktu_log DATETIME DEFAULT GETDATE(),
+        user_database VARCHAR(100) DEFAULT USER_NAME()
+    );
+END
+GO
+
+CREATE OR ALTER TRIGGER trg_LogKonsumsi
+ON KonsumsiMakanan
+AFTER INSERT, UPDATE, DELETE
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Case INSERT
+    IF EXISTS (SELECT * FROM inserted) AND NOT EXISTS (SELECT * FROM deleted)
+    BEGIN
+        INSERT INTO LogKonsumsi (id_konsumsi, action_type, id_user, id_makanan, tanggal_konsumsi, jumlah_sebelumnya, jumlah_baru)
+        SELECT id_konsumsi, 'INSERT', id_user, id_makanan, tanggal, NULL, jumlah
+        FROM inserted;
+    END
+
+    -- Case UPDATE
+    IF EXISTS (SELECT * FROM inserted) AND EXISTS (SELECT * FROM deleted)
+    BEGIN
+        INSERT INTO LogKonsumsi (id_konsumsi, action_type, id_user, id_makanan, tanggal_konsumsi, jumlah_sebelumnya, jumlah_baru)
+        SELECT i.id_konsumsi, 'UPDATE', i.id_user, i.id_makanan, i.tanggal, d.jumlah, i.jumlah
+        FROM inserted i
+        JOIN deleted d ON i.id_konsumsi = d.id_konsumsi;
+    END
+
+    -- Case DELETE
+    IF NOT EXISTS (SELECT * FROM inserted) AND EXISTS (SELECT * FROM deleted)
+    BEGIN
+        INSERT INTO LogKonsumsi (id_konsumsi, action_type, id_user, id_makanan, tanggal_konsumsi, jumlah_sebelumnya, jumlah_baru)
+        SELECT id_konsumsi, 'DELETE', id_user, id_makanan, tanggal, jumlah, NULL
+        FROM deleted;
+    END
+END;
+GO
+
+-- ========================================
+-- STORED PROCEDURES: DASHBOARD
+-- ========================================
+
+CREATE OR ALTER PROCEDURE sp_GetDashboardSummary
+    @id_user INT,
+    @tanggal DATE
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT 
+        ISNULL(SUM(n.kalori * k.jumlah), 0) AS total_kalori,
+        ISNULL(SUM(n.protein * k.jumlah), 0) AS total_protein,
+        ISNULL(SUM(n.lemak * k.jumlah), 0) AS total_lemak,
+        ISNULL(SUM(n.karbohidrat * k.jumlah), 0) AS total_karbohidrat,
+        -- Batas Target Harian default
+        2000.0 AS target_kalori,
+        60.0 AS target_protein,
+        70.0 AS target_lemak,
+        300.0 AS target_karbohidrat
+    FROM KonsumsiMakanan k
+    JOIN Makanan m ON k.id_makanan = m.id_makanan
+    LEFT JOIN Nutrisi n ON m.id_makanan = n.id_makanan
+    WHERE k.id_user = @id_user AND k.tanggal = @tanggal;
+END;
+GO
+
