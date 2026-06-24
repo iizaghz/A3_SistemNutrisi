@@ -1,251 +1,531 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace SistemNutrisi
 {
     public partial class FormKategori : Form
     {
-        private readonly SqlConnection conn;
+        // CONNECTION STRING
         private readonly string connectionString =
             "Data Source=IZAYAAA\\IZA;Initial Catalog=DBSistemNutrisi;Integrated Security=True";
 
+        // SQL CONNECTION
+        private SqlConnection conn;
+
+        // BINDING SOURCE
         private BindingSource bs = new BindingSource();
-        private BindingNavigator bn;
 
         public FormKategori()
         {
             InitializeComponent();
+
             conn = new SqlConnection(connectionString);
         }
 
+        // =====================================================
+        // FORM LOAD
+        // =====================================================
         private void FormKategori_Load(object sender, EventArgs e)
         {
-            // Konfigurasi DataGridView
-            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            btnBack.BringToFront();
+
+            // DATAGRIDVIEW SETTING
+            dataGridView1.SelectionMode =
+                DataGridViewSelectionMode.FullRowSelect;
+
             dataGridView1.MultiSelect = false;
+
             dataGridView1.ReadOnly = true;
+
             dataGridView1.AllowUserToAddRows = false;
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridView1.CellClick += dataGridView1_CellClick;
 
-            // Inisialisasi BindingNavigator secara programmatik
-            bn = new BindingNavigator(true);
-            bn.BindingSource = bs;
-            bn.Dock = DockStyle.Bottom;
-            this.Controls.Add(bn);
-            bn.BringToFront();
+            dataGridView1.AutoSizeColumnsMode =
+                DataGridViewAutoSizeColumnsMode.Fill;
 
-            dataGridView1.Dock = DockStyle.Fill;
+            // HUBUNGKAN BINDINGNAVIGATOR
+            bindingNavigator2.BindingSource = bs;
 
+            // HUBUNGKAN DATAGRIDVIEW
+            dataGridView1.DataSource = bs;
+
+            // EVENT CLICK
+            dataGridView1.CellClick +=
+                dataGridView1_CellClick;
+
+            // LOAD DATA
             LoadData();
 
-            // Data Binding ke TextBox (Otomatis update saat navigasi)
-            txtNamaKategori.DataBindings.Add("Text", bs, "nama_kategori", true, DataSourceUpdateMode.OnPropertyChanged);
+            // CLEAR BINDING LAMA
+            txtNamaKategori.DataBindings.Clear();
+
+            // BINDING TEXTBOX
+            txtNamaKategori.DataBindings.Add(
+                "Text",
+                bs,
+                "nama_kategori",
+                true,
+                DataSourceUpdateMode.OnPropertyChanged
+            );
         }
 
-        private void btnLoad_Click(object sender, EventArgs e)
-        {
-            LoadData();
-        }
-
+        // =====================================================
+        // LOAD DATA
+        // =====================================================
         private void LoadData(string searchTerm = "")
         {
             try
             {
-                if (conn.State == ConnectionState.Closed) conn.Open();
-
-                SqlCommand cmd = new SqlCommand("SELECT * FROM v_KategoriMakanan", conn);
-                if (!string.IsNullOrEmpty(searchTerm))
+                using (SqlConnection conn =
+                    new SqlConnection(connectionString))
                 {
-                    cmd.CommandText += " WHERE nama_kategori LIKE @search";
-                    cmd.Parameters.AddWithValue("@search", "%" + searchTerm + "%");
-                }
+                    conn.Open();
 
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                adapter.Fill(dt);
+                    string query =
+                        "SELECT * FROM v_KategoriMakanan";
 
-                bs.DataSource = dt;
-                dataGridView1.DataSource = bs;
+                    if (!string.IsNullOrEmpty(searchTerm))
+                    {
+                        query +=
+                            " WHERE nama_kategori LIKE @search";
+                    }
 
-                // Mempercantik Header
-                if (dataGridView1.Columns.Count > 0)
-                {
-                    dataGridView1.Columns["id_kategori"].HeaderText = "ID Kategori";
-                    dataGridView1.Columns["nama_kategori"].HeaderText = "Nama Kategori";
+                    using (SqlCommand cmd =
+                        new SqlCommand(query, conn))
+                    {
+                        if (!string.IsNullOrEmpty(searchTerm))
+                        {
+                            cmd.Parameters.AddWithValue(
+                                "@search",
+                                "%" + searchTerm + "%"
+                            );
+                        }
+
+                        using (SqlDataAdapter adapter =
+                            new SqlDataAdapter(cmd))
+                        {
+                            DataTable dt =
+                                new DataTable();
+
+                            adapter.Fill(dt);
+
+                            bs.DataSource = dt;
+
+                            // TOTAL KATEGORI
+                            using (SqlCommand cmdCount =
+                                new SqlCommand(
+                                    "SELECT COUNT(*) FROM v_KategoriMakanan",
+                                    conn))
+                            {
+                                int totalKategori =
+                                    (int)cmdCount.ExecuteScalar();
+
+                                label2.Text =
+                                    "Total Kategori : "
+                                    + totalKategori.ToString();
+                            }
+
+                            // HEADER DATAGRIDVIEW
+                            if (dataGridView1.Columns.Count > 0)
+                            {
+                                dataGridView1.Columns["id_kategori"]
+                                    .HeaderText =
+                                    "ID Kategori";
+
+                                dataGridView1.Columns["nama_kategori"]
+                                    .HeaderText =
+                                    "Nama Kategori";
+                            }
+                        }
+                    }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Gagal menampilkan data: " + ex.Message);
+                MessageBox.Show(
+                    "Gagal menampilkan data : "
+                    + ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
         }
 
-        private void txtSearch_TextChanged(object sender, EventArgs e)
+        // =====================================================
+        // SEARCH OTOMATIS
+        // =====================================================
+        private void txtSearch_TextChanged(
+            object sender,
+            EventArgs e
+        )
         {
             LoadData(txtSearch.Text);
         }
 
-        private void btnInsert_Click(object sender, EventArgs e)
+        // =====================================================
+        // BUTTON LOAD
+        // =====================================================
+        private void btnLoad_Click(
+            object sender,
+            EventArgs e
+        )
+        {
+            LoadData();
+        }
+
+        // =====================================================
+        // INSERT DATA
+        // =====================================================
+        private void btnInsert_Click(
+            object sender,
+            EventArgs e
+        )
         {
             try
             {
-                if (string.IsNullOrEmpty(txtNamaKategori.Text))
+                // VALIDASI KOSONG
+                if (string.IsNullOrWhiteSpace(
+                    txtNamaKategori.Text))
                 {
-                    MessageBox.Show("Nama Kategori harus diisi");
-                    txtNamaKategori.Focus(); return;
-                }
-                if (!IsValidText(txtNamaKategori.Text))
-                {
-                    MessageBox.Show("Nama Kategori tidak boleh mengandung angka atau simbol.");
-                    txtNamaKategori.Focus(); return;
+                    MessageBox.Show(
+                        "Nama kategori wajib diisi"
+                    );
+
+                    txtNamaKategori.Focus();
+
+                    return;
                 }
 
-                if (conn.State == ConnectionState.Closed) conn.Open();
-
-                SqlCommand cmd = new SqlCommand("sp_InsertKategori", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@nama_kategori", txtNamaKategori.Text);
-
-                int result = cmd.ExecuteNonQuery();
-                if (result > 0)
+                // VALIDASI HURUF
+                if (!IsValidText(
+                    txtNamaKategori.Text))
                 {
-                    MessageBox.Show("Data kategori berhasil ditambahkan");
-                    ClearForm();
-                    btnLoad.PerformClick();
+                    MessageBox.Show(
+                        "Nama kategori hanya boleh huruf"
+                    );
+
+                    txtNamaKategori.Focus();
+
+                    return;
                 }
-                else
+
+                using (SqlConnection conn =
+                    new SqlConnection(connectionString))
                 {
-                    MessageBox.Show("Data gagal ditambahkan");
+                    conn.Open();
+
+                    using (SqlCommand cmd =
+                        new SqlCommand(
+                            "sp_InsertKategori",
+                            conn))
+                    {
+                        cmd.CommandType =
+                            CommandType.StoredProcedure;
+
+                        cmd.Parameters.AddWithValue(
+                            "@nama_kategori",
+                            txtNamaKategori.Text.Trim()
+                        );
+
+                        int result =
+                            cmd.ExecuteNonQuery();
+
+                        if (result > 0)
+                        {
+                            MessageBox.Show(
+                                "Data berhasil ditambahkan"
+                            );
+
+                            ClearForm();
+
+                            LoadData();
+                        }
+                        else
+                        {
+                            MessageBox.Show(
+                                "Data gagal ditambahkan"
+                            );
+                        }
+                    }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Terjadi kesalahan: " + ex.Message);
+                MessageBox.Show(
+                    "Terjadi kesalahan : "
+                    + ex.Message
+                );
             }
         }
 
-        private void btnUpdate_Click(object sender, EventArgs e)
+        // =====================================================
+        // UPDATE DATA
+        // =====================================================
+        private void btnUpdate_Click(
+            object sender,
+            EventArgs e
+        )
         {
             try
             {
-                if (bs.Current == null) { MessageBox.Show("Pilih data dulu!"); return; }
-                string id = ((DataRowView)bs.Current)["id_kategori"].ToString();
-
-                DialogResult confirm = MessageBox.Show("Yakin ingin mengubah data kategori ini?", "Konfirmasi",
-                    MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (confirm == DialogResult.No) return;
-
-                if (conn.State == ConnectionState.Closed) conn.Open();
-
-                SqlCommand cmd = new SqlCommand("sp_UpdateKategori", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@id_kategori", int.Parse(id));
-                cmd.Parameters.AddWithValue("@nama_kategori", txtNamaKategori.Text);
-
-                int result = cmd.ExecuteNonQuery();
-                if (result > 0)
+                // VALIDASI PILIH DATA
+                if (bs.Current == null)
                 {
-                    MessageBox.Show("Data berhasil diupdate");
-                    ClearForm();
-                    btnLoad.PerformClick();
+                    MessageBox.Show(
+                        "Pilih data terlebih dahulu"
+                    );
+
+                    return;
                 }
-                else
+
+                // VALIDASI INPUT
+                if (string.IsNullOrWhiteSpace(
+                    txtNamaKategori.Text))
                 {
-                    MessageBox.Show("Data tidak ditemukan");
+                    MessageBox.Show(
+                        "Nama kategori wajib diisi"
+                    );
+
+                    txtNamaKategori.Focus();
+
+                    return;
+                }
+
+                // VALIDASI HURUF
+                if (!IsValidText(
+                    txtNamaKategori.Text))
+                {
+                    MessageBox.Show(
+                        "Nama kategori hanya boleh huruf"
+                    );
+
+                    txtNamaKategori.Focus();
+
+                    return;
+                }
+
+                // AMBIL ID
+                string id =
+                    ((DataRowView)bs.Current)["id_kategori"]
+                    .ToString();
+
+                using (SqlConnection conn =
+                    new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    using (SqlCommand cmd =
+                        new SqlCommand(
+                            "sp_UpdateKategori",
+                            conn))
+                    {
+                        cmd.CommandType =
+                            CommandType.StoredProcedure;
+
+                        cmd.Parameters.AddWithValue(
+                            "@id_kategori",
+                            int.Parse(id)
+                        );
+
+                        cmd.Parameters.AddWithValue(
+                            "@nama_kategori",
+                            txtNamaKategori.Text.Trim()
+                        );
+
+                        int result =
+                            cmd.ExecuteNonQuery();
+
+                        if (result > 0)
+                        {
+                            MessageBox.Show(
+                                "Data berhasil diupdate"
+                            );
+
+                            ClearForm();
+
+                            LoadData();
+                        }
+                        else
+                        {
+                            MessageBox.Show(
+                                "Data gagal diupdate"
+                            );
+                        }
+                    }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Terjadi kesalahan: " + ex.Message);
+                MessageBox.Show(
+                    "Terjadi kesalahan : "
+                    + ex.Message
+                );
             }
         }
 
-        private void btnDelete_Click(object sender, EventArgs e)
+        // =====================================================
+        // DELETE DATA
+        // =====================================================
+        private void btnDelete_Click(
+            object sender,
+            EventArgs e
+        )
         {
             try
             {
-                if (bs.Current == null) { MessageBox.Show("Pilih data dulu!"); return; }
-                string id = ((DataRowView)bs.Current)["id_kategori"].ToString();
-
-                DialogResult confirm = MessageBox.Show("Yakin ingin menghapus data?", "Konfirmasi",
-                    MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (confirm == DialogResult.No) return;
-
-                if (conn.State == ConnectionState.Closed) conn.Open();
-
-                SqlCommand cmd = new SqlCommand("sp_DeleteKategori", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@id_kategori", int.Parse(id));
-
-                int result = cmd.ExecuteNonQuery();
-                if (result > 0)
+                // VALIDASI PILIH DATA
+                if (bs.Current == null)
                 {
-                    MessageBox.Show("Data berhasil dihapus");
-                    ClearForm();
-                    btnLoad.PerformClick();
+                    MessageBox.Show(
+                        "Pilih data terlebih dahulu"
+                    );
+
+                    return;
                 }
-                else
+
+                // AMBIL ID
+                string id =
+                    ((DataRowView)bs.Current)["id_kategori"]
+                    .ToString();
+
+                DialogResult confirm =
+                    MessageBox.Show(
+                        "Yakin ingin menghapus data?",
+                        "Konfirmasi",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question
+                    );
+
+                if (confirm == DialogResult.No)
+                    return;
+
+                using (SqlConnection conn =
+                    new SqlConnection(connectionString))
                 {
-                    MessageBox.Show("Data tidak ditemukan");
+                    conn.Open();
+
+                    using (SqlCommand cmd =
+                        new SqlCommand(
+                            "sp_DeleteKategori",
+                            conn))
+                    {
+                        cmd.CommandType =
+                            CommandType.StoredProcedure;
+
+                        cmd.Parameters.AddWithValue(
+                            "@id_kategori",
+                            int.Parse(id)
+                        );
+
+                        int result =
+                            cmd.ExecuteNonQuery();
+
+                        if (result > 0)
+                        {
+                            MessageBox.Show(
+                                "Data berhasil dihapus"
+                            );
+
+                            ClearForm();
+
+                            LoadData();
+                        }
+                        else
+                        {
+                            MessageBox.Show(
+                                "Data gagal dihapus"
+                            );
+                        }
+                    }
                 }
             }
-            catch (SqlException ex) when (ex.Number == 50000)
+            catch (SqlException ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(
+                    "SQL Error : "
+                    + ex.Message
+                );
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Terjadi kesalahan: " + ex.Message);
+                MessageBox.Show(
+                    "Terjadi kesalahan : "
+                    + ex.Message
+                );
             }
         }
 
-        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        // =====================================================
+        // DATAGRIDVIEW CLICK
+        // =====================================================
+        private void dataGridView1_CellClick(
+            object sender,
+            DataGridViewCellEventArgs e
+        )
         {
+            if (e.RowIndex >= 0)
+            {
+                txtNamaKategori.Text =
+                    dataGridView1.Rows[e.RowIndex]
+                    .Cells["nama_kategori"]
+                    .Value
+                    .ToString();
+            }
         }
 
+        // =====================================================
+        // CLEAR FORM
+        // =====================================================
         private void ClearForm()
         {
             txtNamaKategori.Clear();
+
             txtNamaKategori.Focus();
         }
 
+        // =====================================================
+        // VALIDASI TEXT
+        // =====================================================
         private bool IsValidText(string input)
         {
-            return System.Text.RegularExpressions.Regex.IsMatch(input, @"^[a-zA-Z\s]+$");
+            return Regex.IsMatch(
+                input,
+                @"^[a-zA-Z\s]+$"
+            );
         }
 
-        private void btnBack_Click(object sender, EventArgs e)
+        // =====================================================
+        // BUTTON BACK
+        // =====================================================
+        private void btnBack_Click(
+            object sender,
+            EventArgs e
+        )
         {
             this.Close();
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        // =====================================================
+        // EVENT BINDING NAVIGATOR
+        // =====================================================
+        private void bindingNavigator2_RefreshItems(
+            object sender,
+            EventArgs e
+        )
         {
 
         }
 
-        private void pnlSearch_Paint(object sender, PaintEventArgs e)
+        private void label2_Click(
+            object sender,
+            EventArgs e
+        )
         {
 
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dataGridView1_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
     }
 }

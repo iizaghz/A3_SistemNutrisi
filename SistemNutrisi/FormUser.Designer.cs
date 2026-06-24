@@ -19,9 +19,11 @@ namespace SistemNutrisi
             this.btnKonsumsi = new System.Windows.Forms.Button();
             this.btnRiwayat = new System.Windows.Forms.Button();
             this.btnLogout = new System.Windows.Forms.Button();
+            this.pnlHeader = new System.Windows.Forms.Panel();
             this.pnlContent = new System.Windows.Forms.Panel();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.pnlSidebar.SuspendLayout();
+            this.pnlContent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -113,8 +115,19 @@ namespace SistemNutrisi
             this.btnLogout.UseVisualStyleBackColor = true;
             this.btnLogout.Click += new System.EventHandler(this.btnLogout_Click);
             // 
+            // pnlHeader
+            // 
+            this.pnlHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(62)))), ((int)(((byte)(80)))));
+            this.pnlHeader.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlHeader.Location = new System.Drawing.Point(267, 0);
+            this.pnlHeader.Margin = new System.Windows.Forms.Padding(4);
+            this.pnlHeader.Name = "pnlHeader";
+            this.pnlHeader.Size = new System.Drawing.Size(933, 74);
+            this.pnlHeader.TabIndex = 1;
+            // 
             // pnlContent
             // 
+            this.pnlContent.BackColor = System.Drawing.Color.White;
             this.pnlContent.Controls.Add(this.dataGridView1);
             this.pnlContent.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlContent.Location = new System.Drawing.Point(267, 74);
@@ -149,6 +162,7 @@ namespace SistemNutrisi
             this.Text = "Dashboard User";
             this.Load += new System.EventHandler(this.FormUser_Load);
             this.pnlSidebar.ResumeLayout(false);
+            this.pnlContent.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 

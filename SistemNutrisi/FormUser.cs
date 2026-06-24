@@ -1,18 +1,15 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SistemNutrisi
 {
     public partial class FormUser : Form
     {
+        // =====================================================
+        // CONNECTION STRING & FIELDS
+        // =====================================================
         private readonly SqlConnection conn;
         private readonly string connectionString =
             "Data Source=IZAYAAA\\IZA;Initial Catalog=DBSistemNutrisi;Integrated Security=True";
@@ -22,27 +19,25 @@ namespace SistemNutrisi
         private BindingSource bs = new BindingSource();
         private BindingNavigator bn;
 
+        // =====================================================
+        // CONSTRUCTOR
+        // =====================================================
         public FormUser(int idUser, string namaUser)
         {
             InitializeComponent();
             this.idUser = idUser;
             this.namaUser = namaUser;
             conn = new SqlConnection(connectionString);
+
+            // Atur agar form otomatis maximized / full screen
+            this.FormBorderStyle = FormBorderStyle.Sizable;
+            this.WindowState = FormWindowState.Maximized;
+            this.MinimumSize = new System.Drawing.Size(1200, 700);
         }
 
-        private void loadForm(object Form)
-        {
-            if (this.pnlContent.Controls.Count > 0)
-                this.pnlContent.Controls.RemoveAt(0);
-            Form f = Form as Form;
-            f.TopLevel = false;
-            f.Dock = DockStyle.Fill;
-            f.FormBorderStyle = FormBorderStyle.None;
-            this.pnlContent.Controls.Add(f);
-            this.pnlContent.Tag = f;
-            f.Show();
-        }
-
+        // =====================================================
+        // FORM LOAD & HELPER
+        // =====================================================
         private void FormUser_Load(object sender, EventArgs e)
         {
             lblWelcome.Text = "Selamat datang, " + namaUser;
@@ -65,8 +60,28 @@ namespace SistemNutrisi
             btnLoad.PerformClick();
         }
 
+        private void loadForm(object Form)
+        {
+            if (bn != null) bn.Visible = false;
+
+            if (this.pnlContent.Controls.Count > 0)
+                this.pnlContent.Controls.RemoveAt(0);
+            Form f = Form as Form;
+            f.TopLevel = false;
+            f.Dock = DockStyle.Fill;
+            f.FormBorderStyle = FormBorderStyle.None;
+            this.pnlContent.Controls.Add(f);
+            this.pnlContent.Tag = f;
+            f.Show();
+        }
+
+        // =====================================================
+        // BUTTON NAVIGATION ACTIONS
+        // =====================================================
         private void btnLoad_Click(object sender, EventArgs e)
         {
+            if (bn != null) bn.Visible = true;
+
             // Kembalikan dataGridView1 ke pnlContent jika sedang menampilkan form lain
             if (!this.pnlContent.Controls.Contains(dataGridView1))
             {
@@ -121,9 +136,11 @@ namespace SistemNutrisi
             formLogin.Show();
         }
 
+        // =====================================================
+        // EMPTY EVENT HANDLERS
+        // =====================================================
         private void lblWelcome_Click(object sender, EventArgs e)
         {
-
         }
     }
 }

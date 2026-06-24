@@ -1,28 +1,51 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SistemNutrisi
 {
     public partial class Form1 : Form
     {
+        // =====================================================
+        // CONNECTION STRING & FIELDS
+        // =====================================================
         private readonly SqlConnection conn;
         private readonly string connectionString =
             "Data Source=IZAYAAA\\IZA;Initial Catalog=DBSistemNutrisi;Integrated Security=True";
 
+        // =====================================================
+        // CONSTRUCTOR
+        // =====================================================
         public Form1()
         {
             InitializeComponent();
             conn = new SqlConnection(connectionString);
+
+            // Atur agar form otomatis maximized / full screen
+            this.FormBorderStyle = FormBorderStyle.Sizable;
+            this.MaximizeBox = true;
+            this.WindowState = FormWindowState.Maximized;
         }
 
+        // =====================================================
+        // FORM LOAD
+        // =====================================================
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                if (conn.State == ConnectionState.Closed) conn.Open();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Gagal terhubung ke Database: " + ex.Message, "Error Koneksi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        // =====================================================
+        // ACTION BUTTONS
+        // =====================================================
         private void btnConnect_Click(object sender, EventArgs e)
         {
             try
@@ -83,19 +106,15 @@ namespace SistemNutrisi
             reg.Show();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        // =====================================================
+        // TEXT CHANGED & EVENT HANDLERS
+        // =====================================================
+        private void txtEmail_TextChanged(object sender, EventArgs e)
         {
-            try
-            {
-                if (conn.State == ConnectionState.Closed) conn.Open();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Gagal terhubung ke Database: " + ex.Message, "Error Koneksi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+
         }
 
-        private void txtEmail_TextChanged(object sender, EventArgs e)
+        private void txtPassword_TextChanged(object sender, EventArgs e)
         {
 
         }

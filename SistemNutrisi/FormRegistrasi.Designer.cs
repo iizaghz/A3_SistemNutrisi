@@ -15,15 +15,19 @@ namespace SistemNutrisi
         {
             this.pnlHeader = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.txtNama = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.txtEmail = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.txtPassword = new System.Windows.Forms.TextBox();
-            this.btnInsert = new System.Windows.Forms.Button();
+            this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
+            this.pnlCard = new System.Windows.Forms.Panel();
             this.btnBack = new System.Windows.Forms.Button();
+            this.btnInsert = new System.Windows.Forms.Button();
+            this.txtPassword = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txtEmail = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtNama = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.pnlHeader.SuspendLayout();
+            this.tlpMain.SuspendLayout();
+            this.pnlCard.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlHeader
@@ -49,75 +53,34 @@ namespace SistemNutrisi
             this.label1.Text = "REGISTRASI AKUN";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label2
+            // tlpMain
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.label2.Location = new System.Drawing.Point(36, 100);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(125, 23);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Nama Lengkap";
+            this.tlpMain.ColumnCount = 1;
+            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpMain.Controls.Add(this.pnlCard, 0, 0);
+            this.tlpMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlpMain.Location = new System.Drawing.Point(0, 70);
+            this.tlpMain.Name = "tlpMain";
+            this.tlpMain.RowCount = 1;
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpMain.Size = new System.Drawing.Size(434, 350);
+            this.tlpMain.TabIndex = 1;
             // 
-            // txtNama
+            // pnlCard
             // 
-            this.txtNama.Font = new System.Drawing.Font("Segoe UI", 11F);
-            this.txtNama.Location = new System.Drawing.Point(36, 122);
-            this.txtNama.Name = "txtNama";
-            this.txtNama.Size = new System.Drawing.Size(360, 32);
-            this.txtNama.TabIndex = 2;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.label3.Location = new System.Drawing.Point(36, 165);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(51, 23);
-            this.label3.TabIndex = 3;
-            this.label3.Text = "Email";
-            // 
-            // txtEmail
-            // 
-            this.txtEmail.Font = new System.Drawing.Font("Segoe UI", 11F);
-            this.txtEmail.Location = new System.Drawing.Point(36, 187);
-            this.txtEmail.Name = "txtEmail";
-            this.txtEmail.Size = new System.Drawing.Size(360, 32);
-            this.txtEmail.TabIndex = 4;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.label4.Location = new System.Drawing.Point(36, 230);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(80, 23);
-            this.label4.TabIndex = 5;
-            this.label4.Text = "Password";
-            // 
-            // txtPassword
-            // 
-            this.txtPassword.Font = new System.Drawing.Font("Segoe UI", 11F);
-            this.txtPassword.Location = new System.Drawing.Point(36, 252);
-            this.txtPassword.Name = "txtPassword";
-            this.txtPassword.PasswordChar = '●';
-            this.txtPassword.Size = new System.Drawing.Size(360, 32);
-            this.txtPassword.TabIndex = 6;
-            // 
-            // btnInsert
-            // 
-            this.btnInsert.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(204)))), ((int)(((byte)(113)))));
-            this.btnInsert.FlatAppearance.BorderSize = 0;
-            this.btnInsert.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnInsert.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
-            this.btnInsert.ForeColor = System.Drawing.Color.White;
-            this.btnInsert.Location = new System.Drawing.Point(36, 310);
-            this.btnInsert.Name = "btnInsert";
-            this.btnInsert.Size = new System.Drawing.Size(360, 40);
-            this.btnInsert.TabIndex = 7;
-            this.btnInsert.Text = "DAFTAR SEKARANG";
-            this.btnInsert.UseVisualStyleBackColor = false;
-            this.btnInsert.Click += new System.EventHandler(this.btnInsert_Click);
+            this.pnlCard.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.pnlCard.Controls.Add(this.btnBack);
+            this.pnlCard.Controls.Add(this.btnInsert);
+            this.pnlCard.Controls.Add(this.txtPassword);
+            this.pnlCard.Controls.Add(this.label4);
+            this.pnlCard.Controls.Add(this.txtEmail);
+            this.pnlCard.Controls.Add(this.label3);
+            this.pnlCard.Controls.Add(this.txtNama);
+            this.pnlCard.Controls.Add(this.label2);
+            this.pnlCard.Location = new System.Drawing.Point(17, 15);
+            this.pnlCard.Name = "pnlCard";
+            this.pnlCard.Size = new System.Drawing.Size(400, 320);
+            this.pnlCard.TabIndex = 0;
             // 
             // btnBack
             // 
@@ -126,13 +89,83 @@ namespace SistemNutrisi
             this.btnBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnBack.Font = new System.Drawing.Font("Segoe UI Semibold", 9F);
             this.btnBack.ForeColor = System.Drawing.Color.White;
-            this.btnBack.Location = new System.Drawing.Point(36, 360);
+            this.btnBack.Location = new System.Drawing.Point(20, 270);
             this.btnBack.Name = "btnBack";
             this.btnBack.Size = new System.Drawing.Size(360, 30);
-            this.btnBack.TabIndex = 8;
+            this.btnBack.TabIndex = 7;
             this.btnBack.Text = "KEMBALI KE LOGIN";
             this.btnBack.UseVisualStyleBackColor = false;
             this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
+            // 
+            // btnInsert
+            // 
+            this.btnInsert.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(204)))), ((int)(((byte)(113)))));
+            this.btnInsert.FlatAppearance.BorderSize = 0;
+            this.btnInsert.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnInsert.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
+            this.btnInsert.ForeColor = System.Drawing.Color.White;
+            this.btnInsert.Location = new System.Drawing.Point(20, 220);
+            this.btnInsert.Name = "btnInsert";
+            this.btnInsert.Size = new System.Drawing.Size(360, 40);
+            this.btnInsert.TabIndex = 6;
+            this.btnInsert.Text = "DAFTAR SEKARANG";
+            this.btnInsert.UseVisualStyleBackColor = false;
+            this.btnInsert.Click += new System.EventHandler(this.btnInsert_Click);
+            // 
+            // txtPassword
+            // 
+            this.txtPassword.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.txtPassword.Location = new System.Drawing.Point(20, 162);
+            this.txtPassword.Name = "txtPassword";
+            this.txtPassword.PasswordChar = '●';
+            this.txtPassword.Size = new System.Drawing.Size(360, 32);
+            this.txtPassword.TabIndex = 5;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.label4.Location = new System.Drawing.Point(20, 140);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(80, 23);
+            this.label4.TabIndex = 4;
+            this.label4.Text = "Password";
+            // 
+            // txtEmail
+            // 
+            this.txtEmail.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.txtEmail.Location = new System.Drawing.Point(20, 97);
+            this.txtEmail.Name = "txtEmail";
+            this.txtEmail.Size = new System.Drawing.Size(360, 32);
+            this.txtEmail.TabIndex = 3;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.label3.Location = new System.Drawing.Point(20, 75);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(51, 23);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "Email";
+            // 
+            // txtNama
+            // 
+            this.txtNama.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.txtNama.Location = new System.Drawing.Point(20, 32);
+            this.txtNama.Name = "txtNama";
+            this.txtNama.Size = new System.Drawing.Size(360, 32);
+            this.txtNama.TabIndex = 1;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.label2.Location = new System.Drawing.Point(20, 10);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(125, 23);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "Nama Lengkap";
             // 
             // FormRegistrasi
             // 
@@ -140,14 +173,7 @@ namespace SistemNutrisi
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(434, 420);
-            this.Controls.Add(this.btnBack);
-            this.Controls.Add(this.btnInsert);
-            this.Controls.Add(this.txtPassword);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.txtEmail);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.txtNama);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.tlpMain);
             this.Controls.Add(this.pnlHeader);
             this.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -157,14 +183,18 @@ namespace SistemNutrisi
             this.Text = "Registrasi";
             this.Load += new System.EventHandler(this.FormRegistrasi_Load);
             this.pnlHeader.ResumeLayout(false);
+            this.tlpMain.ResumeLayout(false);
+            this.pnlCard.ResumeLayout(false);
+            this.pnlCard.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
         #endregion
 
         private System.Windows.Forms.Panel pnlHeader;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TableLayoutPanel tlpMain;
+        private System.Windows.Forms.Panel pnlCard;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtNama;
         private System.Windows.Forms.Label label3;

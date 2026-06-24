@@ -1,32 +1,43 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SistemNutrisi
 {
     public partial class FormRegistrasi : Form
     {
+        // =====================================================
+        // CONNECTION STRING & FIELDS
+        // =====================================================
         private readonly SqlConnection conn;
         private readonly string connectionString =
             "Data Source=IZAYAAA\\IZA;Initial Catalog=DBSistemNutrisi;Integrated Security=True";
 
+        // =====================================================
+        // CONSTRUCTOR
+        // =====================================================
         public FormRegistrasi()
         {
             InitializeComponent();
             conn = new SqlConnection(connectionString);
+
+            // Atur agar form otomatis maximized / full screen
+            this.FormBorderStyle = FormBorderStyle.Sizable;
+            this.MaximizeBox = true;
+            this.WindowState = FormWindowState.Maximized;
         }
 
+        // =====================================================
+        // FORM LOAD
+        // =====================================================
         private void FormRegistrasi_Load(object sender, EventArgs e)
         {
         }
 
+        // =====================================================
+        // BUTTON ACTIONS
+        // =====================================================
         private void btnBack_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -36,9 +47,24 @@ namespace SistemNutrisi
         {
             try
             {
-                if (string.IsNullOrEmpty(txtNama.Text)) { MessageBox.Show("Nama harus diisi"); txtNama.Focus(); return; }
-                if (string.IsNullOrEmpty(txtEmail.Text)) { MessageBox.Show("Email harus diisi"); txtEmail.Focus(); return; }
-                if (string.IsNullOrEmpty(txtPassword.Text)) { MessageBox.Show("Password harus diisi"); txtPassword.Focus(); return; }
+                if (string.IsNullOrEmpty(txtNama.Text)) 
+                { 
+                    MessageBox.Show("Nama harus diisi"); 
+                    txtNama.Focus(); 
+                    return; 
+                }
+                if (string.IsNullOrEmpty(txtEmail.Text)) 
+                { 
+                    MessageBox.Show("Email harus diisi"); 
+                    txtEmail.Focus(); 
+                    return; 
+                }
+                if (string.IsNullOrEmpty(txtPassword.Text)) 
+                { 
+                    MessageBox.Show("Password harus diisi"); 
+                    txtPassword.Focus(); 
+                    return; 
+                }
 
                 if (conn.State == ConnectionState.Closed) conn.Open();
 

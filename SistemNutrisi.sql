@@ -365,3 +365,19 @@ FROM KonsumsiMakanan k
 JOIN Makanan m ON k.id_makanan = m.id_makanan
 LEFT JOIN Nutrisi n ON m.id_makanan = n.id_makanan;
 GO
+
+CREATE OR ALTER PROCEDURE sp_GetRiwayatKonsumsi
+    @id_user INT
+AS
+BEGIN
+    SELECT k.tanggal, m.nama_makanan, k.jumlah,
+           (n.kalori * k.jumlah) AS total_kalori,
+           (n.protein * k.jumlah) AS total_protein,
+           (n.lemak * k.jumlah) AS total_lemak,
+           (n.karbohidrat * k.jumlah) AS total_karbohidrat
+    FROM KonsumsiMakanan k
+    JOIN Makanan m ON k.id_makanan = m.id_makanan
+    LEFT JOIN Nutrisi n ON m.id_makanan = n.id_makanan
+    WHERE k.id_user = @id_user
+    ORDER BY k.tanggal DESC;
+END
