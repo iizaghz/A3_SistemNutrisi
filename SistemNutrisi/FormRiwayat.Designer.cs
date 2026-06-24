@@ -19,6 +19,7 @@ namespace SistemNutrisi
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormRiwayat));
             this.pnlHeader = new System.Windows.Forms.Panel();
             this.btnBack = new System.Windows.Forms.Button();
+            this.btnCetakLaporan = new System.Windows.Forms.Button();
             this.lblInfo = new System.Windows.Forms.Label();
 
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
@@ -44,6 +45,7 @@ namespace SistemNutrisi
             // pnlHeader
             // 
             this.pnlHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(62)))), ((int)(((byte)(80)))));
+            this.pnlHeader.Controls.Add(this.btnCetakLaporan);
             this.pnlHeader.Controls.Add(this.btnBack);
             this.pnlHeader.Controls.Add(this.lblInfo);
             this.pnlHeader.Dock = System.Windows.Forms.DockStyle.Top;
@@ -65,6 +67,22 @@ namespace SistemNutrisi
             this.btnBack.Text = "← KEMBALI";
             this.btnBack.UseVisualStyleBackColor = true;
             this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
+            // 
+            // btnCetakLaporan
+            // 
+            this.btnCetakLaporan.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCetakLaporan.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(204)))), ((int)(((byte)(113)))));
+            this.btnCetakLaporan.FlatAppearance.BorderSize = 0;
+            this.btnCetakLaporan.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCetakLaporan.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.btnCetakLaporan.ForeColor = System.Drawing.Color.White;
+            this.btnCetakLaporan.Location = new System.Drawing.Point(640, 12);
+            this.btnCetakLaporan.Name = "btnCetakLaporan";
+            this.btnCetakLaporan.Size = new System.Drawing.Size(148, 36);
+            this.btnCetakLaporan.TabIndex = 2;
+            this.btnCetakLaporan.Text = "REKAP & CETAK";
+            this.btnCetakLaporan.UseVisualStyleBackColor = false;
+            this.btnCetakLaporan.Click += new System.EventHandler(this.btnCetakLaporan_Click);
             // 
             // lblInfo
             // 
@@ -260,7 +278,7 @@ namespace SistemNutrisi
 
         private System.Windows.Forms.Panel pnlHeader;
         private System.Windows.Forms.Label lblInfo;
-
+        private System.Windows.Forms.Button btnCetakLaporan;
         private System.Windows.Forms.Button btnBack;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.ToolStripButton bindingNavigatorMoveFirstItem;
