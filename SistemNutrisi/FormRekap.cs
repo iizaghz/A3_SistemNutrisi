@@ -7,8 +7,7 @@ namespace SistemNutrisi
 {
     public partial class FormRekap : Form
     {
-        private readonly string connectionString =
-            "Data Source=IZAYAAA\\IZA;Initial Catalog=DBSistemNutrisi;Integrated Security=True";
+        private readonly string connectionString = DAL.GetConnectionString();
 
         private int idUser;
         private string namaUser;
