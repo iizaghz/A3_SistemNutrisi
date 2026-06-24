@@ -9,8 +9,7 @@ namespace SistemNutrisi
     public partial class FormMakanan : Form
     {
         // CONNECTION STRING
-        private readonly string connectionString =
-            "Data Source=IZAYAAA\\IZA;Initial Catalog=DBSistemNutrisi;Integrated Security=True";
+        private readonly string connectionString = DAL.GetConnectionString();
 
         // SQL CONNECTION
         private SqlConnection conn;
@@ -26,11 +25,12 @@ namespace SistemNutrisi
             InitializeComponent();
 
             conn = new SqlConnection(connectionString);
+
+           
+            btnImportDb.ForeColor = System.Drawing.Color.White;
         }
 
-        // =====================================================
-        // FORM LOAD
-        // =====================================================
+
         private void FormMakanan_Load(object sender, EventArgs e)
         {
             btnBack.BringToFront();
@@ -564,7 +564,12 @@ namespace SistemNutrisi
         private void SetImportingState(bool isImporting)
         {
             dataGridView1.Enabled = !isImporting;
-            btnImportDb.Enabled = isImporting;
+
+            // Gunakan perubahan warna (bukan Enabled=false) agar ForeColor putih tetap tampil.
+            // Click handler sudah memvalidasi apakah data preview ada atau tidak.
+            btnImportDb.BackColor = System.Drawing.Color.ForestGreen;
+            btnImportDb.ForeColor = System.Drawing.Color.White;
+
             btnInsert.Enabled = !isImporting;
             btnUpdate.Enabled = !isImporting;
             btnDelete.Enabled = !isImporting;
